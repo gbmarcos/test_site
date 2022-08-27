@@ -18,10 +18,12 @@ class HomeScreen extends StatelessWidget {
             child: DecoratedBox(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage('assets/images/Rectangle 23.png'),
-                  scale: 1.3
-                ),
+                    colorFilter: ColorFilter.mode(Colors.black45, BlendMode.darken),
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                      'assets/images/AdobeStock_342564835_Editorial_Use_Only_1.png',
+                    ),
+                    scale: 1.3),
               ),
               child: Column(
                 children: [
@@ -30,7 +32,16 @@ class HomeScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         state.selectedPage.pageName,
-                        style: const TextStyle(fontSize: 30),
+                        style: TextStyle(
+                          fontSize: 64,
+                          fontWeight: FontWeight.w600,
+                          shadows: [
+                            Shadow(
+                                color: Colors.black.withAlpha(50),
+                                blurRadius: 1.8,
+                                offset: const Offset(0, 5))
+                          ],
+                        ),
                       ),
                     ),
                   ),

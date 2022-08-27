@@ -69,13 +69,13 @@ class _DestinationTextWidget extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              color: selected ? Colors.white : null,
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-              shadows: [
-                Shadow(
-                    color: Colors.black.withAlpha(50), blurRadius: 1.5, offset: const Offset(0, 2))
-              ]),
+            color: selected ? Colors.white : null,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            shadows: [
+              Shadow(color: Colors.black.withAlpha(50), blurRadius: 1.5, offset: const Offset(0, 2))
+            ],
+          ),
         ),
       ),
     );
@@ -100,17 +100,16 @@ class _DestinationButtonWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: (selected ? Colors.white : R.colors.buttonColor).withOpacity(0.8),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(2)),
-          padding: const EdgeInsets.symmetric(horizontal: 27, vertical: 18),
-          elevation: 3
-        ),
+            backgroundColor: (selected ? Colors.white : R.colors.buttonColor).withOpacity(0.8),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(2)),
+            padding: const EdgeInsets.symmetric(horizontal: 27, vertical: 18),
+            elevation: 3),
         onPressed: onTap,
         child: Text(
           text,
           style: TextStyle(
             color: R.colors.backgroundColor,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             fontSize: 16,
           ),
         ),

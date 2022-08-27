@@ -8,11 +8,32 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.customPageState;
+    final mediaQuery = context.mediaQuery;
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
-          const Navbar(),
-          Expanded(
+          SizedBox(
+            height: mediaQuery.size.height,
+            child: Column(
+              children: [
+                const Navbar(),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      state.selectedPage.pageName,
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: mediaQuery.size.height,
+            color: Colors.white,
+          ),
+          SizedBox(
+            height: mediaQuery.size.height,
             child: Center(
               child: Text(
                 state.selectedPage.pageName,

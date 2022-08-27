@@ -11,6 +11,8 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 
+import 'app/navigation/beamer_router.dart';
+
 class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
@@ -31,6 +33,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   };
 
   Bloc.observer = AppBlocObserver();
+
+  Beamer.setPathUrlStrategy();
 
   await runZonedGuarded(
     () async => runApp(await builder()),

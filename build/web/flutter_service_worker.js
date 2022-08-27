@@ -5,15 +5,15 @@ const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "manifest.json": "d580e32bd77fcb37e38ef71f2b81a0d6",
 "vercel.json": "d32327b548505f90564281b39bc97014",
-"main.dart.js": "b0f71894b9bb50876878f9da487be608",
+"main.dart.js": "1a4ab4d588b965d04e61fd3ecce95c34",
 "flutter.js": "0816e65a103ba8ba51b174eeeeb2cb67",
 "icons/Icon-192.png": "12d05db1c0b26d429b54e3f8c946a496",
 "icons/Icon-512.png": "aabba36693aba0ec8d954adf297d3125",
 "icons/favicon.png": "7a26ea9d4e61122fc023b84e5acdb148",
 "version.json": "584718c013ad33ad3f95c86ba8515e36",
 "favicon.png": "7a26ea9d4e61122fc023b84e5acdb148",
-"index.html": "7dbf53588680e75ba771d974dc6bc667",
-"/": "7dbf53588680e75ba771d974dc6bc667",
+"index.html": "87656b558017ab788440692a1ef6f702",
+"/": "87656b558017ab788440692a1ef6f702",
 "canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
 "canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
 "canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
@@ -39,7 +39,13 @@ const RESOURCES = {
 "assets/assets/fonts/montserrat/Montserrat-ThinItalic.ttf": "81fbc50801009bb840b3c91a4d2ffb6b",
 "assets/assets/fonts/montserrat/Montserrat-ExtraBoldItalic.ttf": "ae2ace44e8b700f5b0cb25cbbc291d60",
 "assets/assets/fonts/montserrat/Montserrat-Regular.ttf": "f7213526ec9296ff43426bfe3eae8926",
-"assets/AssetManifest.json": "240860830f08f332fd4437198f667074"
+"assets/assets/images/Rectangle%25204.png": "99e3a53eb21e81ecad9391814aa1351d",
+"assets/assets/images/Rectangle%25205.png": "db7951d2a3f2b5c79bf3f2de4c34688c",
+"assets/assets/images/Rectangle%25203.png": "91044fbfe2d2e5405e9695ee2414d307",
+"assets/assets/images/Rectangle%252023.png": "26f151e376b92fa88d0cf327526fb90a",
+"assets/assets/images/pexels-aleksandar-pasaric-356286.jpg": "3e4f2c77551a7c3050254697c87f5dc2",
+"assets/assets/images/pexels-gizem-8893821.jpg": "aeca8fa831ae4e45104f0ac89d379b24",
+"assets/AssetManifest.json": "33f147a5a86d76429721d1d20618976d"
 };
 
 // The application shell files that are downloaded before a service worker can

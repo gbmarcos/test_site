@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:test_site/common/extensions.dart';
 import '../../common/widgets/navbar.dart';
 
@@ -14,18 +15,27 @@ class HomeScreen extends StatelessWidget {
         children: [
           SizedBox(
             height: mediaQuery.size.height,
-            child: Column(
-              children: [
-                const Navbar(),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      state.selectedPage.pageName,
-                      style: const TextStyle(fontSize: 30),
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/images/Rectangle 23.png'),
+                  scale: 1.3
+                ),
+              ),
+              child: Column(
+                children: [
+                  const Navbar(),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        state.selectedPage.pageName,
+                        style: const TextStyle(fontSize: 30),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Container(
@@ -34,12 +44,6 @@ class HomeScreen extends StatelessWidget {
           ),
           SizedBox(
             height: mediaQuery.size.height,
-            child: Center(
-              child: Text(
-                state.selectedPage.pageName,
-                style: const TextStyle(fontSize: 30),
-              ),
-            ),
           ),
         ],
       ),

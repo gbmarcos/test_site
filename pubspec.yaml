@@ -16,6 +16,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+  flutter_svg:
+  simple_animations: ^5.0.0+2
 
 dev_dependencies:
   bloc_test: ^9.1.0
@@ -23,6 +25,34 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^0.3.0
   very_good_analysis: ^3.0.1
+  build_runner:
+  flutter_gen_runner:
+
+flutter_gen:
+  # Optional
+  output: lib/gen/
+  # Optional
+  line_length: 80
+
+  # Optional
+  integrations:
+    flutter_svg: true
+    flare_flutter: false
+    rive: false
+
+  assets:
+    # Optional
+    enabled: true
+    # Optional
+    # Set to true if you want this package to be a package dependency
+    # See: https://flutter.dev/docs/development/ui/assets-and-images#from-packages
+    package_parameter_enabled: false
+    # Optional
+    # Avaliable values:
+    # - camel-case
+    # - snake-case
+    # - dot-delimiter
+    style: dot-delimiter
 
 flutter:
   uses-material-design: true
@@ -50,3 +80,4 @@ flutter:
         - asset: assets/fonts/montserrat/Montserrat-ThinItalic.ttf
   assets:
     - assets/images/
+    - assets/icons/

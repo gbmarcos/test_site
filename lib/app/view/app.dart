@@ -8,9 +8,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
+import 'package:test_site/gen/fonts.gen.dart';
 import 'package:test_site/l10n/l10n.dart';
 
-import '../../common/widgets/r.dart';
+import '../../r.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -19,8 +20,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
-        fontFamily: 'Montserrat',
-
+        fontFamily: FontFamily.montserrat,
         scaffoldBackgroundColor: R.colors.backgroundColor,
         colorScheme: ColorScheme.dark(
           primary: R.colors.primaryColor,

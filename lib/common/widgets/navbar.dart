@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
-import 'package:test_site/common/widgets/r.dart';
+import 'package:test_site/r.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({Key? key}) : super(key: key);
@@ -37,7 +37,7 @@ class Navbar extends StatelessWidget {
               selected: beamerState.selectedPage == page,
             );
           }),
-          _DestinationButtonWidget(
+          DestinationButtonWidget(
             text: SitePage.karriere.pageName,
             selected: beamerState.selectedPage == SitePage.karriere,
             onTap: () => beamerState.selectedPage = SitePage.karriere,
@@ -82,34 +82,43 @@ class _DestinationTextWidget extends StatelessWidget {
   }
 }
 
-class _DestinationButtonWidget extends StatelessWidget {
-  const _DestinationButtonWidget({
+class DestinationButtonWidget extends StatelessWidget {
+  const DestinationButtonWidget({
     Key? key,
     required this.text,
     required this.onTap,
-    required this.selected,
+    this.selected = false,
+    this.horizontalPadding = 27,
+    this.horizontalMargin = 8,
+    this.backgroundColor,
+    this.textColor,
   }) : super(key: key);
 
   final String text;
   final VoidCallback onTap;
   final bool selected;
+  final double horizontalPadding;
+  final double horizontalMargin;
+  final Color? backgroundColor;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: horizontalMargin),
       child: TextButton(
         style: TextButton.styleFrom(
-            backgroundColor: (selected ? Colors.white : R.colors.buttonColor).withOpacity(0.8),
+            backgroundColor: (selected ? Colors.white : (backgroundColor ?? R.colors.buttonColor))
+                .withOpacity(0.8),
             shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(2)),
-            padding: const EdgeInsets.symmetric(horizontal: 27, vertical: 18),
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 18),
             elevation: 3),
         onPressed: onTap,
         child: Text(
           text,
           style: TextStyle(
-            color: R.colors.backgroundColor,
-            fontWeight: FontWeight.w500,
+            color: textColor??R.colors.backgroundColor,
+            fontWeight: R.fontWidths.semiBold,
             fontSize: 16,
           ),
         ),

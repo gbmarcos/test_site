@@ -8,6 +8,7 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:test_site/r.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/gen/assets.gen.dart';
+import 'package:test_site/screens/screens.dart';
 import '../../common/widgets/navbar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -69,12 +70,12 @@ class HomeScreen extends StatelessWidget {
                     constraints: const BoxConstraints(maxWidth: 922),
                     child: Text(
                       '''
-                      Mit dieser Frage beschäftigen wir uns nun schon lange - und sie hat uns bisher nicht losgelassen.
-                      Der Wunsch, unseren Mandanten mehr persönliche, berufliche und finanzielle Freiheit zu ermöglichen, ist das was uns antreibt. Mit unserer individuellen Betreuung entwickeln wir ganzheitliche Strategien, die zu unseren Mandanten passen. Dabei legen wir vor allem Wert auf den kontinuierlichen, persönlichen Austausch. 
-                      Indem wir eng mit unseren Mandanten zusammenarbeiten, finden wir heraus, was sie wirklich bewegt. Dabei haben wir eine zentrale Sache herausgefunden: 
-                      Wir haben einen angestellten Maschinenbauingenieur, einen Apotheker und einen Konzerninhaber gefragt, was Ihnen in der Zusammenarbeit mit uns wichtig ist und welche Strategie wir gemeinsam verfolgen wollen. Alle gaben uns intuitiv dieselbe Antwort.
-                      „Zeit - wir wollen mehr Zeit haben.“
-                      Danach haben wir mit unserem Expertenteam die einzigartige hourglass investment strategy entwickelt, die uns und unseren Mandanten noch besser und effektiver dabei hilft, ihre Motive und Bedürfnisse zu verstehen.                        
+Mit dieser Frage beschäftigen wir uns nun schon lange - und sie hat uns bisher nicht losgelassen.
+Der Wunsch, unseren Mandanten mehr persönliche, berufliche und finanzielle Freiheit zu ermöglichen, ist das was uns antreibt. Mit unserer individuellen Betreuung entwickeln wir ganzheitliche Strategien, die zu unseren Mandanten passen. Dabei legen wir vor allem Wert auf den kontinuierlichen, persönlichen Austausch. 
+Indem wir eng mit unseren Mandanten zusammenarbeiten, finden wir heraus, was sie wirklich bewegt. Dabei haben wir eine zentrale Sache herausgefunden: 
+Wir haben einen angestellten Maschinenbauingenieur, einen Apotheker und einen Konzerninhaber gefragt, was Ihnen in der Zusammenarbeit mit uns wichtig ist und welche Strategie wir gemeinsam verfolgen wollen. Alle gaben uns intuitiv dieselbe Antwort.
+„Zeit - wir wollen mehr Zeit haben.“
+Danach haben wir mit unserem Expertenteam die einzigartige hourglass investment strategy entwickelt, die uns und unseren Mandanten noch besser und effektiver dabei hilft, ihre Motive und Bedürfnisse zu verstehen.                        
                       ''',
                       textAlign: TextAlign.center,
                       style: R.styles.lSNormalStyle,
@@ -82,31 +83,39 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 100),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxWidth: 955,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Assets.images.rowImage1.image(
-                            width: 240,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 100),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: 955,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        FlexibleConstrainedBox(
+                          maxWidth: 240,
+                          child: Assets.images.rowImage1.image(
                             height: 260,
+                            fit: BoxFit.cover,
                           ),
-                          Assets.images.rowImage2.image(
-                            width: 240,
+                        ),
+                        const SizedBox(width: 10),
+                        FlexibleConstrainedBox(
+                          maxWidth: 240,
+                          child: Assets.images.rowImage2.image(
                             height: 260,
+                            fit: BoxFit.cover,
                           ),
-                          Assets.images.rowImage3.image(
-                            width: 240,
+                        ),
+                        const SizedBox(width: 10),
+                        FlexibleConstrainedBox(
+                          maxWidth: 240,
+                          child: Assets.images.rowImage3.image(
                             height: 260,
+                            fit: BoxFit.cover,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -177,12 +186,12 @@ class HomeScreen extends StatelessWidget {
                     constraints: const BoxConstraints(maxWidth: 922),
                     child: Text(
                       '''
-                      Wir helfen Angestellten, Selbstständigen und Unternehmern dabei, mit Investment- und Steuerstrategien mehr Geld zu sparen, dieses intelligent zu reinvestieren und so frühzeitig nachhaltigen Wohlstand aufzubauen - so können unsere Mandanten ihren gewünschten Ruhestand mit unserer Hilfe steuern. 
-                      Außerdem beraten wir unsere Mandanten fortlaufend in strategischen Zielsetzungen, bei der Optimierung interner Prozesse und dem Schaffen neuer Werte.
+Wir helfen Angestellten, Selbstständigen und Unternehmern dabei, mit Investment- und Steuerstrategien mehr Geld zu sparen, dieses intelligent zu reinvestieren und so frühzeitig nachhaltigen Wohlstand aufzubauen - so können unsere Mandanten ihren gewünschten Ruhestand mit unserer Hilfe steuern. 
+Außerdem beraten wir unsere Mandanten fortlaufend in strategischen Zielsetzungen, bei der Optimierung interner Prozesse und dem Schaffen neuer Werte.
 
-                      Wir legen viel Wert auf die Auswahl unserer Kooperationspartner. Dabei achten wir insbesondere auf Integrität, kurze Kommunikationsstrecken, professionelle und effiziente Arbeitsprozesse und ein vertrauensvolles Verhältnis.
-                      Auch das Thema Data Safety wird bei uns groß geschrieben: Wir gehen beim Umgang mit sensiblen Daten mit höchstem Verantwortungsbewusstsein vor.
-                      Jetzt Strategie Termin vereinbaren.
+Wir legen viel Wert auf die Auswahl unserer Kooperationspartner. Dabei achten wir insbesondere auf Integrität, kurze Kommunikationsstrecken, professionelle und effiziente Arbeitsprozesse und ein vertrauensvolles Verhältnis.
+Auch das Thema Data Safety wird bei uns groß geschrieben: Wir gehen beim Umgang mit sensiblen Daten mit höchstem Verantwortungsbewusstsein vor.
+Jetzt Strategie Termin vereinbaren.
                       ''',
                       textAlign: TextAlign.center,
                       style: R.styles.lSNormalStyle,
@@ -190,61 +199,69 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 100),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxWidth: 1114,
-                      ),
-                      child: Stack(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomCard(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 100),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: 1114,
+                    ),
+                    child: Stack(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            FlexibleConstrainedBox(
+                              maxWidth: 358,
+                              child: CustomCard(
                                 topPadding: 160,
                                 background: Assets.images.staggeredRowImage1.image(
-                                  width: 358,
                                   height: 500,
+                                  fit: BoxFit.cover,
                                 ),
                                 title: 'Unternehmensberatung',
                                 buttonText: 'Jetzt mehr erfahren',
                               ),
-                              CustomCard(
+                            ),
+                            const SizedBox(width: 10),
+                            FlexibleConstrainedBox(
+                              maxWidth: 358,
+                              child: CustomCard(
                                 topPadding: 80,
                                 background: Assets.images.staggeredRowImage2.image(
-                                  width: 358,
                                   height: 500,
+                                  fit: BoxFit.cover,
                                 ),
                                 title: 'Rückabwicklung',
                                 buttonText: 'Jetzt mehr erfahren',
                               ),
-                              CustomCard(
+                            ),
+                            const SizedBox(width: 10),
+                            FlexibleConstrainedBox(
+                              maxWidth: 358,
+                              child: CustomCard(
                                 topPadding: 0,
                                 background: Assets.images.staggeredRowImage1.image(
-                                  width: 358,
                                   height: 500,
+                                  fit: BoxFit.cover,
                                 ),
                                 title: 'Investment & Vermögensschutz',
                                 buttonText: 'Jetzt mehr erfahren',
                               ),
-                            ],
-                          ),
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            child: Text(
-                              'Kompetenzen',
-                              style: R.styles.lSPageTitleStyle.copyWith(
-                                color: const Color(0XFFE6D1E5),
-                              ),
                             ),
-                          )
-                        ],
-                      ),
+                          ],
+                        ),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Text(
+                            'Kompetenzen',
+                            style: R.styles.lSPageTitleStyle.copyWith(
+                              color: const Color(0XFFE6D1E5),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -252,33 +269,42 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(left: 100, right: 60),
+            padding: const EdgeInsets.only(left: 60, right: 60),
             color: const Color(0XFF1A1A1A),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Assets.images.rotatedImage.svg(
-                  height: 333,
+                Flexible(
+                  fit: FlexFit.tight,
+                  flex: 4,
+                  child: Assets.images.rotatedImage.svg(width: 333),
                 ),
-                const SizedBox(width: 67),
+                const SizedBox(width: 20),
                 DefaultTextStyle(
                   style: R.styles.lSPageTitleStyle.copyWith(
                     color: const Color(0XFFFCDFCF),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 38),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: const [
-                        Text('SYKZ'),
-                        Text('hourglass'),
-                        Text('strategy'),
-                      ],
+                    padding: const EdgeInsets.only(top: 84),
+                    child: SizedBox(
+                      width: 250,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: const [
+                          Text('SYKZ'),
+                          Text('hourglass'),
+                          Text('strategy'),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 38),
-                Expanded(
+                Flexible(
+                  fit: FlexFit.tight,
+                  flex: 5,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 38),
                     child: Text(
@@ -293,11 +319,37 @@ Mehr Zeit für Familie. Mehr Zeit für die eine Reise, die schon seit Jahren pas
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FlexibleConstrainedBox extends StatelessWidget {
+  const FlexibleConstrainedBox({
+    Key? key,
+    required this.maxWidth,
+    required this.child,
+    this.flex = 1,
+  }) : super(key: key);
+
+  final int flex;
+  final double maxWidth;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      flex: flex,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: maxWidth,
+        ),
+        child: child,
       ),
     );
   }
@@ -319,37 +371,52 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          height: topPadding,
-        ),
-        Stack(
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            background,
-            Positioned(
-              left: 18,
-              top: 21,
-              child: Text(
-                title,
-                style: R.styles.lSHomeCardTitleStyle,
-              ),
+            SizedBox(
+              height: topPadding,
             ),
-            Positioned(
-              left: 15,
-              bottom: 22,
-              child: DestinationButtonWidget(
-                backgroundColor: const Color(0XFFB4B4B4).withOpacity(0.8),
-                textColor: const Color(0XFFF5F2F0),
-                horizontalPadding: 11,
-                text: buttonText,
-                onTap: () {},
-              ),
+            Stack(
+              children: [
+                background,
+                Positioned(
+                  left: 18,
+                  top: 21,
+                  right: 18,
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    width: constraint.maxWidth,
+                    child: Text(
+                      title,
+                      style: R.styles.lSHomeCardTitleStyle,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 15,
+                  bottom: 22,
+                  right: 15,
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    width: constraint.maxWidth,
+                    child: DestinationButtonWidget(
+                      backgroundColor: const Color(0XFFB4B4B4).withOpacity(0.8),
+                      textColor: const Color(0XFFF5F2F0),
+                      horizontalPadding: 11,
+                      text: buttonText,
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }

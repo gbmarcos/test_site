@@ -23,26 +23,32 @@ class Navbar extends StatelessWidget {
       SitePage.team,
     ];
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 40, bottom: 8, right: 8, left: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ...List.generate(mainPages.length, (index) {
-            final page = mainPages[index];
-            return _DestinationTextWidget(
-              text: page.pageName,
-              onTap: () => beamerState.selectedPage = page,
-              selected: beamerState.selectedPage == page,
-            );
-          }),
-          DestinationButtonWidget(
-            text: SitePage.karriere.pageName,
-            selected: beamerState.selectedPage == SitePage.karriere,
-            onTap: () => beamerState.selectedPage = SitePage.karriere,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: 800,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40, bottom: 8, right: 8, left: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ...List.generate(mainPages.length, (index) {
+                final page = mainPages[index];
+                return _DestinationTextWidget(
+                  text: page.pageName,
+                  onTap: () => beamerState.selectedPage = page,
+                  selected: beamerState.selectedPage == page,
+                );
+              }),
+              DestinationButtonWidget(
+                text: SitePage.karriere.pageName,
+                selected: beamerState.selectedPage == SitePage.karriere,
+                onTap: () => beamerState.selectedPage = SitePage.karriere,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -119,6 +125,7 @@ class DestinationButtonWidget extends StatelessWidget {
           style: TextStyle(
             color: textColor??R.colors.backgroundColor,
             fontWeight: R.fontWidths.semiBold,
+            overflow: TextOverflow.ellipsis,
             fontSize: 16,
           ),
         ),

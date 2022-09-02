@@ -27,10 +27,34 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/sykz_icon.svg
   SvgGenImage get sykzIcon => const SvgGenImage('assets/icons/sykz_icon.svg');
+
+  /// File path: assets/icons/sykz_icon_2.svg
+  SvgGenImage get sykzIcon2 =>
+      const SvgGenImage('assets/icons/sykz_icon_2.svg');
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/collage_1.png
+  AssetGenImage get collage1 =>
+      const AssetGenImage('assets/images/collage_1.png');
+
+  /// File path: assets/images/collage_2.png
+  AssetGenImage get collage2 =>
+      const AssetGenImage('assets/images/collage_2.png');
+
+  /// File path: assets/images/collage_3.png
+  AssetGenImage get collage3 =>
+      const AssetGenImage('assets/images/collage_3.png');
+
+  /// File path: assets/images/collage_4.png
+  AssetGenImage get collage4 =>
+      const AssetGenImage('assets/images/collage_4.png');
+
+  /// File path: assets/images/collage_5.png
+  AssetGenImage get collage5 =>
+      const AssetGenImage('assets/images/collage_5.png');
 
   /// File path: assets/images/home_image_1.png
   AssetGenImage get homeImage1 =>
@@ -43,6 +67,18 @@ class $AssetsImagesGen {
   /// File path: assets/images/kompetenzen_image_1.png
   AssetGenImage get kompetenzenImage1 =>
       const AssetGenImage('assets/images/kompetenzen_image_1.png');
+
+  /// File path: assets/images/member_1.png
+  AssetGenImage get member1 =>
+      const AssetGenImage('assets/images/member_1.png');
+
+  /// File path: assets/images/member_2.png
+  AssetGenImage get member2 =>
+      const AssetGenImage('assets/images/member_2.png');
+
+  /// File path: assets/images/member_3.png
+  AssetGenImage get member3 =>
+      const AssetGenImage('assets/images/member_3.png');
 
   /// File path: assets/images/news_team_karriere_image_1.png
   AssetGenImage get newsTeamKarriereImage1 =>

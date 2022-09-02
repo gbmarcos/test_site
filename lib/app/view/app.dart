@@ -22,9 +22,6 @@ class App extends StatelessWidget {
       theme: ThemeData(
         fontFamily: FontFamily.montserrat,
         scaffoldBackgroundColor: R.colors.backgroundColor,
-        colorScheme: ColorScheme.dark(
-          primary: R.colors.primaryColor,
-        ),
       ),
       localizationsDelegates: const [
         AppLocalizations.delegate,

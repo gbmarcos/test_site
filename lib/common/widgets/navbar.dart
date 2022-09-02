@@ -71,6 +71,9 @@ class _DestinationTextWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: TextButton(
+        style: TextButton.styleFrom(
+          primary: R.colors.primaryColor,
+        ),
         onPressed: onTap,
         child: Text(
           text,

@@ -28,6 +28,8 @@ class _AppColors {
   Color get sloganColor => const Color(0xFFB2CBDD);
 
   Color get maskColor1 => const Color(0xFFB2CBDD);
+
+  Color get maskColor2 => const Color(0xFFFCDFCF);
 }
 
 class _AppStyles {
@@ -37,6 +39,7 @@ class _AppStyles {
   TextStyle get lSMainStyle1 => TextStyle(
         fontSize: 64,
         fontWeight: R.fontWidths.semiBold,
+        color: Colors.white,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -49,6 +52,7 @@ class _AppStyles {
   TextStyle get lSMainStyle2 => TextStyle(
         fontSize: 20,
         fontWeight: R.fontWidths.regular,
+        color: Colors.white,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -63,22 +67,23 @@ class _AppStyles {
         fontWeight: R.fontWidths.semiBold,
       );
 
-  TextStyle get lSNormalStyle =>  TextStyle(
+  TextStyle get lSNormalStyle => TextStyle(
         fontSize: 15,
-        fontWeight:  R.fontWidths.regular,
+        fontWeight: R.fontWidths.medium,
         color: Colors.black,
+        height: 2,
       );
 
-  TextStyle get lSHomeCardTitleStyle =>  TextStyle(
-    fontSize: 18,
-    fontWeight:  R.fontWidths.semiBold,
-    color: const Color(0XFFE5DAD3),
-  );
+  TextStyle get lSHomeCardTitleStyle => TextStyle(
+        fontSize: 18,
+        fontWeight: R.fontWidths.semiBold,
+        color: const Color(0XFFE5DAD3),
+      );
 
   //medium screen
   TextStyle get mSMainStyle1 => TextStyle(
         fontSize: 64,
-        fontWeight:  R.fontWidths.semiBold,
+        fontWeight: R.fontWidths.semiBold,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -90,7 +95,7 @@ class _AppStyles {
 
   TextStyle get mSMainStyle2 => TextStyle(
         fontSize: 20,
-        fontWeight:  R.fontWidths.regular,
+        fontWeight: R.fontWidths.regular,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -100,22 +105,22 @@ class _AppStyles {
         ],
       );
 
-  TextStyle get mSPageTitleStyle =>  TextStyle(
+  TextStyle get mSPageTitleStyle => TextStyle(
         fontSize: 48,
-        fontWeight:  R.fontWidths.semiBold,
+        fontWeight: R.fontWidths.semiBold,
       );
 
-  TextStyle get mSNormalStyle =>  TextStyle(
+  TextStyle get mSNormalStyle => TextStyle(
         fontSize: 15,
-        fontWeight:  R.fontWidths.regular,
+        fontWeight: R.fontWidths.regular,
         color: Colors.black,
       );
 
-  TextStyle get mSHomeCardTitleStyle =>  TextStyle(
-    fontSize: 18,
-    fontWeight:  R.fontWidths.semiBold,
-    color: const Color(0XFFE5DAD3),
-  );
+  TextStyle get mSHomeCardTitleStyle => TextStyle(
+        fontSize: 18,
+        fontWeight: R.fontWidths.semiBold,
+        color: const Color(0XFFE5DAD3),
+      );
 
   //small screen
   TextStyle get sSMainStyle1 => TextStyle(
@@ -132,7 +137,7 @@ class _AppStyles {
 
   TextStyle get sSMainStyle2 => TextStyle(
         fontSize: 20,
-        fontWeight:  R.fontWidths.regular,
+        fontWeight: R.fontWidths.regular,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -142,22 +147,22 @@ class _AppStyles {
         ],
       );
 
-  TextStyle get sSPageTitleStyle =>  TextStyle(
+  TextStyle get sSPageTitleStyle => TextStyle(
         fontSize: 48,
-        fontWeight:  R.fontWidths.semiBold,
+        fontWeight: R.fontWidths.semiBold,
       );
 
-  TextStyle get sSNormalStyle =>  TextStyle(
+  TextStyle get sSNormalStyle => TextStyle(
         fontSize: 15,
-        fontWeight:  R.fontWidths.regular,
+        fontWeight: R.fontWidths.regular,
         color: Colors.black,
       );
 
-  TextStyle get sSHomeCardTitleStyle =>  TextStyle(
-    fontSize: 18,
-    fontWeight:  R.fontWidths.semiBold,
-    color: const Color(0XFFE5DAD3),
-  );
+  TextStyle get sSHomeCardTitleStyle => TextStyle(
+        fontSize: 18,
+        fontWeight: R.fontWidths.semiBold,
+        color: const Color(0XFFE5DAD3),
+      );
 }
 
 class _AppFontWidth {

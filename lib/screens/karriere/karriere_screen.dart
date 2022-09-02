@@ -36,13 +36,6 @@ class KarriereScreen extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            height: mediaQuery.size.height,
-            color: Colors.white,
-          ),
-          SizedBox(
-            height: mediaQuery.size.height,
-          ),
         ],
       ),
     );

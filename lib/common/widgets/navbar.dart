@@ -101,6 +101,10 @@ class DestinationButtonWidget extends StatelessWidget {
     this.horizontalMargin = 8,
     this.backgroundColor,
     this.textColor,
+    this.fontWeight,
+    this.fontSize = 16,
+    this.opacity = 0.8,
+    this.elevation = 3,
   }) : super(key: key);
 
   final String text;
@@ -110,6 +114,10 @@ class DestinationButtonWidget extends StatelessWidget {
   final double horizontalMargin;
   final Color? backgroundColor;
   final Color? textColor;
+  final FontWeight? fontWeight;
+  final double fontSize;
+  final double opacity;
+  final double elevation;
 
   @override
   Widget build(BuildContext context) {
@@ -117,19 +125,20 @@ class DestinationButtonWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: horizontalMargin),
       child: TextButton(
         style: TextButton.styleFrom(
-            backgroundColor: (selected ? Colors.white : (backgroundColor ?? R.colors.buttonColor))
-                .withOpacity(0.8),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(2)),
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 18),
-            elevation: 3),
+          backgroundColor: (selected ? Colors.white : (backgroundColor ?? R.colors.buttonColor))
+              .withOpacity(opacity),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(2)),
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 18),
+          elevation: elevation,
+        ),
         onPressed: onTap,
         child: Text(
           text,
           style: TextStyle(
-            color: textColor??R.colors.backgroundColor,
-            fontWeight: R.fontWidths.semiBold,
+            color: textColor ?? R.colors.backgroundColor,
+            fontWeight: fontWeight ?? R.fontWidths.semiBold,
             overflow: TextOverflow.ellipsis,
-            fontSize: 16,
+            fontSize: fontSize,
           ),
         ),
       ),

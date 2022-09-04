@@ -56,6 +56,10 @@ class $AssetsImagesGen {
   AssetGenImage get collage5 =>
       const AssetGenImage('assets/images/collage_5.png');
 
+  /// File path: assets/images/form_2_image.png
+  AssetGenImage get form2Image =>
+      const AssetGenImage('assets/images/form_2_image.png');
+
   /// File path: assets/images/home_image_1.png
   AssetGenImage get homeImage1 =>
       const AssetGenImage('assets/images/home_image_1.png');
@@ -79,6 +83,26 @@ class $AssetsImagesGen {
   /// File path: assets/images/member_3.png
   AssetGenImage get member3 =>
       const AssetGenImage('assets/images/member_3.png');
+
+  /// File path: assets/images/mixed_collage_1.png
+  AssetGenImage get mixedCollage1 =>
+      const AssetGenImage('assets/images/mixed_collage_1.png');
+
+  /// File path: assets/images/mixed_collage_2.png
+  AssetGenImage get mixedCollage2 =>
+      const AssetGenImage('assets/images/mixed_collage_2.png');
+
+  /// File path: assets/images/mixed_collage_3.png
+  AssetGenImage get mixedCollage3 =>
+      const AssetGenImage('assets/images/mixed_collage_3.png');
+
+  /// File path: assets/images/mixed_collage_4.png
+  AssetGenImage get mixedCollage4 =>
+      const AssetGenImage('assets/images/mixed_collage_4.png');
+
+  /// File path: assets/images/mixed_collage_5.png
+  AssetGenImage get mixedCollage5 =>
+      const AssetGenImage('assets/images/mixed_collage_5.png');
 
   /// File path: assets/images/news_team_karriere_image_1.png
   AssetGenImage get newsTeamKarriereImage1 =>

@@ -30,6 +30,8 @@ class _AppColors {
   Color get maskColor1 => const Color(0xFFB2CBDD);
 
   Color get maskColor2 => const Color(0xFFFCDFCF);
+
+  Color get roundedHeaderColor => const Color(0xFF9CB6CA);
 }
 
 class _AppStyles {
@@ -66,6 +68,11 @@ class _AppStyles {
         fontSize: 48,
         fontWeight: R.fontWidths.semiBold,
       );
+
+  TextStyle get lSPageSubtitleStyle => TextStyle(
+    fontSize: 36,
+    fontWeight: R.fontWidths.light,
+  );
 
   TextStyle get lSNormalStyle => TextStyle(
         fontSize: 15,
@@ -110,6 +117,12 @@ class _AppStyles {
         fontWeight: R.fontWidths.semiBold,
       );
 
+
+  TextStyle get mSPageSubtitleStyle => TextStyle(
+    fontSize: 36,
+    fontWeight: R.fontWidths.light,
+  );
+
   TextStyle get mSNormalStyle => TextStyle(
         fontSize: 15,
         fontWeight: R.fontWidths.regular,
@@ -152,6 +165,11 @@ class _AppStyles {
         fontWeight: R.fontWidths.semiBold,
       );
 
+  TextStyle get sSPageSubtitleStyle => TextStyle(
+    fontSize: 36,
+    fontWeight: R.fontWidths.light,
+  );
+
   TextStyle get sSNormalStyle => TextStyle(
         fontSize: 15,
         fontWeight: R.fontWidths.regular,
@@ -168,9 +186,15 @@ class _AppStyles {
 class _AppFontWidth {
   const _AppFontWidth._();
 
+  FontWeight get light => FontWeight.w200;
+
   FontWeight get regular => FontWeight.w300;
 
   FontWeight get medium => FontWeight.w400;
 
   FontWeight get semiBold => FontWeight.w500;
+
+  FontWeight get bold => FontWeight.w600;
+
+
 }

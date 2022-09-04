@@ -21,7 +21,6 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       theme: ThemeData(
         fontFamily: FontFamily.montserrat,
-        scaffoldBackgroundColor: R.colors.backgroundColor,
       ),
       localizationsDelegates: const [
         AppLocalizations.delegate,

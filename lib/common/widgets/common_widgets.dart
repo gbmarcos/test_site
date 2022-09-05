@@ -5,4 +5,5 @@ export 'flexible_constrained_box.dart';
 export 'mixed_collage.dart';
 export 'navbar.dart';
 export 'photo_collage.dart';
+export 'responsive.dart';
 export 'rounded_header.dart';

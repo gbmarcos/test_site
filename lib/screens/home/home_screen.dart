@@ -1,4 +1,4 @@
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:test_site/common/extensions.dart';
@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
     final mediaQuery = context.mediaQuery;
     return Scaffold(
       body: ListView(
+        padding: EdgeInsets.zero,
         children: [
           SizedBox(
             height: mediaQuery.size.height,
@@ -30,9 +31,13 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               child: Column(
-                children: const [
-                  Navbar(),
-                  Expanded(
+                children: [
+                  const NavigationWidget(),
+                  if (Responsive.isMobile(context))
+                    const Expanded(
+                      child: SizedBox.shrink(),
+                    ),
+                  const Expanded(
                     child: _SectionContent1(),
                   ),
                 ],
@@ -59,155 +64,265 @@ class _SectionContent8 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(
-        left: 155,
-        right: 155,
-        top: 59,
-      ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 1114,
+    final photoSize = Responsive.isDesktop(context)
+        ? const Size(358, 500)
+        : Responsive.isTablet(context)
+            ? const Size(269, 374)
+            : const Size(374, 523);
+
+    final horizontalPadding = Responsive.isDesktop(context)
+        ? 155.0
+        : Responsive.isTablet(context)
+            ? 80.0
+            : 36.0;
+
+    final vision = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment:
+          Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+      children: [
+        Text(
+          'Vision',
+          style: context.pageTitleStyle.copyWith(
+            color: const Color(0xFFC5BBDE),
+          ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Vision',
-                        style: R.styles.lSPageTitleStyle.copyWith(
-                          color: const Color(0xFFC5BBDE),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '''
+        const SizedBox(height: 10),
+        Text(
+          '''
 Perspektive. Unser Anspruch an uns selbst und an unsere Dienstleistungen sollte schon immer in der Ganzheitlichkeit liegen.
 Um die Bedürfnisse der Mandanten zu ermitteln, gehört für uns daher ein umfangreiches Kennenlernen dazu. Wir möchten nicht nur der Partner für Ihre Finanzen und Ihre Unternehmensberatung sein - wir möchten jeden Mandanten auf persönlicher Ebene verstehen lernen, um so seine Individualität zu würdigen. Dies schätzen unsere Mandanten sehr.
 Unser Fokus liegt auf Exklusivität. 
 Bei  SYKZ arbeiten wir mit Menschen zusammen, nicht mit Zahlen. Daher schauen auch wir bei jedem Erstgespräch, ob Sie zu uns passen.
                       ''',
-                        style: R.styles.lSNormalStyle,
-                        textAlign: TextAlign.right,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 100),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Mission',
-                        style: R.styles.lSPageTitleStyle.copyWith(
-                          color: const Color(0xFFB2D9C0),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '''
+          style: context.normalStyle,
+          textAlign: Responsive.isMobile(context) ? TextAlign.left : TextAlign.right,
+        ),
+      ],
+    );
+    final mission = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Mission',
+          style: context.pageTitleStyle.copyWith(
+            color: const Color(0xFFB2D9C0),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          '''
 Innovation.Hochkomplexe Themen in Nischenmärkten jedem zugänglich zu machen, der es wertschätzen kann - das ist unsere Passion. Wir machen keine klassische Finanz- und Unternehmensberatung. Wir schaffen wirkliche Werte. 
 Wie wir das tun? Weil wir hinter die Fassade schauen. Indem wir die richtigen Fragen stellen, finden wir für Sie die richtigen Antworten.
                         ''',
-                        style: R.styles.lSNormalStyle,
-                        textAlign: TextAlign.left,
+          style: context.normalStyle,
+          textAlign: TextAlign.left,
+        ),
+      ],
+    );
+
+    final padding = EdgeInsets.only(
+      left: horizontalPadding,
+      right: horizontalPadding,
+      top: 59,
+    );
+
+    final appIconSize = Responsive.isDesktop(context) ? const Size(201, 66) : const Size(138, 45);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: padding,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 1114,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (Responsive.isMobile(context))
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      vision,
+                      const SizedBox(height: 60),
+                      mission,
+                    ],
+                  )
+                else
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: vision,
+                      ),
+                      const SizedBox(width: 100),
+                      Expanded(
+                        child: mission,
                       ),
                     ],
                   ),
+                const SizedBox(height: 60),
+                Text(
+                  'Team',
+                  style: context.pageTitleStyle.copyWith(
+                    color: Colors.black,
+                  ),
                 ),
+                const SizedBox(height: 16),
               ],
             ),
-            const SizedBox(height: 80),
-            Text(
-              'Team',
-              style: R.styles.lSPageTitleStyle.copyWith(
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlexibleConstrainedBox(
-                  maxWidth: 358,
-                  child: TeamMemberCard(
-                    memberPhoto: Assets.images.member1.image(
-                      height: 500,
-                      fit: BoxFit.cover,
-                    ),
-                    info: 'Lorem ipsum dolor sit amet, '
-                        'consectetur adipiscing elit. '
-                        'Vulputate varius dolor, ac cras ultricies '
-                        'viverra etiam augue viverra. '
-                        'Consectetur ornare curabitur leo a '
-                        'lacus turpis id sit vestibulum.',
-                  ),
-                ),
-                const SizedBox(width: 20),
-                FlexibleConstrainedBox(
-                  maxWidth: 358,
-                  child: TeamMemberCard(
-                    memberPhoto: Assets.images.member2.image(
-                      height: 500,
-                      fit: BoxFit.cover,
-                    ),
-                    info: 'Lorem ipsum dolor sit amet, '
-                        'consectetur adipiscing elit. '
-                        'Vulputate varius dolor, ac cras ultricies '
-                        'viverra etiam augue viverra. '
-                        'Consectetur ornare curabitur leo a '
-                        'lacus turpis id sit vestibulum.',
-                  ),
-                ),
-                const SizedBox(width: 20),
-                FlexibleConstrainedBox(
-                  maxWidth: 358,
-                  child: TeamMemberCard(
-                    memberPhoto: Assets.images.member3.image(
-                      height: 500,
-                      fit: BoxFit.cover,
-                    ),
-                    info: 'Lorem ipsum dolor sit amet, '
-                        'consectetur adipiscing elit. '
-                        'Vulputate varius dolor, ac cras ultricies '
-                        'viverra etiam augue viverra. '
-                        'Consectetur ornare curabitur leo a '
-                        'lacus turpis id sit vestibulum.',
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 116),
-            Text(
-              'Dein Weg mit',
-              style: R.styles.lSPageTitleStyle.copyWith(
-                color: Colors.black,
-                fontWeight: R.fontWidths.regular,
-              ),
-            ),
-            const SizedBox(height: 32),
-            Assets.icons.sykzIcon2.svg(
-              height: 68.74,
-              width: 210,
-            ),
-            const SizedBox(height: 60),
-            const AppForm1(),
-          ],
+          ),
         ),
-      ),
+        if (!Responsive.isMobile(context))
+          Container(
+            padding: padding,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 1114,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FlexibleConstrainedBox(
+                    maxWidth: photoSize.width,
+                    child: TeamMemberCard(
+                      memberPhoto: Assets.images.member1.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                      info: 'Lorem ipsum dolor sit amet, '
+                          'consectetur adipiscing elit. '
+                          'Vulputate varius dolor, ac cras ultricies '
+                          'viverra etiam augue viverra. '
+                          'Consectetur ornare curabitur leo a '
+                          'lacus turpis id sit vestibulum.',
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: photoSize.width,
+                    child: TeamMemberCard(
+                      memberPhoto: Assets.images.member2.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                      info: 'Lorem ipsum dolor sit amet, '
+                          'consectetur adipiscing elit. '
+                          'Vulputate varius dolor, ac cras ultricies '
+                          'viverra etiam augue viverra. '
+                          'Consectetur ornare curabitur leo a '
+                          'lacus turpis id sit vestibulum.',
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: photoSize.width,
+                    child: TeamMemberCard(
+                      memberPhoto: Assets.images.member3.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                      info: 'Lorem ipsum dolor sit amet, '
+                          'consectetur adipiscing elit. '
+                          'Vulputate varius dolor, ac cras ultricies '
+                          'viverra etiam augue viverra. '
+                          'Consectetur ornare curabitur leo a '
+                          'lacus turpis id sit vestibulum.',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TeamMemberCard(
+                memberPhoto: Assets.images.member1.image(
+                  height: photoSize.height,
+                  width: photoSize.width,
+                  fit: BoxFit.cover,
+                ),
+                info: 'Lorem ipsum dolor sit amet, '
+                    'consectetur adipiscing elit. '
+                    'Vulputate varius dolor, ac cras ultricies '
+                    'viverra etiam augue viverra. '
+                    'Consectetur ornare curabitur leo a '
+                    'lacus turpis id sit vestibulum.',
+              ),
+              const SizedBox(height: 10),
+              TeamMemberCard(
+                memberPhoto: Assets.images.member2.image(
+                  height: photoSize.height,
+                  width: photoSize.width,
+                  fit: BoxFit.cover,
+                ),
+                info: 'Lorem ipsum dolor sit amet, '
+                    'consectetur adipiscing elit. '
+                    'Vulputate varius dolor, ac cras ultricies '
+                    'viverra etiam augue viverra. '
+                    'Consectetur ornare curabitur leo a '
+                    'lacus turpis id sit vestibulum.',
+              ),
+              const SizedBox(height: 10),
+              TeamMemberCard(
+                memberPhoto: Assets.images.member3.image(
+                  height: photoSize.height,
+                  width: photoSize.width,
+                  fit: BoxFit.cover,
+                ),
+                info: 'Lorem ipsum dolor sit amet, '
+                    'consectetur adipiscing elit. '
+                    'Vulputate varius dolor, ac cras ultricies '
+                    'viverra etiam augue viverra. '
+                    'Consectetur ornare curabitur leo a '
+                    'lacus turpis id sit vestibulum.',
+              ),
+            ],
+          ),
+        Container(
+          padding: padding,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 1114,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 116),
+                Text(
+                  'Dein Weg mit',
+                  style: context.pageTitleStyle.copyWith(
+                    color: Colors.black,
+                    fontWeight: R.fontWidths.regular,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                Assets.icons.sykzIcon2.svg(
+                  height: appIconSize.height,
+                  width: appIconSize.width
+                ),
+                const SizedBox(height: 60),
+                const AppForm1(),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -219,13 +334,27 @@ class _SectionContent7 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final padding = Responsive.isDesktop(context)
+        ? const EdgeInsets.only(
+            left: 163,
+            right: 163,
+            top: 30,
+            bottom: 58,
+          )
+        : Responsive.isTablet(context)
+            ? const EdgeInsets.only(
+                left: 50,
+                right: 50,
+                top: 26,
+                bottom: 60,
+              )
+            : const EdgeInsets.only(
+                top: 26,
+                bottom: 33,
+              );
+
     return Container(
-      padding: const EdgeInsets.only(
-        left: 163,
-        right: 163,
-        top: 30,
-        bottom: 58,
-      ),
+      padding: padding,
       decoration: BoxDecoration(
         color: Color.alphaBlend(
           R.colors.maskColor2.withOpacity(0.5),
@@ -237,10 +366,10 @@ class _SectionContent7 extends StatelessWidget {
         children: [
           Text(
             'Referenzen',
-            style: R.styles.lSPageTitleStyle.copyWith(color: const Color(0xFF9189A7)),
+            style: context.pageTitleStyle.copyWith(color: const Color(0xFF9189A7)),
           ),
           const SizedBox(
-            height: 74,
+            height: 50,
           ),
           ConstrainedBox(
             constraints: const BoxConstraints(
@@ -261,9 +390,19 @@ class _SectionContent6 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final horizontalPadding = Responsive.isDesktop(context) ? 163.0 : 80.0;
+    final verticalPadding = Responsive.isDesktop(context) ? 105.0 : 65.0;
+
+    const boxColor = Color(0XFFC4C4C4);
+
+    final boxSize = Responsive.isDesktop(context) ? const Size(358, 120) : const Size(215, 73);
+
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 105, horizontal: 163),
+      padding: EdgeInsets.symmetric(
+        vertical: verticalPadding,
+        horizontal: horizontalPadding,
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(
           maxWidth: 1114,
@@ -273,46 +412,67 @@ class _SectionContent6 extends StatelessWidget {
           children: [
             Text(
               'Partner',
-              style: R.styles.lSPageTitleStyle.copyWith(color: Colors.black),
+              style: context.pageTitleStyle.copyWith(color: Colors.black),
             ),
             Text(
               '''
 VERTRAUEN. Wir beleuchten alle Kooperationspartner immer auf zweierlei Art. 
 Unser Team, das sich durch jahrelange Erfahrung auszeichnet, sorgt durch strategische Unternehmensanalysen nicht nur für maximale Sicherheit und Transparenz in der Auswahl unserer Partner - uns ist es ebenso wichtig, eine Unternehmenskultur auf Augenhöhe zu leben. Daher kennen wir die Inhaber unserer Partnerunternehmen stets persönlich.
             ''',
-              style: R.styles.lSNormalStyle,
+              style: context.normalStyle,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(
-              height: 45,
+            SizedBox(
+              height: Responsive.isDesktop(context) ? 45 : 20,
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlexibleConstrainedBox(
-                    maxWidth: 358,
-                    child: Container(
-                      height: 120,
-                      color: const Color(0XFFC4C4C4),
-                    )),
-                const SizedBox(width: 20),
-                FlexibleConstrainedBox(
-                    maxWidth: 358,
-                    child: Container(
-                      height: 120,
-                      color: const Color(0XFFC4C4C4),
-                    )),
-                const SizedBox(width: 20),
-                FlexibleConstrainedBox(
-                  maxWidth: 358,
-                  child: Container(
-                    height: 120,
-                    color: const Color(0XFFC4C4C4),
+            if (Responsive.isMobile(context))
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 73,
+                    color: boxColor,
                   ),
-                ),
-              ],
-            )
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 73,
+                    color: boxColor,
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 73,
+                    color: boxColor,
+                  ),
+                ],
+              )
+            else
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FlexibleConstrainedBox(
+                      maxWidth: boxSize.width,
+                      child: Container(
+                        height: boxSize.height,
+                        color: boxColor,
+                      )),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                      maxWidth: boxSize.width,
+                      child: Container(
+                        height: boxSize.height,
+                        color: boxColor,
+                      )),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: boxSize.width,
+                    child: Container(
+                      height: boxSize.height,
+                      color: boxColor,
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),
@@ -327,58 +487,106 @@ class _SectionContent5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 60, right: 60),
-      color: const Color(0XFF1A1A1A),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            fit: FlexFit.tight,
-            flex: 4,
-            child: Assets.images.rotatedImage.svg(width: 333),
-          ),
-          const SizedBox(width: 20),
-          DefaultTextStyle(
-            style: R.styles.lSPageTitleStyle.copyWith(
-              color: const Color(0XFFFCDFCF),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 84),
-              child: SizedBox(
-                width: 250,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
-                    Text('SYKZ'),
-                    Text('hourglass'),
-                    Text('strategy'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 38),
-          Flexible(
-            fit: FlexFit.tight,
-            flex: 5,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 38),
-              child: Text(
-                '''
+    final imageWidth = Responsive.isDesktop(context) ? 333.0 : 203.0;
+
+    final horizontalPadding = Responsive.isMobile(context) ? 30.0 : 60.0;
+
+    final image = Assets.images.rotatedImage.svg(width: imageWidth);
+
+    final text1 = DefaultTextStyle(
+      style: context.pageTitleStyle.copyWith(
+        color: const Color(0XFFFCDFCF),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment:
+            Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        children: const [
+          Text('SYKZ'),
+          Text('hourglass'),
+          Text('strategy'),
+        ],
+      ),
+    );
+
+    final text2 = Text(
+      '''
 Mit der SYKZ hourglass strategy verfolgen wir eine ganzheitlich neue Herangehensweise in der Finanzberatung. Uns ist aufgefallen, dass bei der Analyse unserer Mandanten ein Thema immer wieder in den Fokus rückt. Bei der Frage, was unseren Mandanten in der Beratung am wichtigsten ist, kommt fast immer die selbe Antwort: Zeit. Deswegen haben wir es uns zur Aufgabe gemacht, diese knappe und unwiederbringliche Ressource zu unserem Hauptaugenmerk in der Betreuung unserer Mandanten zu machen:
 Mehr Zeit für Familie. Mehr Zeit für die eine Reise, die schon seit Jahren passieren sollte. Mehr Zeit, um das Leben sorgenfrei auszuschöpfen.
                 ''',
-                textAlign: TextAlign.start,
-                style: R.styles.lSNormalStyle.copyWith(
-                  color: const Color(0XFFB8B8B8),
-                ),
+      textAlign: TextAlign.start,
+      style: context.normalStyle.copyWith(
+        color: const Color(0XFFB8B8B8),
+      ),
+    );
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      color: const Color(0XFF1A1A1A),
+      child: Responsive(
+        desktop: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 4,
+              child: image,
+            ),
+            const SizedBox(width: 20),
+            Padding(
+              padding: const EdgeInsets.only(top: 84),
+              child: SizedBox(
+                width: 250,
+                child: text1,
               ),
             ),
+            const SizedBox(width: 38),
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 5,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 38),
+                child: text2,
+              ),
+            ),
+          ],
+        ),
+        tablet: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 70),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    image,
+                    const SizedBox(height: 52),
+                    text1,
+                  ],
+                ),
+              ),
+              const SizedBox(width: 40),
+              Expanded(child: text2),
+            ],
           ),
-        ],
+        ),
+        mobile: Padding(
+          padding: EdgeInsets.symmetric(vertical: 60),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              image,
+              const SizedBox(height: 20),
+              text1,
+              const SizedBox(height: 20),
+              text2,
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -391,24 +599,32 @@ class _SectionContent4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final staggerFactor = Responsive.isDesktop(context) ? 80.0 : 54.0;
+
+    final photoSize = Responsive.isDesktop(context) ? const Size(358, 500) : const Size(240, 335);
+
+    final photoDividerWidth = Responsive.isDesktop(context) ? 20.0 : 13.0;
+
+    final bottomPadding = Responsive.isDesktop(context) ? 154.0 : 100.0;
+
     return Container(
-      padding: const EdgeInsets.only(top: 63, bottom: 154),
+      padding: EdgeInsets.only(top: 63, bottom: bottomPadding),
       color: Colors.white,
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
+            padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
             child: Text(
               'Über uns',
               textAlign: TextAlign.center,
-              style: R.styles.lSPageTitleStyle.copyWith(
+              style: context.pageTitleStyle.copyWith(
                 color: const Color(0XFFB0D9C0),
               ),
             ),
           ),
           const SizedBox(height: 30),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
+            padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 922),
               child: Text(
@@ -421,75 +637,117 @@ Auch das Thema Data Safety wird bei uns groß geschrieben: Wir gehen beim Umgang
 Jetzt Strategie Termin vereinbaren.
                 ''',
                 textAlign: TextAlign.center,
-                style: R.styles.lSNormalStyle,
+                style: context.normalStyle,
               ),
             ),
           ),
           const SizedBox(height: 30),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
+            padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxWidth: 1114,
               ),
-              child: Stack(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FlexibleConstrainedBox(
-                        maxWidth: 358,
-                        child: CustomCard(
-                          topPadding: 160,
+              child: Responsive.isMobile(context)
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Kompetenzen',
+                          style: context.pageTitleStyle.copyWith(
+                            color: const Color(0XFFE6D1E5),
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        CustomCard(
                           background: Assets.images.staggeredRowImage1.image(
-                            height: 500,
+                            height: photoSize.height,
+                            width: photoSize.width,
                             fit: BoxFit.cover,
                           ),
                           title: 'Unternehmensberatung',
                           buttonText: 'Jetzt mehr erfahren',
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      FlexibleConstrainedBox(
-                        maxWidth: 358,
-                        child: CustomCard(
-                          topPadding: 80,
+                        const SizedBox(height: 10),
+                        CustomCard(
                           background: Assets.images.staggeredRowImage2.image(
-                            height: 500,
+                            height: photoSize.height,
+                            width: photoSize.width,
                             fit: BoxFit.cover,
                           ),
                           title: 'Rückabwicklung',
                           buttonText: 'Jetzt mehr erfahren',
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      FlexibleConstrainedBox(
-                        maxWidth: 358,
-                        child: CustomCard(
-                          topPadding: 0,
+                        const SizedBox(height: 10),
+                        CustomCard(
                           background: Assets.images.staggeredRowImage1.image(
-                            height: 500,
+                            height: photoSize.height,
+                            width: photoSize.width,
                             fit: BoxFit.cover,
                           ),
                           title: 'Investment & Vermögensschutz',
                           buttonText: 'Jetzt mehr erfahren',
                         ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Text(
-                      'Kompetenzen',
-                      style: R.styles.lSPageTitleStyle.copyWith(
-                        color: const Color(0XFFE6D1E5),
-                      ),
+                      ],
+                    )
+                  : Stack(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            FlexibleConstrainedBox(
+                              maxWidth: photoSize.width,
+                              child: CustomCard(
+                                topPadding: staggerFactor * 2,
+                                background: Assets.images.staggeredRowImage1.image(
+                                  height: photoSize.height,
+                                  fit: BoxFit.cover,
+                                ),
+                                title: 'Unternehmensberatung',
+                                buttonText: 'Jetzt mehr erfahren',
+                              ),
+                            ),
+                            SizedBox(width: photoDividerWidth),
+                            FlexibleConstrainedBox(
+                              maxWidth: photoSize.width,
+                              child: CustomCard(
+                                topPadding: staggerFactor,
+                                background: Assets.images.staggeredRowImage2.image(
+                                  height: photoSize.height,
+                                  fit: BoxFit.cover,
+                                ),
+                                title: 'Rückabwicklung',
+                                buttonText: 'Jetzt mehr erfahren',
+                              ),
+                            ),
+                            SizedBox(width: photoDividerWidth),
+                            FlexibleConstrainedBox(
+                              maxWidth: photoSize.width,
+                              child: CustomCard(
+                                topPadding: 0,
+                                background: Assets.images.staggeredRowImage1.image(
+                                  height: photoSize.height,
+                                  fit: BoxFit.cover,
+                                ),
+                                title: 'Investment & Vermögensschutz',
+                                buttonText: 'Jetzt mehr erfahren',
+                              ),
+                            ),
+                          ],
+                        ),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Text(
+                            'Kompetenzen',
+                            style: context.pageTitleStyle.copyWith(
+                              color: const Color(0XFFE6D1E5),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
             ),
           ),
         ],
@@ -505,10 +763,24 @@ class _SectionContent3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sectionHeight = Responsive.isDesktop(context)
+        ? 582.0
+        : Responsive.isTablet(context)
+            ? 337.0
+            : 403.0;
+    final horizontalPadding = Responsive.isDesktop(context)
+        ? 100.0
+        : Responsive.isTablet(context)
+            ? 50.0
+            : 23.0;
+
+    final textAlign = Responsive.isMobile(context) ? TextAlign.end : TextAlign.center;
+    final subtitleFontSize = Responsive.isDesktop(context) ? 32.0 : 20.0;
+
     return Container(
-      height: 582,
+      height: sectionHeight,
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 100),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       decoration: BoxDecoration(
         image: DecorationImage(
           image: Assets.images.homeImage2.image().image,
@@ -517,26 +789,36 @@ class _SectionContent3 extends StatelessWidget {
         ),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 847),
-            child: Text(
-              'Das Leben von morgen schon heute gestalten.',
-              style: R.styles.lSMainStyle1.copyWith(fontWeight: FontWeight.w300),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(height: 29),
-          Padding(
-            padding: const EdgeInsets.only(right: 65),
-            child: Text(
-              '- mit SYKZ',
-              style: TextStyle(
-                fontWeight: R.fontWidths.regular,
-                fontSize: 32,
-                color: Colors.white,
+          if (Responsive.isMobile(context)) const Expanded(child: SizedBox.shrink()),
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 847),
+                    child: Text(
+                      'Das Leben von morgen schon heute gestalten.',
+                      style: context.mainStyle1.copyWith(fontWeight: FontWeight.w300),
+                      textAlign: textAlign,
+                    ),
+                  ),
+                  const SizedBox(height: 29),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 65),
+                    child: Text(
+                      '- mit SYKZ',
+                      style: TextStyle(
+                        fontWeight: R.fontWidths.regular,
+                        fontSize: subtitleFontSize,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -553,8 +835,22 @@ class _SectionContent2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final verticalPadding = Responsive.isDesktop(context)
+        ? 100.0
+        : Responsive.isTablet(context)
+            ? 80.0
+            : 50.0;
+
+    final photoSize = Responsive.isDesktop(context)
+        ? const Size(240, 260)
+        : Responsive.isTablet(context)
+            ? const Size(204, 228)
+            : const Size(210, 228);
+
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 80),
+      padding: EdgeInsets.symmetric(
+        vertical: verticalPadding,
+      ),
       decoration: BoxDecoration(
         color: Color.alphaBlend(
           R.colors.maskColor1.withOpacity(0.5),
@@ -565,16 +861,16 @@ class _SectionContent2 extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
+            padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
             child: Text(
               'Wie viel Zeit ist genug Zeit?',
               textAlign: TextAlign.center,
-              style: R.styles.lSPageTitleStyle.copyWith(color: R.colors.backgroundColor),
+              style: context.pageTitleStyle.copyWith(color: R.colors.backgroundColor),
             ),
           ),
           const SizedBox(height: 30),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
+            padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 922),
               child: Text(
@@ -587,47 +883,76 @@ Wir haben einen angestellten Maschinenbauingenieur, einen Apotheker und einen Ko
 Danach haben wir mit unserem Expertenteam die einzigartige hourglass investment strategy entwickelt, die uns und unseren Mandanten noch besser und effektiver dabei hilft, ihre Motive und Bedürfnisse zu verstehen.                        
                 ''',
                 textAlign: TextAlign.center,
-                style: R.styles.lSNormalStyle,
+                style: context.normalStyle,
               ),
             ),
           ),
           const SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 955,
-              ),
+          if (Responsive.isMobile(context))
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  FlexibleConstrainedBox(
-                    maxWidth: 240,
-                    child: Assets.images.rowImage1.image(
-                      height: 260,
-                      fit: BoxFit.cover,
-                    ),
+                  const SizedBox(width: 5),
+                  Assets.images.rowImage1.image(
+                    height: photoSize.height,
+                    width: photoSize.width,
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(width: 10),
-                  FlexibleConstrainedBox(
-                    maxWidth: 240,
-                    child: Assets.images.rowImage2.image(
-                      height: 260,
-                      fit: BoxFit.cover,
-                    ),
+                  const SizedBox(width: 5),
+                  Assets.images.rowImage2.image(
+                    height: photoSize.height,
+                    width: photoSize.width,
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(width: 10),
-                  FlexibleConstrainedBox(
-                    maxWidth: 240,
-                    child: Assets.images.rowImage3.image(
-                      height: 260,
-                      fit: BoxFit.cover,
-                    ),
+                  const SizedBox(width: 5),
+                  Assets.images.rowImage3.image(
+                    height: photoSize.height,
+                    width: photoSize.width,
+                    fit: BoxFit.cover,
                   ),
+                  const SizedBox(width: 5),
                 ],
               ),
+            )
+          else
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 955,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FlexibleConstrainedBox(
+                      maxWidth: photoSize.width,
+                      child: Assets.images.rowImage1.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    FlexibleConstrainedBox(
+                      maxWidth: photoSize.width,
+                      child: Assets.images.rowImage2.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    FlexibleConstrainedBox(
+                      maxWidth: photoSize.width,
+                      child: Assets.images.rowImage3.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -640,7 +965,7 @@ class CustomCard extends StatelessWidget {
     required this.background,
     required this.title,
     required this.buttonText,
-    required this.topPadding,
+    this.topPadding = 0,
   });
 
   final Widget background;
@@ -650,6 +975,8 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final buttonFontSize = Responsive.isDesktop(context) ? 15.0 : 11.0;
+
     return LayoutBuilder(
       builder: (context, constraint) {
         return Column(
@@ -670,7 +997,7 @@ class CustomCard extends StatelessWidget {
                     width: constraint.maxWidth,
                     child: Text(
                       title,
-                      style: R.styles.lSHomeCardTitleStyle,
+                      style: context.homeCardTitleStyle,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -687,6 +1014,7 @@ class CustomCard extends StatelessWidget {
                       textColor: const Color(0XFFF5F2F0),
                       horizontalPadding: 11,
                       text: buttonText,
+                      fontSize: buttonFontSize,
                       onTap: () {},
                     ),
                   ),
@@ -729,9 +1057,9 @@ class TeamMemberCard extends StatelessWidget {
             child: Text(
               info,
               textAlign: TextAlign.center,
-              style: R.styles.lSNormalStyle.copyWith(
+              style: context.normalStyle.copyWith(
                 color: Colors.white,
-                height: 1.5,
+                height: 1,
               ),
             ),
           ),
@@ -748,9 +1076,23 @@ class _SectionContent1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appIconSize =
+        Responsive.isDesktop(context) ? const Size(210, 68.74) : const Size(155, 51);
+
+    final axisDirection = Responsive.isMobile(context) ? Axis.vertical : Axis.horizontal;
+
+    final separatorSize = Responsive.isDesktop(context) ? 14.0 : 10.0;
+
+    final buttonHorizontalPadding = Responsive.isDesktop(context) ? 12.0 : 20.0;
+
     return Center(
       child: SizedBox(
-        height: 139,
+        height: Responsive.isDesktop(context)
+            ? 139
+            : Responsive.isTablet(context)
+                ? 85
+                : null,
+        width: Responsive.isMobile(context) ? 156 : null,
         child: PlayAnimationBuilder<double>(
           curve: Curves.decelerate,
           tween: Tween(begin: 0, end: 1), // 100.0 to 200.0
@@ -761,19 +1103,30 @@ class _SectionContent1 extends StatelessWidget {
 
             return Opacity(
               opacity: value,
-              child: Row(
+              child: Flex(
+                direction: axisDirection,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Transform.translate(
                     offset: Offset(-translationValue, 0),
                     child: Assets.icons.sykzIcon.svg(
-                      height: 68.74,
-                      width: 210,
+                      height: appIconSize.height,
+                      width: appIconSize.width,
                     ),
                   ),
-                  VerticalDivider(
-                    color: R.colors.iconsColor,
-                    width: 46,
+                  Responsive(
+                    desktop: VerticalDivider(
+                      color: R.colors.iconsColor,
+                      width: 46,
+                    ),
+                    tablet: VerticalDivider(
+                      color: R.colors.iconsColor,
+                      width: 46,
+                    ),
+                    mobile: Divider(
+                      color: R.colors.iconsColor,
+                      height: 46,
+                    ),
                   ),
                   Transform.translate(
                     offset: Offset(translationValue, 0),
@@ -782,23 +1135,22 @@ class _SectionContent1 extends StatelessWidget {
                       children: [
                         DestinationButtonWidget(
                           horizontalMargin: 0,
-                          horizontalPadding: 12,
-                          selected: false,
+                          horizontalPadding: buttonHorizontalPadding,
                           onTap: () {},
                           text: 'Strategie Termin',
                         ),
-                        const SizedBox(
-                          height: 14,
+                        SizedBox(
+                          height: separatorSize,
                         ),
                         const SocialMediaList(),
-                        const SizedBox(
-                          height: 14,
+                        SizedBox(
+                          height: separatorSize,
                         ),
                         Text(
                           'DESIRE. CREATE. INSPIRE.',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 10,
+                            fontSize: Responsive.isDesktop(context) ? 10 : 8,
                             color: R.colors.sloganColor,
                           ),
                         ),
@@ -814,5 +1166,3 @@ class _SectionContent1 extends StatelessWidget {
     );
   }
 }
-
-

@@ -22,6 +22,10 @@ class $AssetsIconsGen {
   SvgGenImage get linkedInIcon =>
       const SvgGenImage('assets/icons/linked_in_icon.svg');
 
+  /// File path: assets/icons/menu_button.svg
+  SvgGenImage get menuButton =>
+      const SvgGenImage('assets/icons/menu_button.svg');
+
   /// File path: assets/icons/meta_icon.svg
   SvgGenImage get metaIcon => const SvgGenImage('assets/icons/meta_icon.svg');
 

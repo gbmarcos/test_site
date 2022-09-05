@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_site/common/widgets/common_widgets.dart';
 
 class R {
   const R._();
@@ -70,9 +71,9 @@ class _AppStyles {
       );
 
   TextStyle get lSPageSubtitleStyle => TextStyle(
-    fontSize: 36,
-    fontWeight: R.fontWidths.light,
-  );
+        fontSize: 36,
+        fontWeight: R.fontWidths.light,
+      );
 
   TextStyle get lSNormalStyle => TextStyle(
         fontSize: 15,
@@ -89,8 +90,9 @@ class _AppStyles {
 
   //medium screen
   TextStyle get mSMainStyle1 => TextStyle(
-        fontSize: 64,
+        fontSize: 36,
         fontWeight: R.fontWidths.semiBold,
+        color: Colors.white,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -101,8 +103,9 @@ class _AppStyles {
       );
 
   TextStyle get mSMainStyle2 => TextStyle(
-        fontSize: 20,
+        fontSize: 12,
         fontWeight: R.fontWidths.regular,
+        color: Colors.white,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -113,32 +116,33 @@ class _AppStyles {
       );
 
   TextStyle get mSPageTitleStyle => TextStyle(
-        fontSize: 48,
+        fontSize: 32,
         fontWeight: R.fontWidths.semiBold,
       );
 
-
   TextStyle get mSPageSubtitleStyle => TextStyle(
-    fontSize: 36,
-    fontWeight: R.fontWidths.light,
-  );
+        fontSize: 36,
+        fontWeight: R.fontWidths.light,
+      );
 
   TextStyle get mSNormalStyle => TextStyle(
-        fontSize: 15,
+        fontSize: 11,
         fontWeight: R.fontWidths.regular,
         color: Colors.black,
+        height: 2,
       );
 
   TextStyle get mSHomeCardTitleStyle => TextStyle(
-        fontSize: 18,
+        fontSize: 12,
         fontWeight: R.fontWidths.semiBold,
         color: const Color(0XFFE5DAD3),
       );
 
   //small screen
   TextStyle get sSMainStyle1 => TextStyle(
-        fontSize: 64,
+        fontSize: 34,
         fontWeight: R.fontWidths.semiBold,
+        color: Colors.white,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -149,8 +153,9 @@ class _AppStyles {
       );
 
   TextStyle get sSMainStyle2 => TextStyle(
-        fontSize: 20,
+        fontSize: 12,
         fontWeight: R.fontWidths.regular,
+        color: Colors.white,
         shadows: [
           Shadow(
             color: Colors.black.withAlpha(50),
@@ -161,23 +166,24 @@ class _AppStyles {
       );
 
   TextStyle get sSPageTitleStyle => TextStyle(
-        fontSize: 48,
+        fontSize: 32,
         fontWeight: R.fontWidths.semiBold,
       );
 
   TextStyle get sSPageSubtitleStyle => TextStyle(
-    fontSize: 36,
-    fontWeight: R.fontWidths.light,
-  );
+        fontSize: 36,
+        fontWeight: R.fontWidths.light,
+      );
 
   TextStyle get sSNormalStyle => TextStyle(
-        fontSize: 15,
+        fontSize: 11,
         fontWeight: R.fontWidths.regular,
         color: Colors.black,
+        height: 2,
       );
 
   TextStyle get sSHomeCardTitleStyle => TextStyle(
-        fontSize: 18,
+        fontSize: 12,
         fontWeight: R.fontWidths.semiBold,
         color: const Color(0XFFE5DAD3),
       );
@@ -195,6 +201,4 @@ class _AppFontWidth {
   FontWeight get semiBold => FontWeight.w500;
 
   FontWeight get bold => FontWeight.w600;
-
-
 }

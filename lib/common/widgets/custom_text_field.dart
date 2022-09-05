@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_site/common/extensions.dart';
 import 'package:test_site/r.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -27,7 +28,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = this.textStyle ??
-        R.styles.lSMainStyle2.copyWith(
+       context.mainStyle2.copyWith(
           shadows: [],
           color: const Color(0XFF6F6F6F),
         );

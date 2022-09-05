@@ -1,4 +1,7 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:test_site/common/extensions.dart';
@@ -13,9 +16,31 @@ class AppForm1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const fieldSeparator = SizedBox(
-      height: 40,
+    final fieldSeparator = SizedBox(
+      height: Responsive.isDesktop(context)?40.0:25.0,
     );
+
+
+    final finalTextFont = Responsive.isDesktop(context)?24.0:14.0;
+
+
+    const vornameTextField = CustomTextField(
+      hintText: 'Vorname',
+    );
+    const emailInputElementTextField = CustomTextField(
+      hintText: 'E-Mail',
+    );
+
+    const hitTestResultTextField = CustomTextField(
+      hintText: 'Ihre Nachricht',
+    );
+    const nachNameTextField = CustomTextField(
+      hintText: 'Nachname',
+    );
+    const dropDTextField = CustomTextField.dropdown(
+      options: ['Dienstleisungen1', 'Dienstleisungen2'],
+    );
+
     return Container(
       padding: const EdgeInsets.only(
         top: 80,
@@ -33,59 +58,65 @@ class AppForm1 extends StatelessWidget {
           children: [
             Text(
               'Kontakt',
-              style: R.styles.lSPageTitleStyle.copyWith(
+              style: context.pageTitleStyle.copyWith(
                 color: Colors.black,
-                fontSize: 40,
+                fontSize: Responsive.isDesktop(context) ? 40 : null,
               ),
             ),
             const SizedBox(height: 50),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      CustomTextField(
-                        hintText: 'Vorname',
-                      ),
-                      fieldSeparator,
-                      CustomTextField(
-                        hintText: 'E-Mail',
-                      ),
-                      fieldSeparator,
-                      CustomTextField(
-                        hintText: 'Ihre Nachricht',
-                      ),
-                    ],
+            if (Responsive.isMobile(context))
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  vornameTextField,
+                  fieldSeparator,
+                  emailInputElementTextField,
+                  fieldSeparator,
+                  hitTestResultTextField,
+                  fieldSeparator,
+                  nachNameTextField,
+                  fieldSeparator,
+                  vornameTextField,
+                  fieldSeparator,
+                  dropDTextField,
+                ],
+              )
+            else
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children:  [
+                        vornameTextField,
+                        fieldSeparator,
+                        emailInputElementTextField,
+                        fieldSeparator,
+                        hitTestResultTextField,
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 40,
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      CustomTextField(
-                        hintText: 'Nachname',
-                      ),
-                      fieldSeparator,
-                      CustomTextField(
-                        hintText: 'Vorname',
-                      ),
-                      fieldSeparator,
-                      CustomTextField.dropdown(
-                        options: ['Dienstleisungen1', 'Dienstleisungen2'],
-                      ),
-                    ],
+                  const SizedBox(
+                    width: 40,
                   ),
-                ),
-              ],
-            ),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children:  [
+                        nachNameTextField,
+                        fieldSeparator,
+                        vornameTextField,
+                        fieldSeparator,
+                        dropDTextField,
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             const SizedBox(height: 36),
             CustomCheckButton(
               text: 'Ich stimme den AGBs zu.',
-              textStyle: R.styles.lSNormalStyle.copyWith(
+              textStyle: context.normalStyle.copyWith(
                 color: const Color(0XFF6F6F6F),
                 fontSize: 14,
                 height: 1.3,
@@ -121,35 +152,35 @@ class AppForm1 extends StatelessWidget {
                           flex: 2,
                           child: Text(
                             'Impressum',
-                            style: R.styles.lSMainStyle2.copyWith(
+                            style: context.mainStyle2.copyWith(
                               shadows: [],
-                              fontSize: 24,
+                              fontSize: finalTextFont,
                               color: R.colors.backgroundColor,
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(width: 26),
+                        const SizedBox(width: 2),
                         Flexible(
                           flex: 2,
                           child: Text(
                             'Datenschutz',
-                            style: R.styles.lSMainStyle2.copyWith(
+                            style: context.mainStyle2.copyWith(
                               shadows: [],
-                              fontSize: 24,
+                              fontSize: finalTextFont,
                               color: R.colors.backgroundColor,
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(width: 26),
+                        const SizedBox(width: 22),
                         Flexible(
                           flex: 1,
                           child: Text(
                             'AGB',
-                            style: R.styles.lSMainStyle2.copyWith(
+                            style: context.mainStyle2.copyWith(
                               shadows: [],
-                              fontSize: 24,
+                              fontSize: finalTextFont,
                               color: R.colors.backgroundColor,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -180,6 +211,8 @@ class SocialMediaList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final separatorSize = Responsive.isDesktop(context) ? 20.0 : 15.0;
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -188,13 +221,13 @@ class SocialMediaList extends StatelessWidget {
           width: 15,
           color: color,
         ),
-        const SizedBox(width: 20),
+        SizedBox(width: separatorSize),
         Assets.icons.linkedInIcon.svg(
           height: 15,
           width: 15,
           color: color,
         ),
-        const SizedBox(width: 20),
+        SizedBox(width: separatorSize),
         Assets.icons.metaIcon.svg(
           height: 15,
           width: 73.75,

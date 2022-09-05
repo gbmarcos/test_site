@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 
 class CustomCheckButton extends StatefulWidget {
@@ -47,7 +48,13 @@ class _CustomCheckButtonState extends State<CustomCheckButton> {
             SizedBox(
               width: widget.spaceBetween,
             ),
-            Text(widget.text, style: widget.textStyle, ),
+            Expanded(
+              child: Text(
+                widget.text,
+                style: widget.textStyle,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),

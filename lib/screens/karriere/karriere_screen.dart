@@ -24,9 +24,13 @@ class KarriereScreen extends StatelessWidget {
                 ),
               ),
               child: Column(
-                children: const [
-                  Navbar(),
-                  Expanded(
+                children: [
+                  const NavigationWidget(),
+                  if (Responsive.isMobile(context))
+                    const Expanded(
+                      child: SizedBox.shrink(),
+                    ),
+                  const Expanded(
                     child: _SectionContent1(),
                   ),
                 ],
@@ -47,20 +51,23 @@ class _SectionContent1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Offene Stellenangebote',
-            style: R.styles.lSMainStyle1,
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'Du hast Lust, Teil unseres Teams zu werden? Dann bewirb dich jetzt bei uns!',
-            style: R.styles.lSMainStyle2,
-            textAlign: TextAlign.center,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Offene Stellenangebote',
+              style: context.mainStyle1,
+              textAlign: context.mainPageTextAlign,
+            ),
+            Text(
+              'Du hast Lust, Teil unseres Teams zu werden? Dann bewirb dich jetzt bei uns!',
+              style: context.mainStyle2,
+              textAlign: context.mainPageTextAlign,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -88,7 +95,7 @@ class _SectionContent2 extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 210),
+            padding: const EdgeInsets.only(left: 180),
             child: Text(
               'Jobs: 6 | Standorte: 2 | Kategorien: 1',
               style: R.styles.lSNormalStyle.copyWith(
@@ -99,7 +106,7 @@ class _SectionContent2 extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 235),
+            padding: const EdgeInsets.symmetric(horizontal: 205),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxWidth: 1114,
@@ -231,7 +238,8 @@ class _SectionContent2 extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 20),
                                 CustomCheckButton(
-                                  text: 'Hiermit bestätige ich, dass ich die Datenschutzerklärung zur',
+                                  text:
+                                      'Hiermit bestätige ich, dass ich die Datenschutzerklärung zur',
                                   textStyle: style1.copyWith(fontSize: 11),
                                   iconColor: R.colors.roundedHeaderColor,
                                 ),

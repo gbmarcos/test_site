@@ -1,14 +1,18 @@
 import 'dart:developer';
+import 'dart:js';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
+import 'package:test_site/common/widgets/common_widgets.dart';
+import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 
-class Navbar extends StatelessWidget {
-  const Navbar({Key? key}) : super(key: key);
+class NavigationWidget extends StatelessWidget {
+  const NavigationWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,34 +27,87 @@ class Navbar extends StatelessWidget {
       SitePage.team,
     ];
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: 800,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 40, bottom: 8, right: 8, left: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ...List.generate(mainPages.length, (index) {
-                final page = mainPages[index];
-                return _DestinationTextWidget(
-                  text: page.pageName,
-                  onTap: () => beamerState.selectedPage = page,
-                  selected: beamerState.selectedPage == page,
-                );
-              }),
-              DestinationButtonWidget(
-                text: SitePage.karriere.pageName,
-                selected: beamerState.selectedPage == SitePage.karriere,
-                onTap: () => beamerState.selectedPage = SitePage.karriere,
+    if (!Responsive.isMobile(context)) {
+      Navigator.of(context).maybePop();
+    }
+
+    return !Responsive.isMobile(context)
+        ? SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 800,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 40, bottom: 8, right: 8, left: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ...List.generate(mainPages.length, (index) {
+                      final page = mainPages[index];
+                      return _DestinationTextWidget(
+                        text: page.pageName,
+                        onTap: () => beamerState.selectedPage = page,
+                        selected: beamerState.selectedPage == page,
+                      );
+                    }),
+                    DestinationButtonWidget(
+                      text: SitePage.karriere.pageName,
+                      selected: beamerState.selectedPage == SitePage.karriere,
+                      onTap: () => beamerState.selectedPage = SitePage.karriere,
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                PopupMenuButton(
+                  icon: Assets.icons.menuButton.svg(
+                    height: 24,
+                    width: 24,
+                    color: Colors.white,
+                  ),
+                  itemBuilder: (context) {
+                    return List.generate(mainPages.length, (index) {
+                      final page = mainPages[index];
+                      return PopupMenuItem<SitePage>(
+                        onTap: () => beamerState.selectedPage = page,
+                        child: Text(
+                          page.pageName,
+                          style: TextStyle(
+                            color: beamerState.selectedPage == page
+                                ? Colors.white
+                                : R.colors.primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: Responsive.isDesktop(context) ? 16.0 : 14.0,
+                            shadows: [
+                              Shadow(
+                                  color: Colors.black.withAlpha(50),
+                                  blurRadius: 1.5,
+                                  offset: const Offset(0, 2))
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+                  },
+                  elevation: 5,
+                  color: Colors.grey.shade900.withOpacity(0.95),
+                ),
+                DestinationButtonWidget(
+                  horizontalMargin: 0,
+                  horizontalPadding: 14,
+                  text: SitePage.karriere.pageName,
+                  selected: beamerState.selectedPage == SitePage.karriere,
+                  onTap: () => beamerState.selectedPage = SitePage.karriere,
+                )
+              ],
+            ),
+          );
   }
 }
 
@@ -68,8 +125,10 @@ class _DestinationTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontSize = Responsive.isDesktop(context) ? 16.0 : 14.0;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextButton(
         style: TextButton.styleFrom(
           primary: R.colors.primaryColor,
@@ -80,7 +139,7 @@ class _DestinationTextWidget extends StatelessWidget {
           style: TextStyle(
             color: selected ? Colors.white : null,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: fontSize,
             shadows: [
               Shadow(color: Colors.black.withAlpha(50), blurRadius: 1.5, offset: const Offset(0, 2))
             ],
@@ -102,7 +161,7 @@ class DestinationButtonWidget extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.fontWeight,
-    this.fontSize = 16,
+    this.fontSize,
     this.opacity = 0.8,
     this.elevation = 3,
   }) : super(key: key);
@@ -115,12 +174,14 @@ class DestinationButtonWidget extends StatelessWidget {
   final Color? backgroundColor;
   final Color? textColor;
   final FontWeight? fontWeight;
-  final double fontSize;
+  final double? fontSize;
   final double opacity;
   final double elevation;
 
   @override
   Widget build(BuildContext context) {
+    final defaultFontSize = Responsive.isDesktop(context) ? 16.0 : 12.0;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: horizontalMargin),
       child: TextButton(
@@ -138,7 +199,7 @@ class DestinationButtonWidget extends StatelessWidget {
             color: textColor ?? R.colors.backgroundColor,
             fontWeight: fontWeight ?? R.fontWidths.semiBold,
             overflow: TextOverflow.ellipsis,
-            fontSize: fontSize,
+            fontSize: fontSize ?? defaultFontSize,
           ),
         ),
       ),

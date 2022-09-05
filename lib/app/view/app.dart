@@ -29,6 +29,7 @@ class App extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       routeInformationParser: BeamerParser(),
       routerDelegate: routerDelegate,
+
     );
   }
 }

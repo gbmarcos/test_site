@@ -28,9 +28,13 @@ class UberUnsScreen extends StatelessWidget {
                 ),
               ),
               child: Column(
-                children: const [
-                  Navbar(),
-                  Expanded(
+                children: [
+                  const NavigationWidget(),
+                  if (Responsive.isMobile(context))
+                    const Expanded(
+                      child: SizedBox.shrink(),
+                    ),
+                  const Expanded(
                     child: _SectionContent1(),
                   ),
                 ],
@@ -106,11 +110,15 @@ class _SectionContent1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Center(
-      child: Text(
-        'Unternehmensberatung.',
-        style: R.styles.lSMainStyle1,
-        textAlign: TextAlign.center,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Text(
+          'Unternehmensberatung.',
+          style: context.mainStyle1,
+          textAlign: context.mainPageTextAlign,
+        ),
       ),
     );
   }

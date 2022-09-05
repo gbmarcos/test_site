@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
 
 class PhotoCollageWidget extends StatelessWidget {
@@ -6,21 +7,32 @@ class PhotoCollageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const dividerSize = 20.0;
+    final dividerSize = Responsive.isDesktop(context)
+        ? 20.0
+        : Responsive.isTablet(context)
+            ? 14.0
+            : 8.0;
+
+    final heightFactor = Responsive.isDesktop(context)
+        ? 280.0
+        : Responsive.isTablet(context)
+            ? 184.0
+            : 94.0;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          height: 280,
+          height: heightFactor,
           child: Assets.images.collage1.image(
             height: double.infinity,
             width: double.infinity,
             fit: BoxFit.cover,
           ),
         ),
-        const SizedBox(height: dividerSize),
+        SizedBox(height: dividerSize),
         SizedBox(
-          height: 280,
+          height: heightFactor,
           child: Row(
             children: [
               Expanded(
@@ -30,7 +42,7 @@ class PhotoCollageWidget extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(width: dividerSize),
+              SizedBox(width: dividerSize),
               Expanded(
                 child: Assets.images.collage3.image(
                   height: double.infinity,
@@ -41,9 +53,9 @@ class PhotoCollageWidget extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: dividerSize),
+        SizedBox(height: dividerSize),
         SizedBox(
-          height: 560,
+          height: heightFactor*2,
           child: Row(
             children: [
               Expanded(
@@ -53,7 +65,7 @@ class PhotoCollageWidget extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(width: dividerSize),
+              SizedBox(width: dividerSize),
               Expanded(
                 child: Assets.images.collage5.image(
                   height: double.infinity,

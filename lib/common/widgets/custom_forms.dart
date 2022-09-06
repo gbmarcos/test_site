@@ -240,74 +240,108 @@ class AppForm2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const fieldSeparator = SizedBox(
-      height: 40,
+    final fieldSeparator = SizedBox(
+      height: Responsive.isDesktop(context) ? 40.0 : 25.0,
     );
 
-    return SizedBox(
-      height: 538,
-      child: Row(
+    final formHeight = Responsive.isDesktop(context) ? 538.0 : 355.0;
+
+    final titleSize = Responsive.isDesktop(context) ? 32.0 : 20.0;
+
+    final padding = Responsive.isDesktop(context)
+        ? const EdgeInsets.only(
+            top: 56,
+            left: 100,
+            right: 100,
+          )
+        : Responsive.isTablet(context)
+            ? const EdgeInsets.only(
+                top: 28,
+                left: 60,
+                right: 60,
+              )
+            : const EdgeInsets.only(
+                top: 28,
+                left: 40,
+                right: 40,
+              );
+
+    final form = Container(
+      color: Colors.black,
+      padding: padding,
+      child: Column(
         children: [
-          Expanded(
-            child: Assets.images.form2Image.image(
-              height: double.infinity,
-              width: double.infinity,
-              fit: BoxFit.cover,
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              'RÜCKRUF SERVICE',
+              style: context.pageTitleStyle.copyWith(
+                fontSize: titleSize,
+                color: Colors.white,
+              ),
             ),
           ),
-          Expanded(
-            child: Container(
-              color: Colors.black,
-              padding: const EdgeInsets.only(
-                top: 56,
-                left: 100,
-                right: 100,
-              ),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'RÜCKRUF SERVICE',
-                      style: R.styles.lSPageTitleStyle.copyWith(
-                        fontSize: 32,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  fieldSeparator,
-                  const CustomTextField(
-                    hintText: 'Name',
-                    darkMode: true,
-                  ),
-                  fieldSeparator,
-                  const CustomTextField(
-                    hintText: 'Telefon',
-                    darkMode: true,
-                  ),
-                  fieldSeparator,
-                  const CustomTextField.dropdown(
-                    options: ['Dienstleisungen1', 'Dienstleisungen2'],
-                    darkMode: true,
-                  ),
-                  fieldSeparator,
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: DestinationButtonWidget(
-                      text: 'Absenden',
-                      onTap: () {},
-                      horizontalPadding: 19,
-                      textColor: Colors.black,
-                      horizontalMargin: 0,
-                    ),
-                  ),
-                ],
-              ),
+          fieldSeparator,
+          const CustomTextField(
+            hintText: 'Name',
+            darkMode: true,
+          ),
+          fieldSeparator,
+          const CustomTextField(
+            hintText: 'Telefon',
+            darkMode: true,
+          ),
+          fieldSeparator,
+          const CustomTextField.dropdown(
+            options: ['Dienstleisungen1', 'Dienstleisungen2'],
+            darkMode: true,
+          ),
+          fieldSeparator,
+          Align(
+            alignment: Alignment.topRight,
+            child: DestinationButtonWidget(
+              text: 'Absenden',
+              onTap: () {},
+              horizontalPadding: 19,
+              textColor: Colors.black,
+              horizontalMargin: 0,
             ),
           ),
         ],
       ),
     );
+
+    return Responsive.isMobile(context)
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Assets.images.form2Image.image(
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(
+                height: formHeight,
+                child: form,
+              ),
+            ],
+          )
+        : SizedBox(
+            height: formHeight,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Assets.images.form2Image.image(
+                    height: double.infinity,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Expanded(
+                  child: form,
+                ),
+              ],
+            ),
+          );
   }
 }
 

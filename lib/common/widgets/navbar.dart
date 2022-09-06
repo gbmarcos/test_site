@@ -12,19 +12,21 @@ import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 
 class NavigationWidget extends StatelessWidget {
-  const NavigationWidget({Key? key}) : super(key: key);
+  const NavigationWidget({Key? key, this.onSelected}) : super(key: key);
+
+  final void Function(NavigationOption page)? onSelected;
 
   @override
   Widget build(BuildContext context) {
-    final beamerState = context.customPageState;
+
 
     final mainPages = [
-      SitePage.home,
-      SitePage.uberUns,
-      SitePage.kompetenzen,
-      SitePage.vision,
-      SitePage.news,
-      SitePage.team,
+      NavigationOption.home,
+      NavigationOption.uberUns,
+      NavigationOption.kompetenzen,
+      NavigationOption.vision,
+      NavigationOption.news,
+      NavigationOption.team,
     ];
 
     if (!Responsive.isMobile(context)) {
@@ -46,14 +48,15 @@ class NavigationWidget extends StatelessWidget {
                       final page = mainPages[index];
                       return _DestinationTextWidget(
                         text: page.pageName,
-                        onTap: () => beamerState.selectedPage = page,
-                        selected: beamerState.selectedPage == page,
+                        onTap: () {
+                          onSelected?.call(page);
+                        },
+                        selected: false
                       );
                     }),
                     DestinationButtonWidget(
-                      text: SitePage.karriere.pageName,
-                      selected: beamerState.selectedPage == SitePage.karriere,
-                      onTap: () => beamerState.selectedPage = SitePage.karriere,
+                      text: NavigationOption.karriere.pageName,
+                      onTap: () {},
                     ),
                   ],
                 ),
@@ -74,14 +77,14 @@ class NavigationWidget extends StatelessWidget {
                   itemBuilder: (context) {
                     return List.generate(mainPages.length, (index) {
                       final page = mainPages[index];
-                      return PopupMenuItem<SitePage>(
-                        onTap: () => beamerState.selectedPage = page,
+                      return PopupMenuItem<NavigationOption>(
+                        onTap: () {
+                          onSelected?.call(page);
+                        },
                         child: Text(
                           page.pageName,
                           style: TextStyle(
-                            color: beamerState.selectedPage == page
-                                ? Colors.white
-                                : R.colors.primaryColor,
+                            color: R.colors.primaryColor,
                             fontWeight: FontWeight.w600,
                             fontSize: Responsive.isDesktop(context) ? 16.0 : 14.0,
                             shadows: [
@@ -101,9 +104,8 @@ class NavigationWidget extends StatelessWidget {
                 DestinationButtonWidget(
                   horizontalMargin: 0,
                   horizontalPadding: 14,
-                  text: SitePage.karriere.pageName,
-                  selected: beamerState.selectedPage == SitePage.karriere,
-                  onTap: () => beamerState.selectedPage = SitePage.karriere,
+                  text: NavigationOption.karriere.pageName,
+                  onTap: () {},
                 )
               ],
             ),

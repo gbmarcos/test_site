@@ -121,7 +121,7 @@ class _AppStyles {
       );
 
   TextStyle get mSPageSubtitleStyle => TextStyle(
-        fontSize: 36,
+        fontSize: 16,
         fontWeight: R.fontWidths.light,
       );
 
@@ -171,7 +171,7 @@ class _AppStyles {
       );
 
   TextStyle get sSPageSubtitleStyle => TextStyle(
-        fontSize: 36,
+        fontSize: 16,
         fontWeight: R.fontWidths.light,
       );
 

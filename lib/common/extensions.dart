@@ -46,6 +46,12 @@ extension BuilContextX on BuildContext {
           ? R.styles.mSHomeCardTitleStyle
           : R.styles.sSHomeCardTitleStyle;
 
+  TextStyle get pageSubtitleStyle => Responsive.isDesktop(this)
+      ? R.styles.lSPageSubtitleStyle
+      : Responsive.isTablet(this)
+          ? R.styles.mSPageSubtitleStyle
+          : R.styles.sSPageSubtitleStyle;
+
   double get generalHorizontalPadding => Responsive.isDesktop(this)
       ? 100.0
       : Responsive.isTablet(this)

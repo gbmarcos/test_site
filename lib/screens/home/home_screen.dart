@@ -1,81 +1,289 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final mediaQuery = context.mediaQuery;
-    return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          SizedBox(
-            height: mediaQuery.size.height,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                    const Color(0xFF7D7A7A).withOpacity(0.7),
-                    BlendMode.srcOver,
-                  ),
-                  image: Assets.images.homeImage1.image().image,
-                  fit: BoxFit.cover,
-                  scale: 1.3,
-                ),
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late final sections = [
+    LayoutBuilder(builder: (context, _) {
+      return SizedBox(
+        height: context.mediaQuery.size.height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                const Color(0xFF7D7A7A).withOpacity(0.7),
+                BlendMode.srcOver,
               ),
-              child: Column(
-                children: [
-                  const NavigationWidget(),
-                  if (Responsive.isMobile(context))
-                    const Expanded(
-                      child: SizedBox.shrink(),
-                    ),
-                  const Expanded(
-                    child: _SectionContent1(),
-                  ),
-                ],
-              ),
+              image: Assets.images.homeImage1.image().image,
+              fit: BoxFit.cover,
+              scale: 1.3,
             ),
           ),
-          const _SectionContent2(),
-          const _SectionContent3(),
-          const _SectionContent4(),
-          const _SectionContent5(),
-          const _SectionContent6(),
-          const _SectionContent7(),
-          const _SectionContent8()
-        ],
+          child: Column(
+            children: [
+              NavigationWidget(
+                onSelected: (page) async {
+                  int? indexTo;
+
+                  switch (page) {
+                    case NavigationOption.home:
+                      indexTo = 0;
+                      break;
+                    case NavigationOption.uberUns:
+                      indexTo = 3;
+                      break;
+                    case NavigationOption.kompetenzen:
+                      indexTo = 4;
+                      break;
+                    case NavigationOption.vision:
+                      indexTo = 8;
+                      break;
+                    case NavigationOption.news:
+                      break;
+                    case NavigationOption.team:
+                      indexTo = 9;
+                      break;
+                    case NavigationOption.karriere:
+                      break;
+                  }
+
+                  if (indexTo != null) {
+                    itemScrollController.jumpTo(
+                      index: itemPositionsListener.itemPositions.value.first.index,
+                      alignment: itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
+                    );
+                    await itemScrollController.scrollTo(
+                      index: indexTo,
+                      duration: const Duration(milliseconds: 1500),
+                      curve: Curves.easeInOutCubic,
+                    );
+                  }
+                },
+              ),
+              if (Responsive.isMobile(context))
+                const Expanded(
+                  child: SizedBox.shrink(),
+                ),
+              const Expanded(
+                child: _SectionContent1(key: ValueKey('main-Animation')),
+              ),
+            ],
+          ),
+        ),
+      );
+    }),
+    const _SectionContent2(),
+    const _SectionContent3(),
+    const _UberUnsSection(),
+    const _KompetenzenSection(),
+    const _SectionContent5(),
+    const _SectionContent6(),
+    const _SectionContent7(),
+    const _VisionSection(),
+    const _TeamSection(),
+    const _SectionContent8()
+  ];
+
+  late final ItemScrollController itemScrollController = ItemScrollController();
+  late final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create();
+
+  @override
+  Widget build(BuildContext context) {
+
+
+    final beamerState = context.customPageState;
+
+    return Scaffold(
+      body: ScrollablePositionedList.builder(
+        initialScrollIndex: beamerState.selectedPage.section,
+        padding: EdgeInsets.zero,
+        itemCount: sections.length,
+        itemScrollController: itemScrollController,
+        itemPositionsListener: itemPositionsListener,
+        itemBuilder: (context, index) => sections[index],
       ),
     );
   }
 }
 
-class _SectionContent8 extends StatelessWidget {
-  const _SectionContent8({
-    Key? key,
-  }) : super(key: key);
+class _TeamSection extends StatelessWidget {
+  const _TeamSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final photoSize = Responsive.isDesktop(context)
-        ? const Size(358, 500)
-        : Responsive.isTablet(context)
-            ? const Size(269, 374)
-            : const Size(374, 523);
-
     final horizontalPadding = Responsive.isDesktop(context)
         ? 155.0
         : Responsive.isTablet(context)
             ? 80.0
             : 36.0;
 
+    final padding = EdgeInsets.only(
+      left: horizontalPadding,
+      right: horizontalPadding,
+      top: 59,
+    );
+
+    final photoSize = Responsive.isDesktop(context)
+        ? const Size(358, 500)
+        : Responsive.isTablet(context)
+            ? const Size(269, 374)
+            : const Size(374, 523);
+
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      Container(
+        padding: padding,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 1114,
+          ),
+          child: Text(
+            'Team',
+            style: context.pageTitleStyle.copyWith(
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(height: 16),
+      if (!Responsive.isMobile(context))
+        Container(
+          padding: padding,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 1114,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FlexibleConstrainedBox(
+                  maxWidth: photoSize.width,
+                  child: TeamMemberCard(
+                    memberPhoto: Assets.images.member1.image(
+                      height: photoSize.height,
+                      fit: BoxFit.cover,
+                    ),
+                    info: 'Lorem ipsum dolor sit amet, '
+                        'consectetur adipiscing elit. '
+                        'Vulputate varius dolor, ac cras ultricies '
+                        'viverra etiam augue viverra. '
+                        'Consectetur ornare curabitur leo a '
+                        'lacus turpis id sit vestibulum.',
+                  ),
+                ),
+                const SizedBox(width: 20),
+                FlexibleConstrainedBox(
+                  maxWidth: photoSize.width,
+                  child: TeamMemberCard(
+                    memberPhoto: Assets.images.member2.image(
+                      height: photoSize.height,
+                      fit: BoxFit.cover,
+                    ),
+                    info: 'Lorem ipsum dolor sit amet, '
+                        'consectetur adipiscing elit. '
+                        'Vulputate varius dolor, ac cras ultricies '
+                        'viverra etiam augue viverra. '
+                        'Consectetur ornare curabitur leo a '
+                        'lacus turpis id sit vestibulum.',
+                  ),
+                ),
+                const SizedBox(width: 20),
+                FlexibleConstrainedBox(
+                  maxWidth: photoSize.width,
+                  child: TeamMemberCard(
+                    memberPhoto: Assets.images.member3.image(
+                      height: photoSize.height,
+                      fit: BoxFit.cover,
+                    ),
+                    info: 'Lorem ipsum dolor sit amet, '
+                        'consectetur adipiscing elit. '
+                        'Vulputate varius dolor, ac cras ultricies '
+                        'viverra etiam augue viverra. '
+                        'Consectetur ornare curabitur leo a '
+                        'lacus turpis id sit vestibulum.',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+      else
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TeamMemberCard(
+              memberPhoto: Assets.images.member1.image(
+                height: photoSize.height,
+                width: photoSize.width,
+                fit: BoxFit.cover,
+              ),
+              info: 'Lorem ipsum dolor sit amet, '
+                  'consectetur adipiscing elit. '
+                  'Vulputate varius dolor, ac cras ultricies '
+                  'viverra etiam augue viverra. '
+                  'Consectetur ornare curabitur leo a '
+                  'lacus turpis id sit vestibulum.',
+            ),
+            const SizedBox(height: 10),
+            TeamMemberCard(
+              memberPhoto: Assets.images.member2.image(
+                height: photoSize.height,
+                width: photoSize.width,
+                fit: BoxFit.cover,
+              ),
+              info: 'Lorem ipsum dolor sit amet, '
+                  'consectetur adipiscing elit. '
+                  'Vulputate varius dolor, ac cras ultricies '
+                  'viverra etiam augue viverra. '
+                  'Consectetur ornare curabitur leo a '
+                  'lacus turpis id sit vestibulum.',
+            ),
+            const SizedBox(height: 10),
+            TeamMemberCard(
+              memberPhoto: Assets.images.member3.image(
+                height: photoSize.height,
+                width: photoSize.width,
+                fit: BoxFit.cover,
+              ),
+              info: 'Lorem ipsum dolor sit amet, '
+                  'consectetur adipiscing elit. '
+                  'Vulputate varius dolor, ac cras ultricies '
+                  'viverra etiam augue viverra. '
+                  'Consectetur ornare curabitur leo a '
+                  'lacus turpis id sit vestibulum.',
+            ),
+          ],
+        ),
+    ]);
+  }
+}
+
+class _VisionSection extends StatelessWidget {
+  const _VisionSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final vision = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment:
@@ -121,6 +329,72 @@ Wie wir das tun? Weil wir hinter die Fassade schauen. Indem wir die richtigen Fr
         ),
       ],
     );
+    final horizontalPadding = Responsive.isDesktop(context)
+        ? 155.0
+        : Responsive.isTablet(context)
+            ? 80.0
+            : 36.0;
+
+    final padding = EdgeInsets.only(
+      left: horizontalPadding,
+      right: horizontalPadding,
+      top: 59,
+    );
+
+    return Container(
+      padding: padding,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 1114,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (Responsive.isMobile(context))
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  vision,
+                  const SizedBox(height: 60),
+                  mission,
+                ],
+              )
+            else
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: vision,
+                  ),
+                  const SizedBox(width: 100),
+                  Expanded(
+                    child: mission,
+                  ),
+                ],
+              ),
+            const SizedBox(height: 60),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionContent8 extends StatelessWidget {
+  const _SectionContent8({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final horizontalPadding = Responsive.isDesktop(context)
+        ? 155.0
+        : Responsive.isTablet(context)
+            ? 80.0
+            : 36.0;
 
     final padding = EdgeInsets.only(
       left: horizontalPadding,
@@ -145,164 +419,6 @@ Wie wir das tun? Weil wir hinter die Fassade schauen. Indem wir die richtigen Fr
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (Responsive.isMobile(context))
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      vision,
-                      const SizedBox(height: 60),
-                      mission,
-                    ],
-                  )
-                else
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: vision,
-                      ),
-                      const SizedBox(width: 100),
-                      Expanded(
-                        child: mission,
-                      ),
-                    ],
-                  ),
-                const SizedBox(height: 60),
-                Text(
-                  'Team',
-                  style: context.pageTitleStyle.copyWith(
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
-          ),
-        ),
-        if (!Responsive.isMobile(context))
-          Container(
-            padding: padding,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 1114,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FlexibleConstrainedBox(
-                    maxWidth: photoSize.width,
-                    child: TeamMemberCard(
-                      memberPhoto: Assets.images.member1.image(
-                        height: photoSize.height,
-                        fit: BoxFit.cover,
-                      ),
-                      info: 'Lorem ipsum dolor sit amet, '
-                          'consectetur adipiscing elit. '
-                          'Vulputate varius dolor, ac cras ultricies '
-                          'viverra etiam augue viverra. '
-                          'Consectetur ornare curabitur leo a '
-                          'lacus turpis id sit vestibulum.',
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  FlexibleConstrainedBox(
-                    maxWidth: photoSize.width,
-                    child: TeamMemberCard(
-                      memberPhoto: Assets.images.member2.image(
-                        height: photoSize.height,
-                        fit: BoxFit.cover,
-                      ),
-                      info: 'Lorem ipsum dolor sit amet, '
-                          'consectetur adipiscing elit. '
-                          'Vulputate varius dolor, ac cras ultricies '
-                          'viverra etiam augue viverra. '
-                          'Consectetur ornare curabitur leo a '
-                          'lacus turpis id sit vestibulum.',
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  FlexibleConstrainedBox(
-                    maxWidth: photoSize.width,
-                    child: TeamMemberCard(
-                      memberPhoto: Assets.images.member3.image(
-                        height: photoSize.height,
-                        fit: BoxFit.cover,
-                      ),
-                      info: 'Lorem ipsum dolor sit amet, '
-                          'consectetur adipiscing elit. '
-                          'Vulputate varius dolor, ac cras ultricies '
-                          'viverra etiam augue viverra. '
-                          'Consectetur ornare curabitur leo a '
-                          'lacus turpis id sit vestibulum.',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-        else
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TeamMemberCard(
-                memberPhoto: Assets.images.member1.image(
-                  height: photoSize.height,
-                  width: photoSize.width,
-                  fit: BoxFit.cover,
-                ),
-                info: 'Lorem ipsum dolor sit amet, '
-                    'consectetur adipiscing elit. '
-                    'Vulputate varius dolor, ac cras ultricies '
-                    'viverra etiam augue viverra. '
-                    'Consectetur ornare curabitur leo a '
-                    'lacus turpis id sit vestibulum.',
-              ),
-              const SizedBox(height: 10),
-              TeamMemberCard(
-                memberPhoto: Assets.images.member2.image(
-                  height: photoSize.height,
-                  width: photoSize.width,
-                  fit: BoxFit.cover,
-                ),
-                info: 'Lorem ipsum dolor sit amet, '
-                    'consectetur adipiscing elit. '
-                    'Vulputate varius dolor, ac cras ultricies '
-                    'viverra etiam augue viverra. '
-                    'Consectetur ornare curabitur leo a '
-                    'lacus turpis id sit vestibulum.',
-              ),
-              const SizedBox(height: 10),
-              TeamMemberCard(
-                memberPhoto: Assets.images.member3.image(
-                  height: photoSize.height,
-                  width: photoSize.width,
-                  fit: BoxFit.cover,
-                ),
-                info: 'Lorem ipsum dolor sit amet, '
-                    'consectetur adipiscing elit. '
-                    'Vulputate varius dolor, ac cras ultricies '
-                    'viverra etiam augue viverra. '
-                    'Consectetur ornare curabitur leo a '
-                    'lacus turpis id sit vestibulum.',
-              ),
-            ],
-          ),
-        Container(
-          padding: padding,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 1114,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
                 const SizedBox(height: 116),
                 Text(
                   'Dein Weg mit',
@@ -312,10 +428,7 @@ Wie wir das tun? Weil wir hinter die Fassade schauen. Indem wir die richtigen Fr
                   ),
                 ),
                 const SizedBox(height: 32),
-                Assets.icons.sykzIcon2.svg(
-                  height: appIconSize.height,
-                  width: appIconSize.width
-                ),
+                Assets.icons.sykzIcon2.svg(height: appIconSize.height, width: appIconSize.width),
                 const SizedBox(height: 60),
                 const AppForm1(),
               ],
@@ -574,7 +687,7 @@ Mehr Zeit für Familie. Mehr Zeit für die eine Reise, die schon seit Jahren pas
           ),
         ),
         mobile: Padding(
-          padding: EdgeInsets.symmetric(vertical: 60),
+          padding: const EdgeInsets.symmetric(vertical: 60),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -592,23 +705,15 @@ Mehr Zeit für Familie. Mehr Zeit für die eine Reise, die schon seit Jahren pas
   }
 }
 
-class _SectionContent4 extends StatelessWidget {
-  const _SectionContent4({
+class _UberUnsSection extends StatelessWidget {
+  const _UberUnsSection({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final staggerFactor = Responsive.isDesktop(context) ? 80.0 : 54.0;
-
-    final photoSize = Responsive.isDesktop(context) ? const Size(358, 500) : const Size(240, 335);
-
-    final photoDividerWidth = Responsive.isDesktop(context) ? 20.0 : 13.0;
-
-    final bottomPadding = Responsive.isDesktop(context) ? 154.0 : 100.0;
-
     return Container(
-      padding: EdgeInsets.only(top: 63, bottom: bottomPadding),
+      padding: const EdgeInsets.only(top: 63, bottom: 30),
       color: Colors.white,
       child: Column(
         children: [
@@ -641,116 +746,149 @@ Jetzt Strategie Termin vereinbaren.
               ),
             ),
           ),
-          const SizedBox(height: 30),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 1114,
-              ),
-              child: Responsive.isMobile(context)
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Kompetenzen',
-                          style: context.pageTitleStyle.copyWith(
-                            color: const Color(0XFFE6D1E5),
-                          ),
-                        ),
-                        const SizedBox(height: 40),
-                        CustomCard(
+        ],
+      ),
+    );
+  }
+}
+
+class _KompetenzenSection extends StatelessWidget {
+  const _KompetenzenSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final staggerFactor = Responsive.isDesktop(context) ? 80.0 : 54.0;
+
+    final photoSize = Responsive.isDesktop(context) ? const Size(358, 500) : const Size(240, 335);
+
+    final photoDividerWidth = Responsive.isDesktop(context) ? 20.0 : 13.0;
+
+    final bottomPadding = Responsive.isDesktop(context) ? 154.0 : 100.0;
+
+    final beamerState = context.customPageState;
+
+    return Padding(
+      padding: EdgeInsets.only(
+        left: context.generalHorizontalPadding,
+        right: context.generalHorizontalPadding,
+        bottom: bottomPadding,
+      ),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 1114,
+        ),
+        child: Responsive.isMobile(context)
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Kompetenzen',
+                    style: context.pageTitleStyle.copyWith(
+                      color: const Color(0XFFE6D1E5),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  CustomCard(
+                    background: Assets.images.staggeredRowImage1.image(
+                      height: photoSize.height,
+                      width: photoSize.width,
+                      fit: BoxFit.cover,
+                    ),
+                    onTap: () => beamerState.selectedPage =
+                        const PageStateData(page: SitePage.unternehmensberatung),
+                    title: 'Unternehmensberatung',
+                    buttonText: 'Jetzt mehr erfahren',
+                  ),
+                  const SizedBox(height: 10),
+                  CustomCard(
+                    background: Assets.images.staggeredRowImage2.image(
+                      height: photoSize.height,
+                      width: photoSize.width,
+                      fit: BoxFit.cover,
+                    ),
+                    onTap: () =>
+                        beamerState.selectedPage = const PageStateData(page: SitePage.ruckabwicklung),
+                    title: 'Rückabwicklung',
+                    buttonText: 'Jetzt mehr erfahren',
+                  ),
+                  const SizedBox(height: 10),
+                  CustomCard(
+                    background: Assets.images.staggeredRowImage1.image(
+                      height: photoSize.height,
+                      width: photoSize.width,
+                      fit: BoxFit.cover,
+                    ),
+                    onTap: () =>
+                        beamerState.selectedPage = const PageStateData(page: SitePage.investment),
+                    title: 'Investment & Vermögensschutz',
+                    buttonText: 'Jetzt mehr erfahren',
+                  ),
+                ],
+              )
+            : Stack(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      FlexibleConstrainedBox(
+                        maxWidth: photoSize.width,
+                        child: CustomCard(
+                          topPadding: staggerFactor * 2,
                           background: Assets.images.staggeredRowImage1.image(
                             height: photoSize.height,
-                            width: photoSize.width,
                             fit: BoxFit.cover,
                           ),
+                          onTap: () => beamerState.selectedPage =
+                              const PageStateData(page: SitePage.unternehmensberatung),
                           title: 'Unternehmensberatung',
                           buttonText: 'Jetzt mehr erfahren',
                         ),
-                        const SizedBox(height: 10),
-                        CustomCard(
+                      ),
+                      SizedBox(width: photoDividerWidth),
+                      FlexibleConstrainedBox(
+                        maxWidth: photoSize.width,
+                        child: CustomCard(
+                          topPadding: staggerFactor,
                           background: Assets.images.staggeredRowImage2.image(
                             height: photoSize.height,
-                            width: photoSize.width,
                             fit: BoxFit.cover,
                           ),
+                          onTap: () => beamerState.selectedPage =
+                              const PageStateData(page: SitePage.ruckabwicklung),
                           title: 'Rückabwicklung',
                           buttonText: 'Jetzt mehr erfahren',
                         ),
-                        const SizedBox(height: 10),
-                        CustomCard(
+                      ),
+                      SizedBox(width: photoDividerWidth),
+                      FlexibleConstrainedBox(
+                        maxWidth: photoSize.width,
+                        child: CustomCard(
+                          topPadding: 0,
                           background: Assets.images.staggeredRowImage1.image(
                             height: photoSize.height,
-                            width: photoSize.width,
                             fit: BoxFit.cover,
                           ),
+                          onTap: () =>
+                              beamerState.selectedPage = const PageStateData(page: SitePage.investment),
                           title: 'Investment & Vermögensschutz',
                           buttonText: 'Jetzt mehr erfahren',
                         ),
-                      ],
-                    )
-                  : Stack(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FlexibleConstrainedBox(
-                              maxWidth: photoSize.width,
-                              child: CustomCard(
-                                topPadding: staggerFactor * 2,
-                                background: Assets.images.staggeredRowImage1.image(
-                                  height: photoSize.height,
-                                  fit: BoxFit.cover,
-                                ),
-                                title: 'Unternehmensberatung',
-                                buttonText: 'Jetzt mehr erfahren',
-                              ),
-                            ),
-                            SizedBox(width: photoDividerWidth),
-                            FlexibleConstrainedBox(
-                              maxWidth: photoSize.width,
-                              child: CustomCard(
-                                topPadding: staggerFactor,
-                                background: Assets.images.staggeredRowImage2.image(
-                                  height: photoSize.height,
-                                  fit: BoxFit.cover,
-                                ),
-                                title: 'Rückabwicklung',
-                                buttonText: 'Jetzt mehr erfahren',
-                              ),
-                            ),
-                            SizedBox(width: photoDividerWidth),
-                            FlexibleConstrainedBox(
-                              maxWidth: photoSize.width,
-                              child: CustomCard(
-                                topPadding: 0,
-                                background: Assets.images.staggeredRowImage1.image(
-                                  height: photoSize.height,
-                                  fit: BoxFit.cover,
-                                ),
-                                title: 'Investment & Vermögensschutz',
-                                buttonText: 'Jetzt mehr erfahren',
-                              ),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          child: Text(
-                            'Kompetenzen',
-                            style: context.pageTitleStyle.copyWith(
-                              color: const Color(0XFFE6D1E5),
-                            ),
-                          ),
-                        )
-                      ],
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Text(
+                      'Kompetenzen',
+                      style: context.pageTitleStyle.copyWith(
+                        color: const Color(0XFFE6D1E5),
+                      ),
                     ),
-            ),
-          ),
-        ],
+                  )
+                ],
+              ),
       ),
     );
   }
@@ -966,12 +1104,14 @@ class CustomCard extends StatelessWidget {
     required this.title,
     required this.buttonText,
     this.topPadding = 0,
+    required this.onTap,
   });
 
   final Widget background;
   final String title;
   final String buttonText;
   final double topPadding;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -1015,7 +1155,7 @@ class CustomCard extends StatelessWidget {
                       horizontalPadding: 11,
                       text: buttonText,
                       fontSize: buttonFontSize,
-                      onTap: () {},
+                      onTap: onTap,
                     ),
                   ),
                 ),
@@ -1069,10 +1209,17 @@ class TeamMemberCard extends StatelessWidget {
   }
 }
 
-class _SectionContent1 extends StatelessWidget {
+class _SectionContent1 extends StatefulWidget {
   const _SectionContent1({
     super.key,
   });
+
+  @override
+  State<_SectionContent1> createState() => _SectionContent1State();
+}
+
+class _SectionContent1State extends State<_SectionContent1> {
+  GlobalKey aniKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {

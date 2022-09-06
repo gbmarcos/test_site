@@ -1,4 +1,7 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
@@ -29,7 +32,14 @@ class UberUnsScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  const NavigationWidget(),
+                  NavigationWidget(
+                    onSelected: (page) {
+                      onNavigationActionSelect(
+                        page: page,
+                        context: context,
+                      );
+                    },
+                  ),
                   if (Responsive.isMobile(context))
                     const Expanded(
                       child: SizedBox.shrink(),
@@ -43,7 +53,10 @@ class UberUnsScreen extends StatelessWidget {
           ),
           const _SectionContent2(),
           const AppForm2(),
-          const _SectionContent3(),
+          const SectionWithImageCollage(
+            title: 'Unternehmensberatung.',
+            subtitle: 'Anwendungsbeispiele',
+          ),
           const _SectionContent4(),
         ],
       ),
@@ -58,13 +71,25 @@ class _SectionContent2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final padding = Responsive.isDesktop(context)
+        ? const EdgeInsets.only(
+            left: 50,
+            right: 50,
+            top: 120,
+            bottom: 60,
+          )
+        : Responsive.isTablet(context)
+            ? const EdgeInsets.only(
+                top: 70,
+                bottom: 100,
+              )
+            : const EdgeInsets.only(
+                top: 5,
+                bottom: 84,
+              );
+
     return Container(
-      padding: const EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 120,
-        bottom: 60,
-      ),
+      padding: padding,
       color: Colors.white,
       child: ConstrainedBox(
         constraints: const BoxConstraints(
@@ -110,7 +135,6 @@ class _SectionContent1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -124,70 +148,22 @@ class _SectionContent1 extends StatelessWidget {
   }
 }
 
-class _SectionContent3 extends StatelessWidget {
-  const _SectionContent3({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.white,
-      child: Container(
-        padding: const EdgeInsets.only(
-          left: 163,
-          right: 163,
-          top: 219,
-          bottom: 58,
-        ),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Anwendungsbeispiele',
-                style: R.styles.lSPageSubtitleStyle.copyWith(
-                  color: const Color(0xFF414141),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Unternehmensberatung.',
-                style: R.styles.lSPageTitleStyle.copyWith(
-                  color: const Color(0xFF414141),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 1114,
-              ),
-              child: const PhotoCollageWidget(),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _SectionContent4 extends StatelessWidget {
   const _SectionContent4({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final horizontalPadding = Responsive.isDesktop(context)
+        ? 155.0
+        : Responsive.isTablet(context)
+            ? 80.0
+            : 36.0;
+
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.only(
-        left: 155,
-        right: 155,
+      padding: EdgeInsets.only(
+        left: horizontalPadding,
+        right: horizontalPadding,
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(

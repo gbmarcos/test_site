@@ -1,5 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:test_site/common/extensions.dart';
 import 'package:test_site/screens/screens.dart';
 
 export 'package:beamer/beamer.dart';
@@ -13,12 +14,10 @@ final routerDelegate = BeamerDelegate(
 enum SitePage{
 
   home(path:'/',pageName: 'Home'),
-  uberUns(path:'/uberUns',pageName: 'Über Uns'),
-  kompetenzen(path:'/kompetenzen',pageName: 'Kompetenzen'),
-  vision(path:'/vision',pageName: 'Vision'),
-  news(path:'/news',pageName: 'News'),
-  team(path:'/team',pageName: 'Team'),
-  karriere(path:'/karriere',pageName: 'Karriere');
+unternehmensberatung(path:'/unternehmensberatung',pageName: 'Unternehmensberatung'),
+ruckabwicklung(path:'/ruckabwicklung',pageName: 'Rückabwicklung'),
+investment(path:'/investment',pageName: 'Vermögensschutz & Investment.');
+
 
  static SitePage fromPath(String? path){
    if(path==null) return SitePage.home;
@@ -30,6 +29,25 @@ enum SitePage{
   final String pageName;
 
 }
+
+enum NavigationOption{
+
+  home(pageName: 'Home'),
+uberUns(pageName: 'Über Uns'),
+kompetenzen(pageName: 'Kompetenzen'),
+vision(pageName: 'Vision'),
+news(pageName: 'News'),
+team(pageName: 'Team'),
+karriere(pageName: 'Karriere');
+
+
+
+const NavigationOption({required this.pageName});
+final String pageName;
+
+}
+
+
 
 
 class CustomPageLocation extends BeamLocation<CustomPageState> {
@@ -68,31 +86,23 @@ class CustomPageLocation extends BeamLocation<CustomPageState> {
 
     late Widget page;
 
-    switch (state.selectedPage) {
+    switch (state.selectedPage.page) {
       case SitePage.home:
         page = const HomeScreen();
         break;
-      case SitePage.uberUns:
+      case SitePage.unternehmensberatung:
         page = const UberUnsScreen();
         break;
-      case SitePage.kompetenzen:
+      case SitePage.ruckabwicklung:
         page = const KompetenzenScreen();
         break;
-      case SitePage.vision:
+      case SitePage.investment:
         page = const VisionScreen();
         break;
-      case SitePage.news:
-        page = const NewsScreen();
-        break;
-      case SitePage.team:
-        page = const TeamScreen();
-        break;
-      case SitePage.karriere:
-        page = const KarriereScreen();
-        break;
+
     }
 
-    final name = state.selectedPage.pageName;
+    final name = state.selectedPage.page.pageName;
     return [
       BeamPage(
         key: ValueKey(name),
@@ -104,23 +114,64 @@ class CustomPageLocation extends BeamLocation<CustomPageState> {
   }
 }
 
+class PageStateData {
+  const PageStateData({this.page = SitePage.home, this.section =0});
+  final SitePage page ;
+  final int section;
+}
+
 class CustomPageState extends ChangeNotifier with RouteInformationSerializable {
 
-  SitePage _selectedPage = SitePage.home;
+  PageStateData _selectedPage = const PageStateData();
 
-  SitePage get selectedPage => _selectedPage;
+  PageStateData get selectedPage => _selectedPage;
 
-  set selectedPage(SitePage page) {
+  set selectedPage(PageStateData page) {
     _selectedPage = page;
     notifyListeners();
   }
 
   @override
   CustomPageState fromRouteInformation(RouteInformation routeInformation) {
-    selectedPage = SitePage.fromPath(routeInformation.location);
+    selectedPage = PageStateData(page: SitePage.fromPath(routeInformation.location),);
     return this;
   }
 
   @override
-  RouteInformation toRouteInformation() => RouteInformation(location: _selectedPage.path);
+  RouteInformation toRouteInformation() => RouteInformation(location: _selectedPage.page.path);
+}
+
+
+void onNavigationActionSelect({
+  required NavigationOption page,
+  required BuildContext context,
+}) {
+  int section;
+  switch (page) {
+    case NavigationOption.home:
+      section = 0;
+      break;
+    case NavigationOption.uberUns:
+      section = 3;
+      break;
+    case NavigationOption.kompetenzen:
+      section = 4;
+      break;
+    case NavigationOption.vision:
+      section = 8;
+      break;
+    case NavigationOption.news:
+      section = 0;
+      break;
+    case NavigationOption.team:
+      section = 9;
+      break;
+    case NavigationOption.karriere:
+      section = 0;
+      break;
+  }
+
+  context.customPageState.selectedPage = PageStateData(
+    section: section,
+  );
 }

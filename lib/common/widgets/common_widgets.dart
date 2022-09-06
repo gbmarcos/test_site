@@ -7,3 +7,4 @@ export 'navbar.dart';
 export 'photo_collage.dart';
 export 'responsive.dart';
 export 'rounded_header.dart';
+export 'section_with_collage.dart';

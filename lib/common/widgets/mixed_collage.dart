@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:test_site/common/extensions.dart';
+import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/r.dart';
 
 class MixedCollage extends StatelessWidget {
@@ -18,58 +20,102 @@ class MixedCollage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final horizontalSpace = Responsive.isDesktop(context) ? 120.0 : 62.0;
+
+    final verticalSpace = Responsive.isMobile(context) ? 30.0 : 106.0;
+
+    final imageHeight = Responsive.isDesktop(context)
+        ? 300.0
+        : Responsive.isTablet(context)
+            ? 180.0
+            : 395.0;
+
+    final externalPaddingValue = Responsive.isDesktop(context)
+        ? 0.0
+        : Responsive.isTablet(context)
+            ? 80.0
+            : 30.0;
+
+    final textWidget1 = Padding(
+      padding: EdgeInsets.only(
+        left: externalPaddingValue,
+        right: Responsive.isMobile(context) ? externalPaddingValue : 0,
+      ),
+      child: Text(
+        text1,
+        style: context.normalStyle,
+        textAlign: TextAlign.start,
+      ),
+    );
+    final imageWidget1 = SizedBox(
+      height: imageHeight,
+      child: Image(
+        image: image1,
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.cover,
+      ),
+    );
+
+    final imageWidget2 = SizedBox(
+      height: imageHeight,
+      child: Image(
+        image: image2,
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.cover,
+      ),
+    );
+    final textWidget2 = Padding(
+      padding: EdgeInsets.only(
+        right: externalPaddingValue,
+        left: Responsive.isMobile(context) ? externalPaddingValue : 0,
+      ),
+      child: Text(
+        text2,
+        style: context.normalStyle,
+        textAlign: TextAlign.start,
+      ),
+    );
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Text(
-                text1,
-                style: R.styles.lSNormalStyle,
-                textAlign: TextAlign.start,
+        if (Responsive.isMobile(context)) ...[
+          imageWidget1,
+          SizedBox(height: verticalSpace),
+          textWidget1,
+          SizedBox(height: verticalSpace),
+          imageWidget2,
+          SizedBox(height: verticalSpace),
+          textWidget2,
+        ] else ...[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: textWidget1,
               ),
-            ),
-            const SizedBox(width: 120),
-            Expanded(
-              child: SizedBox(
-                height: 300,
-                child: Image(
-                  image: image1,
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+              SizedBox(width: horizontalSpace),
+              Expanded(
+                child: imageWidget1,
+              )
+            ],
+          ),
+          SizedBox(height: verticalSpace),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: imageWidget2,
               ),
-            )
-          ],
-        ),
-        const SizedBox(height: 106),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 300,
-                child: Image(
-                  image: image2,
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+              SizedBox(width: horizontalSpace),
+              Expanded(
+                child: textWidget2,
               ),
-            ),
-            const SizedBox(width: 120),
-            Expanded(
-              child: Text(
-                text2,
-                style: R.styles.lSNormalStyle,
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ],
     );
   }

@@ -17,12 +17,10 @@ class AppForm1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fieldSeparator = SizedBox(
-      height: Responsive.isDesktop(context)?40.0:25.0,
+      height: Responsive.isDesktop(context) ? 40.0 : 25.0,
     );
 
-
-    final finalTextFont = Responsive.isDesktop(context)?24.0:14.0;
-
+    final finalTextFont = Responsive.isDesktop(context) ? 24.0 : 14.0;
 
     const vornameTextField = CustomTextField(
       hintText: 'Vorname',
@@ -87,7 +85,7 @@ class AppForm1 extends StatelessWidget {
                   Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children:  [
+                      children: [
                         vornameTextField,
                         fieldSeparator,
                         emailInputElementTextField,
@@ -102,7 +100,7 @@ class AppForm1 extends StatelessWidget {
                   Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children:  [
+                      children: [
                         nachNameTextField,
                         fieldSeparator,
                         vornameTextField,
@@ -137,63 +135,62 @@ class AppForm1 extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.topRight,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 500,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 500,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      flex: 2,
+                      child: Text(
+                        'Impressum',
+                        style: context.mainStyle2.copyWith(
+                          shadows: [],
+                          fontSize: finalTextFont,
+                          color: R.colors.backgroundColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          flex: 2,
-                          child: Text(
-                            'Impressum',
-                            style: context.mainStyle2.copyWith(
-                              shadows: [],
-                              fontSize: finalTextFont,
-                              color: R.colors.backgroundColor,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                    const SizedBox(width: 22),
+                    Flexible(
+                      flex: 2,
+                      child: Text(
+                        'Datenschutz',
+                        style: context.mainStyle2.copyWith(
+                          shadows: [],
+                          fontSize: finalTextFont,
+                          color: R.colors.backgroundColor,
                         ),
-                        const SizedBox(width: 2),
-                        Flexible(
-                          flex: 2,
-                          child: Text(
-                            'Datenschutz',
-                            style: context.mainStyle2.copyWith(
-                              shadows: [],
-                              fontSize: finalTextFont,
-                              color: R.colors.backgroundColor,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 22),
-                        Flexible(
-                          flex: 1,
-                          child: Text(
-                            'AGB',
-                            style: context.mainStyle2.copyWith(
-                              shadows: [],
-                              fontSize: finalTextFont,
-                              color: R.colors.backgroundColor,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 44),
-                  const SocialMediaList(color: Color(0XFFB1D9C0)),
-                ],
+                    const SizedBox(width: 22),
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        'AGB',
+                        style: context.mainStyle2.copyWith(
+                          shadows: [],
+                          fontSize: finalTextFont,
+                          color: R.colors.backgroundColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            )
+            ),
+            const SizedBox(height: 44),
+            const Align(
+              child: SocialMediaList(
+                color: Color(0XFFB1D9C0),
+              ),
+            ),
           ],
         ),
       ),

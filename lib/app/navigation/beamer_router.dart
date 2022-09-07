@@ -32,18 +32,17 @@ investment(path:'/investment',pageName: 'Vermögensschutz & Investment.');
 
 enum NavigationOption{
 
-  home(pageName: 'Home'),
-uberUns(pageName: 'Über Uns'),
-kompetenzen(pageName: 'Kompetenzen'),
-vision(pageName: 'Vision'),
-news(pageName: 'News'),
-team(pageName: 'Team'),
-karriere(pageName: 'Karriere');
+  home(pageName: 'Home',scrollIndex: 0),
+  uberUns(pageName: 'Über Uns',scrollIndex: 3),
+  kompetenzen(pageName: 'Kompetenzen',scrollIndex: 4),
+  vision(pageName: 'Vision',scrollIndex: 8),
+  news(pageName: 'News',scrollIndex: 0),
+  team(pageName: 'Team',scrollIndex: 9),
+  karriere(pageName: 'Karriere',scrollIndex: 0);
 
-
-
-const NavigationOption({required this.pageName});
+const NavigationOption({required this.pageName,required this.scrollIndex});
 final String pageName;
+final int scrollIndex;
 
 }
 
@@ -141,37 +140,11 @@ class CustomPageState extends ChangeNotifier with RouteInformationSerializable {
   RouteInformation toRouteInformation() => RouteInformation(location: _selectedPage.page.path);
 }
 
-
 void onNavigationActionSelect({
   required NavigationOption page,
   required BuildContext context,
 }) {
-  int section;
-  switch (page) {
-    case NavigationOption.home:
-      section = 0;
-      break;
-    case NavigationOption.uberUns:
-      section = 3;
-      break;
-    case NavigationOption.kompetenzen:
-      section = 4;
-      break;
-    case NavigationOption.vision:
-      section = 8;
-      break;
-    case NavigationOption.news:
-      section = 0;
-      break;
-    case NavigationOption.team:
-      section = 9;
-      break;
-    case NavigationOption.karriere:
-      section = 0;
-      break;
-  }
-
   context.customPageState.selectedPage = PageStateData(
-    section: section,
+    section: page.scrollIndex,
   );
 }

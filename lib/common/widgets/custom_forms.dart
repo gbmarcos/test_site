@@ -1,13 +1,7 @@
-import 'dart:html';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
-import 'package:test_site/common/widgets/custom_text_field.dart';
-import 'package:test_site/common/widgets/navbar.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 
@@ -134,7 +128,6 @@ class AppForm1 extends StatelessWidget {
               height: 108,
             ),
             Align(
-              alignment: Alignment.topRight,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(
                   maxWidth: 500,

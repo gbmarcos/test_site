@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
@@ -38,41 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               NavigationWidget(
                 onSelected: (page) async {
-                  int? indexTo;
-
-                  switch (page) {
-                    case NavigationOption.home:
-                      indexTo = 0;
-                      break;
-                    case NavigationOption.uberUns:
-                      indexTo = 3;
-                      break;
-                    case NavigationOption.kompetenzen:
-                      indexTo = 4;
-                      break;
-                    case NavigationOption.vision:
-                      indexTo = 8;
-                      break;
-                    case NavigationOption.news:
-                      break;
-                    case NavigationOption.team:
-                      indexTo = 9;
-                      break;
-                    case NavigationOption.karriere:
-                      break;
-                  }
-
-                  if (indexTo != null) {
-                    itemScrollController.jumpTo(
-                      index: itemPositionsListener.itemPositions.value.first.index,
-                      alignment: itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
-                    );
-                    await itemScrollController.scrollTo(
-                      index: indexTo,
-                      duration: const Duration(milliseconds: 1500),
-                      curve: Curves.easeInOutCubic,
-                    );
-                  }
+                  itemScrollController.jumpTo(
+                    index: itemPositionsListener.itemPositions.value.first.index,
+                    alignment: itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
+                  );
+                  await itemScrollController.scrollTo(
+                    index: page.scrollIndex,
+                    duration: const Duration(milliseconds: 1500),
+                    curve: Curves.easeInOutCubic,
+                  );
                 },
               ),
               if (Responsive.isMobile(context))
@@ -80,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SizedBox.shrink(),
                 ),
               const Expanded(
-                child: _SectionContent1(key: ValueKey('main-Animation')),
+                child: _SectionContent1(),
               ),
             ],
           ),
@@ -99,25 +74,56 @@ class _HomeScreenState extends State<HomeScreen> {
     const _SectionContent8()
   ];
 
+  ValueNotifier<ItemPosition> positionNotifier = ValueNotifier(ItemPosition(
+    index: 4,
+    itemLeadingEdge: 0,
+    itemTrailingEdge: 1,
+  ));
+
   late final ItemScrollController itemScrollController = ItemScrollController();
-  late final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create();
+  late final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create()
+    ..itemPositions.addListener(() {
+      positionNotifier.value = itemPositionsListener.itemPositions.value.first;
+    });
 
   @override
   Widget build(BuildContext context) {
-
-
     final beamerState = context.customPageState;
 
-    return Scaffold(
-      body: ScrollablePositionedList.builder(
-        initialScrollIndex: beamerState.selectedPage.section,
-        padding: EdgeInsets.zero,
-        itemCount: sections.length,
-        itemScrollController: itemScrollController,
-        itemPositionsListener: itemPositionsListener,
-        itemBuilder: (context, index) => sections[index],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ValueNotifier(false),
+        ),
+        ChangeNotifierProvider.value(
+          value: positionNotifier,
+        ),
+      ],
+      child: Scaffold(
+        body: ScrollablePositionedList.builder(
+          initialScrollIndex: beamerState.selectedPage.section,
+          padding: EdgeInsets.zero,
+          itemCount: sections.length,
+          itemScrollController: itemScrollController,
+          itemPositionsListener: itemPositionsListener,
+          itemBuilder: (context, index) => sections[index],
+        ),
       ),
     );
+
+    // return ChangeNotifierProvider(
+    //   create: (_) => ValueNotifier(false),
+    //   child: Scaffold(
+    //     body: ScrollablePositionedList.builder(
+    //       initialScrollIndex: beamerState.selectedPage.section,
+    //       padding: EdgeInsets.zero,
+    //       itemCount: sections.length,
+    //       itemScrollController: itemScrollController,
+    //       itemPositionsListener: itemPositionsListener,
+    //       itemBuilder: (context, index) => sections[index],
+    //     ),
+    //   ),
+    // );
   }
 }
 
@@ -767,130 +773,184 @@ class _KompetenzenSection extends StatelessWidget {
 
     final beamerState = context.customPageState;
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: context.generalHorizontalPadding,
-        right: context.generalHorizontalPadding,
-        bottom: bottomPadding,
-      ),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 1114,
+    final valueListenable = Provider.of<ValueNotifier<ItemPosition>>(context, listen: true);
+
+    //used in animations
+    const minRangeValue = 3.0;
+    const maxRangeValue = 3.87;
+
+    return ColoredBox(
+      color: Colors.white,
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: 20,
+          left: context.generalHorizontalPadding,
+          right: context.generalHorizontalPadding,
+          bottom: bottomPadding,
         ),
-        child: Responsive.isMobile(context)
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Kompetenzen',
-                    style: context.pageTitleStyle.copyWith(
-                      color: const Color(0XFFE6D1E5),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  CustomCard(
-                    background: Assets.images.staggeredRowImage1.image(
-                      height: photoSize.height,
-                      width: photoSize.width,
-                      fit: BoxFit.cover,
-                    ),
-                    onTap: () => beamerState.selectedPage =
-                        const PageStateData(page: SitePage.unternehmensberatung),
-                    title: 'Unternehmensberatung',
-                    buttonText: 'Jetzt mehr erfahren',
-                  ),
-                  const SizedBox(height: 10),
-                  CustomCard(
-                    background: Assets.images.staggeredRowImage2.image(
-                      height: photoSize.height,
-                      width: photoSize.width,
-                      fit: BoxFit.cover,
-                    ),
-                    onTap: () =>
-                        beamerState.selectedPage = const PageStateData(page: SitePage.ruckabwicklung),
-                    title: 'Rückabwicklung',
-                    buttonText: 'Jetzt mehr erfahren',
-                  ),
-                  const SizedBox(height: 10),
-                  CustomCard(
-                    background: Assets.images.staggeredRowImage1.image(
-                      height: photoSize.height,
-                      width: photoSize.width,
-                      fit: BoxFit.cover,
-                    ),
-                    onTap: () =>
-                        beamerState.selectedPage = const PageStateData(page: SitePage.investment),
-                    title: 'Investment & Vermögensschutz',
-                    buttonText: 'Jetzt mehr erfahren',
-                  ),
-                ],
-              )
-            : Stack(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FlexibleConstrainedBox(
-                        maxWidth: photoSize.width,
-                        child: CustomCard(
-                          topPadding: staggerFactor * 2,
-                          background: Assets.images.staggeredRowImage1.image(
-                            height: photoSize.height,
-                            fit: BoxFit.cover,
-                          ),
-                          onTap: () => beamerState.selectedPage =
-                              const PageStateData(page: SitePage.unternehmensberatung),
-                          title: 'Unternehmensberatung',
-                          buttonText: 'Jetzt mehr erfahren',
-                        ),
-                      ),
-                      SizedBox(width: photoDividerWidth),
-                      FlexibleConstrainedBox(
-                        maxWidth: photoSize.width,
-                        child: CustomCard(
-                          topPadding: staggerFactor,
-                          background: Assets.images.staggeredRowImage2.image(
-                            height: photoSize.height,
-                            fit: BoxFit.cover,
-                          ),
-                          onTap: () => beamerState.selectedPage =
-                              const PageStateData(page: SitePage.ruckabwicklung),
-                          title: 'Rückabwicklung',
-                          buttonText: 'Jetzt mehr erfahren',
-                        ),
-                      ),
-                      SizedBox(width: photoDividerWidth),
-                      FlexibleConstrainedBox(
-                        maxWidth: photoSize.width,
-                        child: CustomCard(
-                          topPadding: 0,
-                          background: Assets.images.staggeredRowImage1.image(
-                            height: photoSize.height,
-                            fit: BoxFit.cover,
-                          ),
-                          onTap: () =>
-                              beamerState.selectedPage = const PageStateData(page: SitePage.investment),
-                          title: 'Investment & Vermögensschutz',
-                          buttonText: 'Jetzt mehr erfahren',
-                        ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Text(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 1114,
+          ),
+          child: Responsive.isMobile(context)
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
                       'Kompetenzen',
                       style: context.pageTitleStyle.copyWith(
                         color: const Color(0XFFE6D1E5),
                       ),
                     ),
-                  )
-                ],
-              ),
+                    const SizedBox(height: 40),
+                    CustomCard(
+                      background: Assets.images.staggeredRowImage1.image(
+                        height: photoSize.height,
+                        width: photoSize.width,
+                        fit: BoxFit.cover,
+                      ),
+                      onTap: () => beamerState.selectedPage =
+                          const PageStateData(page: SitePage.unternehmensberatung),
+                      title: 'Unternehmensberatung',
+                      buttonText: 'Jetzt mehr erfahren',
+                    ),
+                    const SizedBox(height: 10),
+                    CustomCard(
+                      background: Assets.images.staggeredRowImage2.image(
+                        height: photoSize.height,
+                        width: photoSize.width,
+                        fit: BoxFit.cover,
+                      ),
+                      onTap: () => beamerState.selectedPage =
+                          const PageStateData(page: SitePage.ruckabwicklung),
+                      title: 'Rückabwicklung',
+                      buttonText: 'Jetzt mehr erfahren',
+                    ),
+                    const SizedBox(height: 10),
+                    CustomCard(
+                      background: Assets.images.staggeredRowImage1.image(
+                        height: photoSize.height,
+                        width: photoSize.width,
+                        fit: BoxFit.cover,
+                      ),
+                      onTap: () =>
+                          beamerState.selectedPage = const PageStateData(page: SitePage.investment),
+                      title: 'Investment & Vermögensschutz',
+                      buttonText: 'Jetzt mehr erfahren',
+                    ),
+                  ],
+                )
+              : ValueListenableBuilder<ItemPosition>(
+                  valueListenable: valueListenable,
+                  builder: (context, position, _) {
+
+                    final normalizedValue = getNormalizedValue(
+                      position,
+                      minRangeValue,
+                      maxRangeValue,
+                    );
+
+
+                    final scaledValue = staggerFactor * normalizedValue;
+                    log('Scaled: $scaledValue');
+
+                    final card1Padding = (2*staggerFactor)-scaledValue;
+                    final card3Padding = scaledValue;
+
+
+
+                    return Stack(
+                      children: [
+                        Opacity(
+                          opacity: normalizedValue,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FlexibleConstrainedBox(
+                                maxWidth: photoSize.width,
+                                child: CustomCard(
+                                  topPadding: card1Padding,
+                                  background: Assets.images.staggeredRowImage1.image(
+                                    height: photoSize.height,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  onTap: () => beamerState.selectedPage =
+                                      const PageStateData(page: SitePage.unternehmensberatung),
+                                  title: 'Unternehmensberatung',
+                                  buttonText: 'Jetzt mehr erfahren',
+                                ),
+                              ),
+                              SizedBox(width: photoDividerWidth),
+                              FlexibleConstrainedBox(
+                                maxWidth: photoSize.width,
+                                child: CustomCard(
+                                  topPadding: staggerFactor,
+                                  background: Assets.images.staggeredRowImage2.image(
+                                    height: photoSize.height,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  onTap: () => beamerState.selectedPage =
+                                      const PageStateData(page: SitePage.ruckabwicklung),
+                                  title: 'Rückabwicklung',
+                                  buttonText: 'Jetzt mehr erfahren',
+                                ),
+                              ),
+                              SizedBox(width: photoDividerWidth),
+                              FlexibleConstrainedBox(
+                                maxWidth: photoSize.width,
+                                child: CustomCard(
+                                  topPadding: card3Padding,
+                                  background: Assets.images.staggeredRowImage1.image(
+                                    height: photoSize.height,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  onTap: () => beamerState.selectedPage =
+                                      const PageStateData(page: SitePage.investment),
+                                  title: 'Investment & Vermögensschutz',
+                                  buttonText: 'Jetzt mehr erfahren',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Text(
+                            'Kompetenzen',
+                            style: context.pageTitleStyle.copyWith(
+                              color: const Color(0XFFE6D1E5),
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  }),
+        ),
       ),
     );
+  }
+
+  double getNormalizedValue(ItemPosition position, double minRangeValue, double maxRangeValue) {
+    late double normalizedValue;
+
+    var positionValue = position.index - position.itemLeadingEdge;
+
+    if (positionValue >= 1 && positionValue <= 2) {
+      //to perform the animation on fade scroll.
+      normalizedValue = positionValue - 1;
+    } else {
+      //to perform the animation attending to the visibility fraction of the page.
+      if (positionValue < minRangeValue) {
+        positionValue = minRangeValue;
+      } else if (positionValue > maxRangeValue) {
+        positionValue = maxRangeValue;
+      }
+
+      normalizedValue = (positionValue - minRangeValue) / (maxRangeValue - minRangeValue);
+    }
+    return normalizedValue;
   }
 }
 
@@ -1210,9 +1270,7 @@ class TeamMemberCard extends StatelessWidget {
 }
 
 class _SectionContent1 extends StatefulWidget {
-  const _SectionContent1({
-    super.key,
-  });
+  const _SectionContent1({Key? key}) : super(key: key);
 
   @override
   State<_SectionContent1> createState() => _SectionContent1State();
@@ -1232,6 +1290,8 @@ class _SectionContent1State extends State<_SectionContent1> {
 
     final buttonHorizontalPadding = Responsive.isDesktop(context) ? 12.0 : 20.0;
 
+    final initializedNotifier = Provider.of<ValueNotifier<bool>>(context);
+
     return Center(
       child: SizedBox(
         height: Responsive.isDesktop(context)
@@ -1242,8 +1302,12 @@ class _SectionContent1State extends State<_SectionContent1> {
         width: Responsive.isMobile(context) ? 156 : null,
         child: PlayAnimationBuilder<double>(
           curve: Curves.decelerate,
-          tween: Tween(begin: 0, end: 1), // 100.0 to 200.0
+          tween: Tween(begin: initializedNotifier.value ? 1 : 0, end: 1),
+          // 100.0 to 200.0
           duration: const Duration(milliseconds: 800),
+          onCompleted: () {
+            initializedNotifier.value = true;
+          },
           builder: (context, value, _) {
             const translationFactor = 150;
             final translationValue = translationFactor - (value * translationFactor);

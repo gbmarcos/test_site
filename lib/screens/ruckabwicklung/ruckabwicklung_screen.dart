@@ -26,7 +26,7 @@ class KompetenzenScreen extends StatelessWidget {
                     Colors.black.withOpacity(0.5),
                     BlendMode.srcOver,
                   ),
-                  image: Assets.images.kompetenzenImage1.image().image,
+                  image: Assets.images.ruckabwicklungImage1.image().image,
                   fit: BoxFit.cover,
                   scale: 1.3,
                 ),

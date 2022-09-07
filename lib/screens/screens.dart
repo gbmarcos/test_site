@@ -1,8 +1,8 @@
 export 'home/home_screen.dart';
-export 'karriere/karriere_screen.dart';
-export 'kompetenzen/kompetenzen_screen.dart';
-export 'news/news_screen.dart';
-export 'team/team_screen.dart';
-export 'uber_uns/uber_uns_screen.dart';
-export 'vision/vision_screen.dart';
+export 'investment/investment_screen.dart';
+export 'ruckabwicklung/ruckabwicklung_screen.dart';
+export 'unknown_page_1/unknown_page_1_screen.dart';
+export 'unknown_page_2/unknown_page_2_screen.dart';
+export 'unknown_page_3/unknown_page_3_screen.dart';
+export 'unternehmensberatung/unternehmensberatung_screen.dart';
 

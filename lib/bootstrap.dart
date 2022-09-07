@@ -34,6 +34,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   Bloc.observer = AppBlocObserver();
 
+
+
   Beamer.setPathUrlStrategy();
 
   await runZonedGuarded(

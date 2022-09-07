@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
@@ -7,8 +5,8 @@ import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 
-class UberUnsScreen extends StatelessWidget {
-  const UberUnsScreen({Key? key}) : super(key: key);
+class VisionScreen extends StatelessWidget {
+  const VisionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +23,20 @@ class UberUnsScreen extends StatelessWidget {
                     Colors.black.withOpacity(0.5),
                     BlendMode.srcOver,
                   ),
-                  image: Assets.images.uberUntImage1.image().image,
+                  image: Assets.images.investmentImage1.image().image,
                   fit: BoxFit.cover,
                   scale: 1.3,
                 ),
               ),
               child: Column(
                 children: [
-                  NavigationWidget(
-                    onSelected: (page) {
-                      onNavigationActionSelect(
-                        page: page,
-                        context: context,
-                      );
-                    },
+                   NavigationWidget(
+                     onSelected: (page) {
+                       onNavigationActionSelect(
+                         page: page,
+                         context: context,
+                       );
+                     },
                   ),
                   if (Responsive.isMobile(context))
                     const Expanded(
@@ -54,7 +52,7 @@ class UberUnsScreen extends StatelessWidget {
           const _SectionContent2(),
           const AppForm2(),
           const SectionWithImageCollage(
-            title: 'Unternehmensberatung.',
+            title: 'Leanmanagement.',
             subtitle: 'Anwendungsbeispiele',
           ),
           const _SectionContent4(),
@@ -96,7 +94,7 @@ class _SectionContent2 extends StatelessWidget {
           maxWidth: 1114,
         ),
         child: MixedCollage(
-          image1: Assets.images.mixedCollage1.image().image,
+          image1: Assets.images.mixedCollage5.image().image,
           image2: Assets.images.mixedCollage2.image().image,
           text1: 'Wir bei SYKZ Consulting haben es uns zur '
               'Aufgabe gemacht, den überholten Finanzmarkt in '
@@ -139,9 +137,63 @@ class _SectionContent1 extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Text(
-          'Unternehmensberatung.',
+          'Vermögensschutz & Investment.',
           style: context.mainStyle1,
           textAlign: context.mainPageTextAlign,
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionContent3 extends StatelessWidget {
+  const _SectionContent3({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: Colors.white,
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 163,
+          right: 163,
+          top: 219,
+          bottom: 58,
+        ),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                'Anwendungsbeispiele',
+                style: R.styles.lSPageSubtitleStyle.copyWith(
+                  color: const Color(0xFF414141),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                'Leanmanagement.',
+                style: R.styles.lSPageTitleStyle.copyWith(
+                  color: const Color(0xFF414141),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 60,
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 1114,
+              ),
+              child: const PhotoCollageWidget(),
+            )
+          ],
         ),
       ),
     );

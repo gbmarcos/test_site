@@ -72,9 +72,9 @@ class $AssetsImagesGen {
   AssetGenImage get homeImage2 =>
       const AssetGenImage('assets/images/home_image_2.png');
 
-  /// File path: assets/images/kompetenzen_image_1.png
-  AssetGenImage get kompetenzenImage1 =>
-      const AssetGenImage('assets/images/kompetenzen_image_1.png');
+  /// File path: assets/images/investment_image_1.png
+  AssetGenImage get investmentImage1 =>
+      const AssetGenImage('assets/images/investment_image_1.png');
 
   /// File path: assets/images/member_1.png
   AssetGenImage get member1 =>
@@ -128,6 +128,10 @@ class $AssetsImagesGen {
   AssetGenImage get rowImage3 =>
       const AssetGenImage('assets/images/row_image_3.png');
 
+  /// File path: assets/images/ruckabwicklung_image_1.png
+  AssetGenImage get ruckabwicklungImage1 =>
+      const AssetGenImage('assets/images/ruckabwicklung_image_1.png');
+
   /// File path: assets/images/staggered_row_image_1.png
   AssetGenImage get staggeredRowImage1 =>
       const AssetGenImage('assets/images/staggered_row_image_1.png');
@@ -140,13 +144,9 @@ class $AssetsImagesGen {
   AssetGenImage get staggeredRowImage3 =>
       const AssetGenImage('assets/images/staggered_row_image_3.png');
 
-  /// File path: assets/images/uber_unt_image_1.png
-  AssetGenImage get uberUntImage1 =>
-      const AssetGenImage('assets/images/uber_unt_image_1.png');
-
-  /// File path: assets/images/vision_image_1.png
-  AssetGenImage get visionImage1 =>
-      const AssetGenImage('assets/images/vision_image_1.png');
+  /// File path: assets/images/unternehmensberatung_image_1.png
+  AssetGenImage get unternehmensberatungImage1 =>
+      const AssetGenImage('assets/images/unternehmensberatung_image_1.png');
 }
 
 class Assets {

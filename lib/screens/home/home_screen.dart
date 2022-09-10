@@ -71,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
     const _SectionContent7(),
     const _VisionSection(),
     const _TeamSection(),
-    const _SectionContent8()
+    const _SectionContent8(),
+    const CustomFooter(),
   ];
 
   ValueNotifier<ItemPosition> positionNotifier = ValueNotifier(ItemPosition(
@@ -150,138 +151,135 @@ class _TeamSection extends StatelessWidget {
             ? const Size(269, 374)
             : const Size(374, 523);
 
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      Container(
-        padding: padding,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 1114,
-          ),
-          child: Text(
-            'Team',
-            style: context.pageTitleStyle.copyWith(
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ),
-      const SizedBox(height: 16),
-      if (!Responsive.isMobile(context))
+    return ColoredBox(
+      color: Colors.white,
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
         Container(
           padding: padding,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
           child: ConstrainedBox(
             constraints: const BoxConstraints(
               maxWidth: 1114,
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlexibleConstrainedBox(
-                  maxWidth: photoSize.width,
-                  child: TeamMemberCard(
-                    memberPhoto: Assets.images.member1.image(
-                      height: photoSize.height,
-                      fit: BoxFit.cover,
-                    ),
-                    info: 'Lorem ipsum dolor sit amet, '
-                        'consectetur adipiscing elit. '
-                        'Vulputate varius dolor, ac cras ultricies '
-                        'viverra etiam augue viverra. '
-                        'Consectetur ornare curabitur leo a '
-                        'lacus turpis id sit vestibulum.',
-                  ),
-                ),
-                const SizedBox(width: 20),
-                FlexibleConstrainedBox(
-                  maxWidth: photoSize.width,
-                  child: TeamMemberCard(
-                    memberPhoto: Assets.images.member2.image(
-                      height: photoSize.height,
-                      fit: BoxFit.cover,
-                    ),
-                    info: 'Lorem ipsum dolor sit amet, '
-                        'consectetur adipiscing elit. '
-                        'Vulputate varius dolor, ac cras ultricies '
-                        'viverra etiam augue viverra. '
-                        'Consectetur ornare curabitur leo a '
-                        'lacus turpis id sit vestibulum.',
-                  ),
-                ),
-                const SizedBox(width: 20),
-                FlexibleConstrainedBox(
-                  maxWidth: photoSize.width,
-                  child: TeamMemberCard(
-                    memberPhoto: Assets.images.member3.image(
-                      height: photoSize.height,
-                      fit: BoxFit.cover,
-                    ),
-                    info: 'Lorem ipsum dolor sit amet, '
-                        'consectetur adipiscing elit. '
-                        'Vulputate varius dolor, ac cras ultricies '
-                        'viverra etiam augue viverra. '
-                        'Consectetur ornare curabitur leo a '
-                        'lacus turpis id sit vestibulum.',
-                  ),
-                ),
-              ],
+            child: Text(
+              'Team',
+              style: context.pageTitleStyle.copyWith(
+                color: Colors.black,
+              ),
             ),
           ),
-        )
-      else
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TeamMemberCard(
-              memberPhoto: Assets.images.member1.image(
-                height: photoSize.height,
-                width: photoSize.width,
-                fit: BoxFit.cover,
-              ),
-              info: 'Lorem ipsum dolor sit amet, '
-                  'consectetur adipiscing elit. '
-                  'Vulputate varius dolor, ac cras ultricies '
-                  'viverra etiam augue viverra. '
-                  'Consectetur ornare curabitur leo a '
-                  'lacus turpis id sit vestibulum.',
-            ),
-            const SizedBox(height: 10),
-            TeamMemberCard(
-              memberPhoto: Assets.images.member2.image(
-                height: photoSize.height,
-                width: photoSize.width,
-                fit: BoxFit.cover,
-              ),
-              info: 'Lorem ipsum dolor sit amet, '
-                  'consectetur adipiscing elit. '
-                  'Vulputate varius dolor, ac cras ultricies '
-                  'viverra etiam augue viverra. '
-                  'Consectetur ornare curabitur leo a '
-                  'lacus turpis id sit vestibulum.',
-            ),
-            const SizedBox(height: 10),
-            TeamMemberCard(
-              memberPhoto: Assets.images.member3.image(
-                height: photoSize.height,
-                width: photoSize.width,
-                fit: BoxFit.cover,
-              ),
-              info: 'Lorem ipsum dolor sit amet, '
-                  'consectetur adipiscing elit. '
-                  'Vulputate varius dolor, ac cras ultricies '
-                  'viverra etiam augue viverra. '
-                  'Consectetur ornare curabitur leo a '
-                  'lacus turpis id sit vestibulum.',
-            ),
-          ],
         ),
-    ]);
+        const SizedBox(height: 16),
+        if (!Responsive.isMobile(context))
+          Container(
+            padding: padding,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 1114,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FlexibleConstrainedBox(
+                    maxWidth: photoSize.width,
+                    child: TeamMemberCard(
+                      memberPhoto: Assets.images.member1.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                      info: 'Lorem ipsum dolor sit amet, '
+                          'consectetur adipiscing elit. '
+                          'Vulputate varius dolor, ac cras ultricies '
+                          'viverra etiam augue viverra. '
+                          'Consectetur ornare curabitur leo a '
+                          'lacus turpis id sit vestibulum.',
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: photoSize.width,
+                    child: TeamMemberCard(
+                      memberPhoto: Assets.images.member2.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                      info: 'Lorem ipsum dolor sit amet, '
+                          'consectetur adipiscing elit. '
+                          'Vulputate varius dolor, ac cras ultricies '
+                          'viverra etiam augue viverra. '
+                          'Consectetur ornare curabitur leo a '
+                          'lacus turpis id sit vestibulum.',
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: photoSize.width,
+                    child: TeamMemberCard(
+                      memberPhoto: Assets.images.member3.image(
+                        height: photoSize.height,
+                        fit: BoxFit.cover,
+                      ),
+                      info: 'Lorem ipsum dolor sit amet, '
+                          'consectetur adipiscing elit. '
+                          'Vulputate varius dolor, ac cras ultricies '
+                          'viverra etiam augue viverra. '
+                          'Consectetur ornare curabitur leo a '
+                          'lacus turpis id sit vestibulum.',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TeamMemberCard(
+                memberPhoto: Assets.images.member1.image(
+                  height: photoSize.height,
+                  width: photoSize.width,
+                  fit: BoxFit.cover,
+                ),
+                info: 'Lorem ipsum dolor sit amet, '
+                    'consectetur adipiscing elit. '
+                    'Vulputate varius dolor, ac cras ultricies '
+                    'viverra etiam augue viverra. '
+                    'Consectetur ornare curabitur leo a '
+                    'lacus turpis id sit vestibulum.',
+              ),
+              const SizedBox(height: 10),
+              TeamMemberCard(
+                memberPhoto: Assets.images.member2.image(
+                  height: photoSize.height,
+                  width: photoSize.width,
+                  fit: BoxFit.cover,
+                ),
+                info: 'Lorem ipsum dolor sit amet, '
+                    'consectetur adipiscing elit. '
+                    'Vulputate varius dolor, ac cras ultricies '
+                    'viverra etiam augue viverra. '
+                    'Consectetur ornare curabitur leo a '
+                    'lacus turpis id sit vestibulum.',
+              ),
+              const SizedBox(height: 10),
+              TeamMemberCard(
+                memberPhoto: Assets.images.member3.image(
+                  height: photoSize.height,
+                  width: photoSize.width,
+                  fit: BoxFit.cover,
+                ),
+                info: 'Lorem ipsum dolor sit amet, '
+                    'consectetur adipiscing elit. '
+                    'Vulputate varius dolor, ac cras ultricies '
+                    'viverra etiam augue viverra. '
+                    'Consectetur ornare curabitur leo a '
+                    'lacus turpis id sit vestibulum.',
+              ),
+            ],
+          ),
+      ]),
+    );
   }
 }
 
@@ -843,21 +841,16 @@ class _KompetenzenSection extends StatelessWidget {
               : ValueListenableBuilder<ItemPosition>(
                   valueListenable: valueListenable,
                   builder: (context, position, _) {
-
                     final normalizedValue = getNormalizedValue(
                       position,
                       minRangeValue,
                       maxRangeValue,
                     );
 
-
                     final scaledValue = staggerFactor * normalizedValue;
-                    log('Scaled: $scaledValue');
 
-                    final card1Padding = (2*staggerFactor)-scaledValue;
+                    final card1Padding = (2 * staggerFactor) - scaledValue;
                     final card3Padding = scaledValue;
-
-
 
                     return Stack(
                       children: [

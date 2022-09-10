@@ -30,13 +30,13 @@ class VisionScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                   NavigationWidget(
-                     onSelected: (page) {
-                       onNavigationActionSelect(
-                         page: page,
-                         context: context,
-                       );
-                     },
+                  NavigationWidget(
+                    onSelected: (page) {
+                      onNavigationActionSelect(
+                        page: page,
+                        context: context,
+                      );
+                    },
                   ),
                   if (Responsive.isMobile(context))
                     const Expanded(
@@ -56,6 +56,7 @@ class VisionScreen extends StatelessWidget {
             subtitle: 'Anwendungsbeispiele',
           ),
           const _SectionContent4(),
+          const CustomFooter(),
         ],
       ),
     );

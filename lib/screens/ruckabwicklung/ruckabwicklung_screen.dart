@@ -59,6 +59,7 @@ class KompetenzenScreen extends StatelessWidget {
             subtitle: 'Anwendungsbeispiele',
           ),
           const _SectionContent4(),
+          const CustomFooter(),
         ],
       ),
     );

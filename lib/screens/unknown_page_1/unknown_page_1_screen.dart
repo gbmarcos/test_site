@@ -26,7 +26,7 @@ class NewsScreen extends StatelessWidget {
                 ),
               ),
               child: Column(
-                children:  [
+                children: [
                   const NavigationWidget(),
                   if (Responsive.isMobile(context))
                     const Expanded(
@@ -41,6 +41,7 @@ class NewsScreen extends StatelessWidget {
           ),
           const _SectionContent2(),
           const _SectionContent3(),
+          const CustomFooter(),
         ],
       ),
     );
@@ -61,7 +62,7 @@ class _SectionContent1 extends StatelessWidget {
             Text(
               'Offene Stellenangebote',
               style: context.mainStyle1,
-              textAlign:  context.mainPageTextAlign,
+              textAlign: context.mainPageTextAlign,
             ),
             Text(
               'Du hast Lust, Teil unseres Teams zu werden? Dann bewirb dich jetzt bei uns!',
@@ -174,7 +175,9 @@ class _SectionContent2 extends StatelessWidget {
                         CustomListTile(
                           style2: style2,
                           style3: style3,
-                          titleList: const ['Personalreferent (m/w/d) in Teilzeit (20-30 Std./Woche)'],
+                          titleList: const [
+                            'Personalreferent (m/w/d) in Teilzeit (20-30 Std./Woche)'
+                          ],
                           subtitle: 'Festanstellung, Vollzeit  ·  Bremen',
                         ),
                         const SizedBox(height: 30),
@@ -193,7 +196,9 @@ class _SectionContent2 extends StatelessWidget {
                         CustomListTile(
                           style2: style2,
                           style3: style3,
-                          titleList: const ['Kfm. Angestellter Baubüro (m/w/d) in Voll- oder Teilzeit'],
+                          titleList: const [
+                            'Kfm. Angestellter Baubüro (m/w/d) in Voll- oder Teilzeit'
+                          ],
                           subtitle: 'Festanstellung, Voll- oder Teilzeit  ·  Hamburg',
                         ),
                       ],

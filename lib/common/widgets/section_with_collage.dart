@@ -59,7 +59,7 @@ class SectionWithImageCollage extends StatelessWidget {
                   Text(
                     title,
                     style: context.pageTitleStyle.copyWith(
-                      fontSize: Responsive.isMobile(context) ? 24 : 0,
+                      fontSize: Responsive.isDesktop(context) ? null : 24,
                       color: const Color(0xFF414141),
                     ),
                   ),

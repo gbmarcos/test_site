@@ -25,7 +25,7 @@ class TeamScreen extends StatelessWidget {
                 ),
               ),
               child: Column(
-                children:  [
+                children: [
                   const NavigationWidget(),
                   if (Responsive.isMobile(context))
                     const Expanded(
@@ -40,7 +40,7 @@ class TeamScreen extends StatelessWidget {
           ),
           const _SectionContent2(),
           const _SectionContent3(),
-          
+          const CustomFooter(),
         ],
       ),
     );
@@ -205,9 +205,9 @@ class _SectionContent2 extends StatelessWidget {
                         const SizedBox(height: 14),
                         Text(
                           'Wenn Du Teil unseres Teams werden möchtest, '
-                              'dann freuen wir uns auf Deine Bewerbung. '
-                              'Bewirb Dich jetzt bei uns über unser Online-Formular'
-                              ' oder per E-Mail an jobs@fe-construction.de.',
+                          'dann freuen wir uns auf Deine Bewerbung. '
+                          'Bewirb Dich jetzt bei uns über unser Online-Formular'
+                          ' oder per E-Mail an jobs@fe-construction.de.',
                           style: style2,
                         ),
                         const SizedBox(height: 30),

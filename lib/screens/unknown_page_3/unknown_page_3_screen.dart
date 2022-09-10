@@ -39,6 +39,7 @@ class KarriereScreen extends StatelessWidget {
           ),
           const _SectionContent2(),
           const _SectionContent3(),
+          const CustomFooter(),
         ],
       ),
     );

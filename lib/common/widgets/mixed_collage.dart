@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
-import 'package:test_site/r.dart';
 
 class MixedCollage extends StatelessWidget {
   const MixedCollage({

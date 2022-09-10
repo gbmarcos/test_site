@@ -12,37 +12,39 @@ class NewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = context.mediaQuery;
-    return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(
-            height: mediaQuery.size.height,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: Assets.images.newsTeamKarriereImage1.image().image,
-                  fit: BoxFit.cover,
-                  scale: 1.3,
+    return AnimationManager(
+      child: Scaffold(
+        body: ListView(
+          children: [
+            SizedBox(
+              height: mediaQuery.size.height,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: Assets.images.newsTeamKarriereImage1.image().image,
+                    fit: BoxFit.cover,
+                    scale: 1.3,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    const NavigationWidget(),
+                    if (Responsive.isMobile(context))
+                      const Expanded(
+                        child: SizedBox.shrink(),
+                      ),
+                    const Expanded(
+                      child: _SectionContent1(),
+                    ),
+                  ],
                 ),
               ),
-              child: Column(
-                children: [
-                  const NavigationWidget(),
-                  if (Responsive.isMobile(context))
-                    const Expanded(
-                      child: SizedBox.shrink(),
-                    ),
-                  const Expanded(
-                    child: _SectionContent1(),
-                  ),
-                ],
-              ),
             ),
-          ),
-          const _SectionContent2(),
-          const _SectionContent3(),
-          const CustomFooter(),
-        ],
+            const _SectionContent2(),
+            const _SectionContent3(),
+            const CustomFooter(),
+          ],
+        ),
       ),
     );
   }

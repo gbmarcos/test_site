@@ -1,65 +1,80 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
-import 'package:test_site/r.dart';
+import 'package:test_site/screens/screens.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-class UberUnsScreen extends StatelessWidget {
+class UberUnsScreen extends StatefulWidget {
   const UberUnsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<UberUnsScreen> createState() => _UberUnsScreenState();
+}
+
+class _UberUnsScreenState extends State<UberUnsScreen> {
+  late final controller = ScrollController()
+    ..addListener(
+      () {
+        VisibilityDetectorController.instance.notifyNow();
+      },
+    );
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = context.mediaQuery;
-    return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(
-            height: mediaQuery.size.height,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.5),
-                    BlendMode.srcOver,
+    return AnimationManager(
+      child: Scaffold(
+        body: ListView(
+          controller: controller,
+          children: [
+            SizedBox(
+              height: mediaQuery.size.height,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.5),
+                      BlendMode.srcOver,
+                    ),
+                    image: Assets.images.unternehmensberatungImage1.image().image,
+                    fit: BoxFit.cover,
+                    scale: 1.3,
                   ),
-                  image: Assets.images.unternehmensberatungImage1.image().image,
-                  fit: BoxFit.cover,
-                  scale: 1.3,
+                ),
+                child: Column(
+                  children: [
+                    NavigationWidget(
+                      onSelected: (page) {
+                        onNavigationActionSelect(
+                          page: page,
+                          context: context,
+                        );
+                      },
+                    ),
+                    if (Responsive.isMobile(context))
+                      const Expanded(
+                        child: SizedBox.shrink(),
+                      ),
+                    const Expanded(
+                      child: _SectionContent1(),
+                    ),
+                  ],
                 ),
               ),
-              child: Column(
-                children: [
-                  NavigationWidget(
-                    onSelected: (page) {
-                      onNavigationActionSelect(
-                        page: page,
-                        context: context,
-                      );
-                    },
-                  ),
-                  if (Responsive.isMobile(context))
-                    const Expanded(
-                      child: SizedBox.shrink(),
-                    ),
-                  const Expanded(
-                    child: _SectionContent1(),
-                  ),
-                ],
-              ),
             ),
-          ),
-          const _SectionContent2(),
-          const AppForm2(),
-          const SectionWithImageCollage(
-            title: 'Unternehmensberatung.',
-            subtitle: 'Anwendungsbeispiele',
-          ),
-          const _SectionContent4(),
-          const CustomFooter(),
-        ],
+            const _SectionContent2(),
+            const AppForm2(),
+            const SectionWithImageCollage(
+              title: 'Unternehmensberatung.',
+              subtitle: 'Anwendungsbeispiele',
+            ),
+            const _SectionContent4(),
+            const CustomFooter(),
+          ],
+        ),
       ),
     );
   }
@@ -131,18 +146,38 @@ Zu unseren Dienstleistungen im Bereich Vermögensschutz und Investment gehören:
   }
 }
 
-class _SectionContent1 extends StatelessWidget {
+class _SectionContent1 extends StatefulWidget {
   const _SectionContent1({Key? key}) : super(key: key);
 
   @override
+  State<_SectionContent1> createState() => _SectionContent1State();
+}
+
+class _SectionContent1State extends State<_SectionContent1> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => animationStateNotifier?.value = MainContentAnimationState.done,
+    );
+  }
+
+  late final animationStateNotifier = Provider.of<ValueNotifier<MainContentAnimationState>?>(
+    context,
+    listen: false,
+  );
+
+  @override
   Widget build(BuildContext context) {
+    final isAnimationPending = (animationStateNotifier == null) ||
+        (animationStateNotifier?.value == MainContentAnimationState.pending);
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Text(
-          'Unternehmensberatung.',
-          style: context.mainStyle1,
-          textAlign: context.mainPageTextAlign,
+        child: MainTextAnimation(
+          isAnimationPending: isAnimationPending,
+          text: 'Unternehmensberatung.',
         ),
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:test_site/common/widgets/common_widgets.dart';
 
 class R {
   const R._();

@@ -1,15 +1,15 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:simple_animations/simple_animations.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                   await itemScrollController.scrollTo(
                     index: page.scrollIndex,
+                    alignment: -0.0001,
                     duration: const Duration(milliseconds: 1500),
                     curve: Curves.easeInOutCubic,
                   );
@@ -75,31 +76,17 @@ class _HomeScreenState extends State<HomeScreen> {
     const CustomFooter(),
   ];
 
-  ValueNotifier<ItemPosition> positionNotifier = ValueNotifier(ItemPosition(
-    index: 4,
-    itemLeadingEdge: 0,
-    itemTrailingEdge: 1,
-  ));
-
   late final ItemScrollController itemScrollController = ItemScrollController();
   late final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create()
     ..itemPositions.addListener(() {
-      positionNotifier.value = itemPositionsListener.itemPositions.value.first;
+      VisibilityDetectorController.instance.notifyNow();
     });
 
   @override
   Widget build(BuildContext context) {
     final beamerState = context.customPageState;
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => ValueNotifier(false),
-        ),
-        ChangeNotifierProvider.value(
-          value: positionNotifier,
-        ),
-      ],
+    return AnimationManager(
       child: Scaffold(
         body: ScrollablePositionedList.builder(
           initialScrollIndex: beamerState.selectedPage.section,
@@ -111,20 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-
-    // return ChangeNotifierProvider(
-    //   create: (_) => ValueNotifier(false),
-    //   child: Scaffold(
-    //     body: ScrollablePositionedList.builder(
-    //       initialScrollIndex: beamerState.selectedPage.section,
-    //       padding: EdgeInsets.zero,
-    //       itemCount: sections.length,
-    //       itemScrollController: itemScrollController,
-    //       itemPositionsListener: itemPositionsListener,
-    //       itemBuilder: (context, index) => sections[index],
-    //     ),
-    //   ),
-    // );
   }
 }
 
@@ -444,10 +417,18 @@ class _SectionContent8 extends StatelessWidget {
   }
 }
 
-class _SectionContent7 extends StatelessWidget {
+class _SectionContent7 extends StatefulWidget {
   const _SectionContent7({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<_SectionContent7> createState() => _SectionContent7State();
+}
+
+class _SectionContent7State extends State<_SectionContent7> {
+
+  final visibilityNotifier = ValueNotifier<double>(1);
 
   @override
   Widget build(BuildContext context) {
@@ -470,31 +451,50 @@ class _SectionContent7 extends StatelessWidget {
                 bottom: 33,
               );
 
-    return Container(
-      padding: padding,
-      decoration: BoxDecoration(
-        color: Color.alphaBlend(
-          R.colors.maskColor2.withOpacity(0.5),
-          Colors.white,
+    return VisibilityDetector(
+      key: const Key('_SectionContent7'),
+      onVisibilityChanged: (visibilityInfo) {
+        final visibleBounds = visibilityInfo.visibleBounds;
+
+        final normalizedFraction = visibilityInfo.normalizedFraction(context);
+
+        if (!visibleBounds.isEmpty) {
+          visibilityNotifier.value = visibleBounds.top > 0 ? 1 : normalizedFraction;
+        }
+      },
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          color: Color.alphaBlend(
+            R.colors.maskColor2.withOpacity(0.5),
+            Colors.white,
+          ),
         ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Referenzen',
-            style: context.pageTitleStyle.copyWith(color: const Color(0xFF9189A7)),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 1114,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Referenzen',
+              style: context.pageTitleStyle.copyWith(color: const Color(0xFF9189A7)),
             ),
-            child: const PhotoCollageWidget(),
-          )
-        ],
+            const SizedBox(
+              height: 50,
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 1114,
+              ),
+              child: ValueListenableBuilder<double>(
+                valueListenable: visibilityNotifier,
+                builder: (context, value, _) {
+                  return PhotoCollageWidget(
+                    animationValue: value,
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -756,8 +756,15 @@ Jetzt Strategie Termin vereinbaren.
   }
 }
 
-class _KompetenzenSection extends StatelessWidget {
+class _KompetenzenSection extends StatefulWidget {
   const _KompetenzenSection({Key? key}) : super(key: key);
+
+  @override
+  State<_KompetenzenSection> createState() => _KompetenzenSectionState();
+}
+
+class _KompetenzenSectionState extends State<_KompetenzenSection> {
+  final visibilityNotifier = ValueNotifier<double>(1);
 
   @override
   Widget build(BuildContext context) {
@@ -771,155 +778,160 @@ class _KompetenzenSection extends StatelessWidget {
 
     final beamerState = context.customPageState;
 
-    final valueListenable = Provider.of<ValueNotifier<ItemPosition>>(context, listen: true);
+    // //used in animations
+    // const minRangeValue = 3.0;
+    // const maxRangeValue = 3.87;
 
-    //used in animations
-    const minRangeValue = 3.0;
-    const maxRangeValue = 3.87;
+    return VisibilityDetector(
+      key: const Key('_KompetenzenSection'),
+      onVisibilityChanged: (visibilityInfo) {
+        final visibleBounds = visibilityInfo.visibleBounds;
 
-    return ColoredBox(
-      color: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: 20,
-          left: context.generalHorizontalPadding,
-          right: context.generalHorizontalPadding,
-          bottom: bottomPadding,
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 1114,
+        final normalizedFraction = visibilityInfo.normalizedFraction(context);
+
+        if (!visibleBounds.isEmpty) {
+          visibilityNotifier.value = visibleBounds.top > 0 ? 1 : normalizedFraction;
+        }
+      },
+      child: ColoredBox(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 20,
+            left: context.generalHorizontalPadding,
+            right: context.generalHorizontalPadding,
+            bottom: bottomPadding,
           ),
-          child: Responsive.isMobile(context)
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Kompetenzen',
-                      style: context.pageTitleStyle.copyWith(
-                        color: const Color(0XFFE6D1E5),
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    CustomCard(
-                      background: Assets.images.staggeredRowImage1.image(
-                        height: photoSize.height,
-                        width: photoSize.width,
-                        fit: BoxFit.cover,
-                      ),
-                      onTap: () => beamerState.selectedPage =
-                          const PageStateData(page: SitePage.unternehmensberatung),
-                      title: 'Unternehmensberatung',
-                      buttonText: 'Jetzt mehr erfahren',
-                    ),
-                    const SizedBox(height: 10),
-                    CustomCard(
-                      background: Assets.images.staggeredRowImage2.image(
-                        height: photoSize.height,
-                        width: photoSize.width,
-                        fit: BoxFit.cover,
-                      ),
-                      onTap: () => beamerState.selectedPage =
-                          const PageStateData(page: SitePage.ruckabwicklung),
-                      title: 'Rückabwicklung',
-                      buttonText: 'Jetzt mehr erfahren',
-                    ),
-                    const SizedBox(height: 10),
-                    CustomCard(
-                      background: Assets.images.staggeredRowImage1.image(
-                        height: photoSize.height,
-                        width: photoSize.width,
-                        fit: BoxFit.cover,
-                      ),
-                      onTap: () =>
-                          beamerState.selectedPage = const PageStateData(page: SitePage.investment),
-                      title: 'Investment & Vermögensschutz',
-                      buttonText: 'Jetzt mehr erfahren',
-                    ),
-                  ],
-                )
-              : ValueListenableBuilder<ItemPosition>(
-                  valueListenable: valueListenable,
-                  builder: (context, position, _) {
-                    final normalizedValue = getNormalizedValue(
-                      position,
-                      minRangeValue,
-                      maxRangeValue,
-                    );
-
-                    final scaledValue = staggerFactor * normalizedValue;
-
-                    final card1Padding = (2 * staggerFactor) - scaledValue;
-                    final card3Padding = scaledValue;
-
-                    return Stack(
-                      children: [
-                        Opacity(
-                          opacity: normalizedValue,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              FlexibleConstrainedBox(
-                                maxWidth: photoSize.width,
-                                child: CustomCard(
-                                  topPadding: card1Padding,
-                                  background: Assets.images.staggeredRowImage1.image(
-                                    height: photoSize.height,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  onTap: () => beamerState.selectedPage =
-                                      const PageStateData(page: SitePage.unternehmensberatung),
-                                  title: 'Unternehmensberatung',
-                                  buttonText: 'Jetzt mehr erfahren',
-                                ),
-                              ),
-                              SizedBox(width: photoDividerWidth),
-                              FlexibleConstrainedBox(
-                                maxWidth: photoSize.width,
-                                child: CustomCard(
-                                  topPadding: staggerFactor,
-                                  background: Assets.images.staggeredRowImage2.image(
-                                    height: photoSize.height,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  onTap: () => beamerState.selectedPage =
-                                      const PageStateData(page: SitePage.ruckabwicklung),
-                                  title: 'Rückabwicklung',
-                                  buttonText: 'Jetzt mehr erfahren',
-                                ),
-                              ),
-                              SizedBox(width: photoDividerWidth),
-                              FlexibleConstrainedBox(
-                                maxWidth: photoSize.width,
-                                child: CustomCard(
-                                  topPadding: card3Padding,
-                                  background: Assets.images.staggeredRowImage1.image(
-                                    height: photoSize.height,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  onTap: () => beamerState.selectedPage =
-                                      const PageStateData(page: SitePage.investment),
-                                  title: 'Investment & Vermögensschutz',
-                                  buttonText: 'Jetzt mehr erfahren',
-                                ),
-                              ),
-                            ],
-                          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 1114,
+            ),
+            child: Responsive.isMobile(context)
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Kompetenzen',
+                        style: context.pageTitleStyle.copyWith(
+                          color: const Color(0XFFE6D1E5),
                         ),
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          child: Text(
-                            'Kompetenzen',
-                            style: context.pageTitleStyle.copyWith(
-                              color: const Color(0XFFE6D1E5),
+                      ),
+                      const SizedBox(height: 40),
+                      CustomCard(
+                        background: Assets.images.staggeredRowImage1.image(
+                          height: photoSize.height,
+                          width: photoSize.width,
+                          fit: BoxFit.cover,
+                        ),
+                        onTap: () => beamerState.selectedPage =
+                            const PageStateData(page: SitePage.unternehmensberatung),
+                        title: 'Unternehmensberatung',
+                        buttonText: 'Jetzt mehr erfahren',
+                      ),
+                      const SizedBox(height: 10),
+                      CustomCard(
+                        background: Assets.images.staggeredRowImage2.image(
+                          height: photoSize.height,
+                          width: photoSize.width,
+                          fit: BoxFit.cover,
+                        ),
+                        onTap: () => beamerState.selectedPage =
+                            const PageStateData(page: SitePage.ruckabwicklung),
+                        title: 'Rückabwicklung',
+                        buttonText: 'Jetzt mehr erfahren',
+                      ),
+                      const SizedBox(height: 10),
+                      CustomCard(
+                        background: Assets.images.staggeredRowImage1.image(
+                          height: photoSize.height,
+                          width: photoSize.width,
+                          fit: BoxFit.cover,
+                        ),
+                        onTap: () => beamerState.selectedPage =
+                            const PageStateData(page: SitePage.investment),
+                        title: 'Investment & Vermögensschutz',
+                        buttonText: 'Jetzt mehr erfahren',
+                      ),
+                    ],
+                  )
+                : ValueListenableBuilder<double>(
+                    valueListenable: visibilityNotifier,
+                    builder: (context, value, _) {
+                      log('$value');
+
+                      final scaledValue = staggerFactor * value;
+                      final card1Padding = (2 * staggerFactor) - scaledValue;
+                      final card3Padding = scaledValue;
+
+                      return Stack(
+                        children: [
+                          Opacity(
+                            opacity: value,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: CustomCard(
+                                    topPadding: card1Padding,
+                                    background: Assets.images.staggeredRowImage1.image(
+                                      height: photoSize.height,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    onTap: () => beamerState.selectedPage =
+                                        const PageStateData(page: SitePage.unternehmensberatung),
+                                    title: 'Unternehmensberatung',
+                                    buttonText: 'Jetzt mehr erfahren',
+                                  ),
+                                ),
+                                SizedBox(width: photoDividerWidth),
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: CustomCard(
+                                    topPadding: staggerFactor,
+                                    background: Assets.images.staggeredRowImage2.image(
+                                      height: photoSize.height,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    onTap: () => beamerState.selectedPage =
+                                        const PageStateData(page: SitePage.ruckabwicklung),
+                                    title: 'Rückabwicklung',
+                                    buttonText: 'Jetzt mehr erfahren',
+                                  ),
+                                ),
+                                SizedBox(width: photoDividerWidth),
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: CustomCard(
+                                    topPadding: card3Padding,
+                                    background: Assets.images.staggeredRowImage1.image(
+                                      height: photoSize.height,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    onTap: () => beamerState.selectedPage =
+                                        const PageStateData(page: SitePage.investment),
+                                    title: 'Investment & Vermögensschutz',
+                                    buttonText: 'Jetzt mehr erfahren',
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        )
-                      ],
-                    );
-                  }),
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            child: Text(
+                              'Kompetenzen',
+                              style: context.pageTitleStyle.copyWith(
+                                color: const Color(0XFFE6D1E5),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    }),
+          ),
         ),
       ),
     );
@@ -1262,6 +1274,8 @@ class TeamMemberCard extends StatelessWidget {
   }
 }
 
+enum MainContentAnimationState { pending, done }
+
 class _SectionContent1 extends StatefulWidget {
   const _SectionContent1({Key? key}) : super(key: key);
 
@@ -1270,7 +1284,22 @@ class _SectionContent1 extends StatefulWidget {
 }
 
 class _SectionContent1State extends State<_SectionContent1> {
-  GlobalKey aniKey = GlobalKey();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => animationStateNotifier.value = MainContentAnimationState.done,
+    );
+  }
+
+  late final animationStateNotifier = Provider.of<ValueNotifier<MainContentAnimationState>>(
+    context,
+    listen: false,
+  );
+
+  static const animationDuration = Duration(milliseconds: 800);
+
+  static const _translationValue = 150.0;
 
   @override
   Widget build(BuildContext context) {
@@ -1283,7 +1312,7 @@ class _SectionContent1State extends State<_SectionContent1> {
 
     final buttonHorizontalPadding = Responsive.isDesktop(context) ? 12.0 : 20.0;
 
-    final initializedNotifier = Provider.of<ValueNotifier<bool>>(context);
+    final isAnimationPending = animationStateNotifier.value == MainContentAnimationState.pending;
 
     return Center(
       child: SizedBox(
@@ -1293,78 +1322,83 @@ class _SectionContent1State extends State<_SectionContent1> {
                 ? 85
                 : null,
         width: Responsive.isMobile(context) ? 156 : null,
-        child: PlayAnimationBuilder<double>(
-          curve: Curves.decelerate,
-          tween: Tween(begin: initializedNotifier.value ? 1 : 0, end: 1),
-          // 100.0 to 200.0
-          duration: const Duration(milliseconds: 800),
-          onCompleted: () {
-            initializedNotifier.value = true;
-          },
-          builder: (context, value, _) {
-            const translationFactor = 150;
-            final translationValue = translationFactor - (value * translationFactor);
-
-            return Opacity(
-              opacity: value,
-              child: Flex(
-                direction: axisDirection,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Transform.translate(
-                    offset: Offset(-translationValue, 0),
-                    child: Assets.icons.sykzIcon.svg(
-                      height: appIconSize.height,
-                      width: appIconSize.width,
-                    ),
+        child: AnimationConfiguration.synchronized(
+          child: ConditionalParentWidget(
+            condition: isAnimationPending,
+            conditionalBuilder: (child) => FadeInAnimation(
+              duration: animationDuration,
+              curve: Curves.decelerate,
+              child: child,
+            ),
+            child: Flex(
+              direction: axisDirection,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ConditionalParentWidget(
+                  condition: isAnimationPending,
+                  conditionalBuilder: (child) => SlideAnimation(
+                    duration: animationDuration,
+                    curve: Curves.decelerate,
+                    horizontalOffset: -_translationValue,
+                    child: child,
                   ),
-                  Responsive(
-                    desktop: VerticalDivider(
-                      color: R.colors.iconsColor,
-                      width: 46,
-                    ),
-                    tablet: VerticalDivider(
-                      color: R.colors.iconsColor,
-                      width: 46,
-                    ),
-                    mobile: Divider(
-                      color: R.colors.iconsColor,
-                      height: 46,
-                    ),
+                  child: Assets.icons.sykzIcon.svg(
+                    height: appIconSize.height,
+                    width: appIconSize.width,
                   ),
-                  Transform.translate(
-                    offset: Offset(translationValue, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        DestinationButtonWidget(
-                          horizontalMargin: 0,
-                          horizontalPadding: buttonHorizontalPadding,
-                          onTap: () {},
-                          text: 'Strategie Termin',
-                        ),
-                        SizedBox(
-                          height: separatorSize,
-                        ),
-                        const SocialMediaList(),
-                        SizedBox(
-                          height: separatorSize,
-                        ),
-                        Text(
-                          'DESIRE. CREATE. INSPIRE.',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Responsive.isDesktop(context) ? 10 : 8,
-                            color: R.colors.sloganColor,
-                          ),
-                        ),
-                      ],
-                    ),
+                ),
+                Responsive(
+                  desktop: VerticalDivider(
+                    color: R.colors.iconsColor,
+                    width: 46,
                   ),
-                ],
-              ),
-            );
-          },
+                  tablet: VerticalDivider(
+                    color: R.colors.iconsColor,
+                    width: 46,
+                  ),
+                  mobile: Divider(
+                    color: R.colors.iconsColor,
+                    height: 46,
+                  ),
+                ),
+                ConditionalParentWidget(
+                  condition: isAnimationPending,
+                  conditionalBuilder: (child) => SlideAnimation(
+                    duration: animationDuration,
+                    curve: Curves.decelerate,
+                    horizontalOffset: _translationValue,
+                    child: child,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      DestinationButtonWidget(
+                        horizontalMargin: 0,
+                        horizontalPadding: buttonHorizontalPadding,
+                        onTap: () {},
+                        text: 'Strategie Termin',
+                      ),
+                      SizedBox(
+                        height: separatorSize,
+                      ),
+                      const SocialMediaList(),
+                      SizedBox(
+                        height: separatorSize,
+                      ),
+                      Text(
+                        'DESIRE. CREATE. INSPIRE.',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: Responsive.isDesktop(context) ? 10 : 8,
+                          color: R.colors.sloganColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

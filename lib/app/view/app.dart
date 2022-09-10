@@ -13,8 +13,6 @@ import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/gen/fonts.gen.dart';
 import 'package:test_site/l10n/l10n.dart';
 
-import '../../r.dart';
-
 class App extends StatefulWidget {
   const App({super.key});
 

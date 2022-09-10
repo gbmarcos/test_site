@@ -1,11 +1,10 @@
-import 'dart:html';
-
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/r.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 extension BuilContextX on BuildContext {
   CustomPageState get customPageState => currentBeamLocation.state as CustomPageState;
@@ -57,4 +56,26 @@ extension BuilContextX on BuildContext {
       : Responsive.isTablet(this)
           ? 80.0
           : 30.0;
+}
+
+extension VisibilityInfoX on VisibilityInfo {
+  double normalizedFraction(BuildContext context) {
+    final screenHeight = context.mediaQuery.size.height;
+
+    if (visibleFraction == 0) return 0;
+
+    final maxWidgetHeight = (1 / visibleFraction) * visibleBounds.height;
+
+    if (maxWidgetHeight == 0) return 0;
+
+    var maxFraction = screenHeight / maxWidgetHeight;
+    if (maxFraction > 1) {
+      maxFraction = 1;
+    }
+
+    if (maxFraction == 0) return 0;
+
+    final result = visibleFraction / maxFraction;
+    return result > 1 ? 1 : result;
+  }
 }

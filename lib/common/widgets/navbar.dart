@@ -1,37 +1,45 @@
-import 'dart:developer';
-import 'dart:js';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
-import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 
-class NavigationWidget extends StatelessWidget {
+enum NavbarAnimationState { pending, done }
+
+class NavigationWidget extends StatefulWidget {
   const NavigationWidget({Key? key, this.onSelected}) : super(key: key);
 
   final void Function(NavigationOption page)? onSelected;
 
   @override
+  State<NavigationWidget> createState() => _NavigationWidgetState();
+}
+
+class _NavigationWidgetState extends State<NavigationWidget> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => animationStateNotifier?.value = NavbarAnimationState.done,
+    );
+  }
+
+  late final animationStateNotifier = Provider.of<ValueNotifier<NavbarAnimationState>?>(
+    context,
+    listen: false,
+  );
+
+  @override
   Widget build(BuildContext context) {
-
-
-    final mainPages = [
-      NavigationOption.home,
-      NavigationOption.uberUns,
-      NavigationOption.kompetenzen,
-      NavigationOption.vision,
-      NavigationOption.news,
-      NavigationOption.team,
-    ];
-
+    //to close popup menu if it is open
     if (!Responsive.isMobile(context)) {
       Navigator.of(context).maybePop();
     }
+
+    final isAnimationPending = (animationStateNotifier == null) ||
+        (animationStateNotifier?.value == NavbarAnimationState.pending);
 
     return !Responsive.isMobile(context)
         ? SingleChildScrollView(
@@ -40,25 +48,37 @@ class NavigationWidget extends StatelessWidget {
               width: 800,
               child: Padding(
                 padding: const EdgeInsets.only(top: 40, bottom: 8, right: 8, left: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ...List.generate(mainPages.length, (index) {
-                      final page = mainPages[index];
-                      return _DestinationTextWidget(
-                        text: page.pageName,
-                        onTap: () {
-                          onSelected?.call(page);
+                child: AnimationLimiter(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ...List.generate(
+                        NavigationOption.values.length,
+                        (index) {
+                          final page = NavigationOption.values[index];
+                          final isLastPage = page == NavigationOption.values.last;
+                          return CustomFadeAndSlideIn(
+                            isAnimationPending: isAnimationPending,
+                            position: index,
+                            duration: const Duration(milliseconds: 450),
+                            child: isLastPage
+                                ? DestinationButtonWidget(
+                                    text: NavigationOption.karriere.pageName,
+                                    onTap: () {},
+                                  )
+                                : _DestinationTextWidget(
+                                    text: page.pageName,
+                                    onTap: () {
+                                      widget.onSelected?.call(page);
+                                    },
+                                    selected: false,
+                                  ),
+                          );
                         },
-                        selected: false
-                      );
-                    }),
-                    DestinationButtonWidget(
-                      text: NavigationOption.karriere.pageName,
-                      onTap: () {},
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -68,48 +88,97 @@ class NavigationWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PopupMenuButton(
-                  icon: Assets.icons.menuButton.svg(
-                    height: 24,
-                    width: 24,
-                    color: Colors.white,
-                  ),
-                  itemBuilder: (context) {
-                    return List.generate(mainPages.length, (index) {
-                      final page = mainPages[index];
-                      return PopupMenuItem<NavigationOption>(
-                        onTap: () {
-                          onSelected?.call(page);
-                        },
-                        child: Text(
-                          page.pageName,
-                          style: TextStyle(
-                            color: R.colors.primaryColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: Responsive.isDesktop(context) ? 16.0 : 14.0,
-                            shadows: [
-                              Shadow(
-                                  color: Colors.black.withAlpha(50),
-                                  blurRadius: 1.5,
-                                  offset: const Offset(0, 2))
-                            ],
+                CustomFadeAndSlideIn(
+                  position: 0,
+                  isAnimationPending: isAnimationPending,
+                  duration: const Duration(milliseconds: 550),
+                  child: PopupMenuButton(
+                    icon: Assets.icons.menuButton.svg(
+                      height: 24,
+                      width: 24,
+                      color: Colors.white,
+                    ),
+                    itemBuilder: (context) {
+                      return List.generate(6, (index) {
+                        final page = NavigationOption.values[index];
+                        return PopupMenuItem<NavigationOption>(
+                          onTap: () {
+                            widget.onSelected?.call(page);
+                          },
+                          child: Text(
+                            page.pageName,
+                            style: TextStyle(
+                              color: R.colors.primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: Responsive.isDesktop(context) ? 16.0 : 14.0,
+                              shadows: [
+                                Shadow(
+                                    color: Colors.black.withAlpha(50),
+                                    blurRadius: 1.5,
+                                    offset: const Offset(0, 2))
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    });
-                  },
-                  elevation: 5,
-                  color: Colors.grey.shade900.withOpacity(0.95),
+                        );
+                      });
+                    },
+                    elevation: 5,
+                    color: Colors.grey.shade900.withOpacity(0.95),
+                  ),
                 ),
-                DestinationButtonWidget(
-                  horizontalMargin: 0,
-                  horizontalPadding: 14,
-                  text: NavigationOption.karriere.pageName,
-                  onTap: () {},
+                CustomFadeAndSlideIn(
+                  position: 0,
+                  isAnimationPending: isAnimationPending,
+                  duration: const Duration(milliseconds: 550),
+                  child: DestinationButtonWidget(
+                    horizontalMargin: 0,
+                    horizontalPadding: 14,
+                    text: NavigationOption.karriere.pageName,
+                    onTap: () {},
+                  ),
                 )
               ],
             ),
           );
+  }
+}
+
+class CustomFadeAndSlideIn extends StatelessWidget {
+  const CustomFadeAndSlideIn({
+    Key? key,
+    required this.isAnimationPending,
+    required this.child,
+    required this.duration,
+    required this.position,
+  }) : super(key: key);
+
+  final bool isAnimationPending;
+  final Widget child;
+  final Duration duration;
+  final int position;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimationConfiguration.staggeredList(
+      position: position,
+      duration: duration,
+      child: ConditionalParentWidget(
+        condition: isAnimationPending,
+        conditionalBuilder: (child) => SlideAnimation(
+          verticalOffset: -20,
+          curve: Curves.decelerate,
+          child: child,
+        ),
+        child: ConditionalParentWidget(
+          condition: isAnimationPending,
+          conditionalBuilder: (child) => FadeInAnimation(
+            curve: Curves.decelerate,
+            child: child,
+          ),
+          child: child,
+        ),
+      ),
+    );
   }
 }
 

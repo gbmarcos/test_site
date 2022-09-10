@@ -1,63 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
-import 'package:test_site/r.dart';
+import 'package:test_site/screens/home/home_screen.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-class VisionScreen extends StatelessWidget {
+class VisionScreen extends StatefulWidget {
   const VisionScreen({Key? key}) : super(key: key);
+
+  @override
+  State<VisionScreen> createState() => _VisionScreenState();
+}
+
+class _VisionScreenState extends State<VisionScreen> {
+  late final controller = ScrollController()
+    ..addListener(
+      () {
+        VisibilityDetectorController.instance.notifyNow();
+      },
+    );
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = context.mediaQuery;
-    return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(
-            height: mediaQuery.size.height,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.5),
-                    BlendMode.srcOver,
+    return AnimationManager(
+      child: Scaffold(
+        body: ListView(
+          controller: controller,
+          children: [
+            SizedBox(
+              height: mediaQuery.size.height,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.5),
+                      BlendMode.srcOver,
+                    ),
+                    image: Assets.images.investmentImage1.image().image,
+                    fit: BoxFit.cover,
+                    scale: 1.3,
                   ),
-                  image: Assets.images.investmentImage1.image().image,
-                  fit: BoxFit.cover,
-                  scale: 1.3,
+                ),
+                child: Column(
+                  children: [
+                    NavigationWidget(
+                      onSelected: (page) {
+                        onNavigationActionSelect(
+                          page: page,
+                          context: context,
+                        );
+                      },
+                    ),
+                    if (Responsive.isMobile(context))
+                      const Expanded(
+                        child: SizedBox.shrink(),
+                      ),
+                    const Expanded(
+                      child: _SectionContent1(),
+                    ),
+                  ],
                 ),
               ),
-              child: Column(
-                children: [
-                  NavigationWidget(
-                    onSelected: (page) {
-                      onNavigationActionSelect(
-                        page: page,
-                        context: context,
-                      );
-                    },
-                  ),
-                  if (Responsive.isMobile(context))
-                    const Expanded(
-                      child: SizedBox.shrink(),
-                    ),
-                  const Expanded(
-                    child: _SectionContent1(),
-                  ),
-                ],
-              ),
             ),
-          ),
-          const _SectionContent2(),
-          const AppForm2(),
-          const SectionWithImageCollage(
-            title: 'Leanmanagement.',
-            subtitle: 'Anwendungsbeispiele',
-          ),
-          const _SectionContent4(),
-          const CustomFooter(),
-        ],
+            const _SectionContent2(),
+            const AppForm2(),
+            const SectionWithImageCollage(
+              title: 'Leanmanagement.',
+              subtitle: 'Anwendungsbeispiele',
+            ),
+            const _SectionContent4(),
+            const CustomFooter(),
+          ],
+        ),
       ),
     );
   }
@@ -129,72 +146,38 @@ Zu unseren Dienstleistungen im Bereich Vermögensschutz und Investment gehören:
   }
 }
 
-class _SectionContent1 extends StatelessWidget {
+class _SectionContent1 extends StatefulWidget {
   const _SectionContent1({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Text(
-          'Vermögensschutz & Investment.',
-          style: context.mainStyle1,
-          textAlign: context.mainPageTextAlign,
-        ),
-      ),
-    );
-  }
+  State<_SectionContent1> createState() => _SectionContent1State();
 }
 
-class _SectionContent3 extends StatelessWidget {
-  const _SectionContent3({Key? key}) : super(key: key);
+class _SectionContent1State extends State<_SectionContent1> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => animationStateNotifier?.value = MainContentAnimationState.done,
+    );
+  }
+
+  late final animationStateNotifier = Provider.of<ValueNotifier<MainContentAnimationState>?>(
+    context,
+    listen: false,
+  );
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.white,
-      child: Container(
-        padding: const EdgeInsets.only(
-          left: 163,
-          right: 163,
-          top: 219,
-          bottom: 58,
-        ),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Anwendungsbeispiele',
-                style: R.styles.lSPageSubtitleStyle.copyWith(
-                  color: const Color(0xFF414141),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Leanmanagement.',
-                style: R.styles.lSPageTitleStyle.copyWith(
-                  color: const Color(0xFF414141),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 1114,
-              ),
-              child: const PhotoCollageWidget(),
-            )
-          ],
+    final isAnimationPending = (animationStateNotifier == null) ||
+        (animationStateNotifier?.value == MainContentAnimationState.pending);
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: MainTextAnimation(
+          isAnimationPending: isAnimationPending,
+          text: 'Vermögensschutz & Investment.',
         ),
       ),
     );

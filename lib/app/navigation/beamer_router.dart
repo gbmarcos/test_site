@@ -33,7 +33,7 @@ investment(path:'/investment',pageName: 'Vermögensschutz & Investment.');
 enum NavigationOption{
 
   home(pageName: 'Home',scrollIndex: 0),
-  uberUns(pageName: 'Über Uns',scrollIndex: 3),
+  uberUns(pageName: 'Über uns',scrollIndex: 3),
   kompetenzen(pageName: 'Kompetenzen',scrollIndex: 4),
   vision(pageName: 'Vision',scrollIndex: 8),
   news(pageName: 'News',scrollIndex: 0),

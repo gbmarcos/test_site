@@ -83,8 +83,8 @@ class _AppStyles {
 
   TextStyle get lSHomeCardTitleStyle => TextStyle(
         fontSize: 18,
-        fontWeight: R.fontWidths.semiBold,
-        color: const Color(0XFFE5DAD3),
+        fontWeight: R.fontWidths.regular,
+        color: const Color(0XFFFFFFFF),
       );
 
   //medium screen
@@ -133,8 +133,8 @@ class _AppStyles {
 
   TextStyle get mSHomeCardTitleStyle => TextStyle(
         fontSize: 12,
-        fontWeight: R.fontWidths.semiBold,
-        color: const Color(0XFFE5DAD3),
+        fontWeight: R.fontWidths.regular,
+        color: const Color(0XFFFFFFFF),
       );
 
   //small screen
@@ -183,8 +183,8 @@ class _AppStyles {
 
   TextStyle get sSHomeCardTitleStyle => TextStyle(
         fontSize: 12,
-        fontWeight: R.fontWidths.semiBold,
-        color: const Color(0XFFE5DAD3),
+        fontWeight: R.fontWidths.regular,
+        color: const Color(0XFFFFFFFF),
       );
 }
 

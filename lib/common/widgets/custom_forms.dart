@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
@@ -14,7 +13,6 @@ class AppForm1 extends StatelessWidget {
       height: Responsive.isDesktop(context) ? 40.0 : 25.0,
     );
 
-
     const vornameTextField = CustomTextField(
       hintText: 'Vorname',
     );
@@ -29,7 +27,11 @@ class AppForm1 extends StatelessWidget {
       hintText: 'Nachname',
     );
     const dropDTextField = CustomTextField.dropdown(
-      options: ['Dienstleisungen1', 'Dienstleisungen2'],
+      options: [
+        'Unternehmensberatung',
+        'Rückabwicklung',
+        'Investment & Vermögensschutz',
+      ],
     );
 
     return Container(
@@ -123,8 +125,6 @@ class AppForm1 extends StatelessWidget {
                 textColor: Colors.black,
               ),
             ),
-
-
           ],
         ),
       ),
@@ -227,7 +227,11 @@ class AppForm2 extends StatelessWidget {
           ),
           fieldSeparator,
           const CustomTextField.dropdown(
-            options: ['Dienstleisungen1', 'Dienstleisungen2'],
+            options: [
+              'Unternehmensberatung',
+              'Rückabwicklung',
+              'Investment & Vermögensschutz',
+            ],
             darkMode: true,
           ),
           fieldSeparator,
@@ -251,6 +255,7 @@ class AppForm2 extends StatelessWidget {
             children: [
               Assets.images.form2Image.image(
                 width: double.infinity,
+                height: 320,
                 fit: BoxFit.cover,
               ),
               SizedBox(

@@ -27,7 +27,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = this.textStyle ??
-       context.mainStyle2.copyWith(
+        context.mainStyle2.copyWith(
           shadows: [],
           color: const Color(0XFF6F6F6F),
         );
@@ -56,6 +56,8 @@ class CustomTextField extends StatelessWidget {
                       style: textStyle.copyWith(
                         color: darkMode ? Colors.white : Colors.black,
                       ),
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
                     ),
                   ),
                 )

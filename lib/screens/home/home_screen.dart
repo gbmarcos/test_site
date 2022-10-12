@@ -7,6 +7,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
+import 'package:test_site/common/widgets/trapeze_container.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
-                const Color(0xFF7D7A7A).withOpacity(0.7),
+                const Color(0xFF7D7A7A).withOpacity(0.3),
                 BlendMode.srcOver,
               ),
               image: Assets.images.homeImage1.image().image,
@@ -55,8 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Expanded(
                   child: SizedBox.shrink(),
                 ),
-              const Expanded(
-                child: _SectionContent1(),
+              Expanded(
+                child: _SectionContent1(
+                  itemScrollController: itemScrollController,
+                  itemPositionsListener: itemPositionsListener,
+                ),
               ),
             ],
           ),
@@ -73,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const _VisionSection(),
     const _TeamSection(),
     const _SectionContent8(),
+    const _SectionContent9(),
     const CustomFooter(),
   ];
 
@@ -160,12 +165,10 @@ class _TeamSection extends StatelessWidget {
                         height: photoSize.height,
                         fit: BoxFit.cover,
                       ),
-                      info: 'Lorem ipsum dolor sit amet, '
-                          'consectetur adipiscing elit. '
-                          'Vulputate varius dolor, ac cras ultricies '
-                          'viverra etiam augue viverra. '
-                          'Consectetur ornare curabitur leo a '
-                          'lacus turpis id sit vestibulum.',
+                      name: 'Yannick Kleiber',
+                      roll: 'Geschäftsführer',
+                      phone: '+49 151 23294239',
+                      email: 'y.kleiber@sykz.de',
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -176,12 +179,10 @@ class _TeamSection extends StatelessWidget {
                         height: photoSize.height,
                         fit: BoxFit.cover,
                       ),
-                      info: 'Lorem ipsum dolor sit amet, '
-                          'consectetur adipiscing elit. '
-                          'Vulputate varius dolor, ac cras ultricies '
-                          'viverra etiam augue viverra. '
-                          'Consectetur ornare curabitur leo a '
-                          'lacus turpis id sit vestibulum.',
+                      name: 'Shayan Zare',
+                      roll: 'Geschäftsführer',
+                      phone: '+49 152 11448643',
+                      email: 's.zare@sykz.de',
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -192,12 +193,10 @@ class _TeamSection extends StatelessWidget {
                         height: photoSize.height,
                         fit: BoxFit.cover,
                       ),
-                      info: 'Lorem ipsum dolor sit amet, '
-                          'consectetur adipiscing elit. '
-                          'Vulputate varius dolor, ac cras ultricies '
-                          'viverra etiam augue viverra. '
-                          'Consectetur ornare curabitur leo a '
-                          'lacus turpis id sit vestibulum.',
+                      name: 'Yannick Kleiber',
+                      roll: 'Geschäftsführer',
+                      phone: '0160 291282',
+                      email: 'kleiber@sykz.de',
                     ),
                   ),
                 ],
@@ -214,12 +213,10 @@ class _TeamSection extends StatelessWidget {
                   width: photoSize.width,
                   fit: BoxFit.cover,
                 ),
-                info: 'Lorem ipsum dolor sit amet, '
-                    'consectetur adipiscing elit. '
-                    'Vulputate varius dolor, ac cras ultricies '
-                    'viverra etiam augue viverra. '
-                    'Consectetur ornare curabitur leo a '
-                    'lacus turpis id sit vestibulum.',
+                name: 'Yannick Kleiber',
+                roll: 'Geschäftsführer',
+                phone: '+49 151 23294239',
+                email: 'y.kleiber@sykz.de',
               ),
               const SizedBox(height: 10),
               TeamMemberCard(
@@ -228,12 +225,10 @@ class _TeamSection extends StatelessWidget {
                   width: photoSize.width,
                   fit: BoxFit.cover,
                 ),
-                info: 'Lorem ipsum dolor sit amet, '
-                    'consectetur adipiscing elit. '
-                    'Vulputate varius dolor, ac cras ultricies '
-                    'viverra etiam augue viverra. '
-                    'Consectetur ornare curabitur leo a '
-                    'lacus turpis id sit vestibulum.',
+                name: 'Shayan Zare',
+                roll: 'Geschäftsführer',
+                phone: '+49 152 11448643',
+                email: 's.zare@sykz.de',
               ),
               const SizedBox(height: 10),
               TeamMemberCard(
@@ -242,12 +237,10 @@ class _TeamSection extends StatelessWidget {
                   width: photoSize.width,
                   fit: BoxFit.cover,
                 ),
-                info: 'Lorem ipsum dolor sit amet, '
-                    'consectetur adipiscing elit. '
-                    'Vulputate varius dolor, ac cras ultricies '
-                    'viverra etiam augue viverra. '
-                    'Consectetur ornare curabitur leo a '
-                    'lacus turpis id sit vestibulum.',
+                name: 'Yannick Kleiber',
+                roll: 'Geschäftsführer',
+                phone: '0160 291282',
+                email: 'kleiber@sykz.de',
               ),
             ],
           ),
@@ -407,12 +400,45 @@ class _SectionContent8 extends StatelessWidget {
                 const SizedBox(height: 32),
                 Assets.icons.sykzIcon2.svg(height: appIconSize.height, width: appIconSize.width),
                 const SizedBox(height: 60),
-                const AppForm1(),
               ],
             ),
           ),
         )
       ],
+    );
+  }
+}
+class _SectionContent9 extends StatelessWidget {
+  const _SectionContent9({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final horizontalPadding = Responsive.isDesktop(context)
+        ? 155.0
+        : Responsive.isTablet(context)
+        ? 80.0
+        : 36.0;
+
+    final padding = EdgeInsets.only(
+      left: horizontalPadding,
+      right: horizontalPadding,
+      top: 59,
+    );
+
+
+    return Container(
+      padding: padding,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 1114,
+        ),
+        child: const AppForm1(),
+      ),
     );
   }
 }
@@ -427,7 +453,6 @@ class _SectionContent7 extends StatefulWidget {
 }
 
 class _SectionContent7State extends State<_SectionContent7> {
-
   final visibilityNotifier = ValueNotifier<double>(1);
 
   @override
@@ -842,7 +867,7 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
                       ),
                       const SizedBox(height: 10),
                       CustomCard(
-                        background: Assets.images.staggeredRowImage1.image(
+                        background: Assets.images.staggeredRowImage3.image(
                           height: photoSize.height,
                           width: photoSize.width,
                           fit: BoxFit.cover,
@@ -857,8 +882,6 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
                 : ValueListenableBuilder<double>(
                     valueListenable: visibilityNotifier,
                     builder: (context, value, _) {
-                      log('$value');
-
                       final scaledValue = staggerFactor * value;
                       final card1Padding = (2 * staggerFactor) - scaledValue;
                       final card3Padding = scaledValue;
@@ -905,7 +928,7 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
                                   maxWidth: photoSize.width,
                                   child: CustomCard(
                                     topPadding: card3Padding,
-                                    background: Assets.images.staggeredRowImage1.image(
+                                    background: Assets.images.staggeredRowImage3.image(
                                       height: photoSize.height,
                                       fit: BoxFit.cover,
                                     ),
@@ -1194,16 +1217,18 @@ class CustomCard extends StatelessWidget {
               children: [
                 background,
                 Positioned(
-                  left: 18,
-                  top: 21,
-                  right: 18,
+                  left: 0,
+                  top: 48,
+                  right: 8,
                   child: Container(
                     alignment: Alignment.topLeft,
                     width: constraint.maxWidth,
-                    child: Text(
-                      title,
-                      style: context.homeCardTitleStyle,
-                      overflow: TextOverflow.ellipsis,
+                    child: TrapezeContainer(
+                      fillColor: Color.alphaBlend(Colors.black45, Color(0xFFD8ECDF)),
+                      child: Text(
+                        title,
+                        style: context.homeCardTitleStyle,
+                      ),
                     ),
                   ),
                 ),
@@ -1237,11 +1262,17 @@ class TeamMemberCard extends StatelessWidget {
   const TeamMemberCard({
     super.key,
     required this.memberPhoto,
-    required this.info,
+    required this.name,
+    required this.roll,
+    required this.phone,
+    required this.email,
   });
 
   final Widget memberPhoto;
-  final String info;
+  final String name;
+  final String roll;
+  final String phone;
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -1253,19 +1284,63 @@ class TeamMemberCard extends StatelessWidget {
           bottom: 0,
           right: 0,
           child: Container(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.topCenter,
             color: Colors.black.withOpacity(0.5),
             padding: const EdgeInsets.symmetric(
               horizontal: 31,
-              vertical: 25,
+              vertical: 20,
             ),
-            child: Text(
-              info,
-              textAlign: TextAlign.center,
-              style: context.normalStyle.copyWith(
-                color: Colors.white,
-                height: 1,
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: R.fontWidths.regular,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  roll,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: R.fontWidths.regular,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Telefon $phone',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: R.fontWidths.regular,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'E-Mail $email',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: R.fontWidths.regular,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                ),
+              ],
             ),
           ),
         ),
@@ -1277,7 +1352,14 @@ class TeamMemberCard extends StatelessWidget {
 enum MainContentAnimationState { pending, done }
 
 class _SectionContent1 extends StatefulWidget {
-  const _SectionContent1({Key? key}) : super(key: key);
+  const _SectionContent1({
+    Key? key,
+    required this.itemScrollController,
+    required this.itemPositionsListener,
+  }) : super(key: key);
+
+  final ItemScrollController itemScrollController;
+  final ItemPositionsListener itemPositionsListener;
 
   @override
   State<_SectionContent1> createState() => _SectionContent1State();
@@ -1375,7 +1457,19 @@ class _SectionContent1State extends State<_SectionContent1> {
                       DestinationButtonWidget(
                         horizontalMargin: 0,
                         horizontalPadding: buttonHorizontalPadding,
-                        onTap: () {},
+                        onTap: () async {
+                          widget.itemScrollController.jumpTo(
+                            index: widget.itemPositionsListener.itemPositions.value.first.index,
+                            alignment:
+                            widget.itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
+                          );
+                          await widget.itemScrollController.scrollTo(
+                            index: 11,
+                            alignment: -0.0001,
+                            duration: const Duration(milliseconds: 1500),
+                            curve: Curves.easeInOutCubic,
+                          );
+                        },
                         text: 'Strategie Termin',
                       ),
                       SizedBox(

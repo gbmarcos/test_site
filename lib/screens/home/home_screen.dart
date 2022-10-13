@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +15,9 @@ import 'package:test_site/r.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen
+
+  ({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -31,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Color(0xFF7D7A7A).withOpacity(0.3),
                 BlendMode.srcOver,
               ),
-              image: Assets.images.homeImage1.image().image,
+              image: Assets.images.homeImage1
+                  .image()
+                  .image,
               fit: BoxFit.cover,
               scale: 1.3,
             ),
@@ -114,8 +120,8 @@ class _TeamSection extends StatelessWidget {
     final horizontalPadding = Responsive.isDesktop(context)
         ? 155.0
         : Responsive.isTablet(context)
-            ? 80.0
-            : 36.0;
+        ? 80.0
+        : 36.0;
 
     final padding = EdgeInsets.only(
       left: horizontalPadding,
@@ -126,8 +132,8 @@ class _TeamSection extends StatelessWidget {
     final photoSize = Responsive.isDesktop(context)
         ? const Size(358, 500)
         : Responsive.isTablet(context)
-            ? const Size(269, 374)
-            : const Size(374, 523);
+        ? const Size(269, 374)
+        : const Size(374, 523);
 
     return ColoredBox(
       color: Colors.white,
@@ -249,15 +255,22 @@ class _TeamSection extends StatelessWidget {
   }
 }
 
-class _VisionSection extends StatelessWidget {
+class _VisionSection extends StatefulWidget {
   const _VisionSection({Key? key}) : super(key: key);
+
+  @override
+  State<_VisionSection> createState() => _VisionSectionState();
+}
+
+class _VisionSectionState extends State<_VisionSection> {
+  final visibilityNotifier = ValueNotifier<double>(1);
 
   @override
   Widget build(BuildContext context) {
     final vision = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment:
-          Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+      Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
       children: [
         Text(
           'Vision',
@@ -299,11 +312,12 @@ Wie wir das tun? Weil wir hinter die Fassade schauen. Indem wir die richtigen Fr
         ),
       ],
     );
+
     final horizontalPadding = Responsive.isDesktop(context)
         ? 155.0
         : Responsive.isTablet(context)
-            ? 80.0
-            : 36.0;
+        ? 80.0
+        : 36.0;
 
     final padding = EdgeInsets.only(
       left: horizontalPadding,
@@ -333,17 +347,47 @@ Wie wir das tun? Weil wir hinter die Fassade schauen. Indem wir die richtigen Fr
                 ],
               )
             else
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: vision,
-                  ),
-                  const SizedBox(width: 100),
-                  Expanded(
-                    child: mission,
-                  ),
-                ],
+              VisibilityDetector(
+                key: const Key('vision'),
+                onVisibilityChanged: (visibilityInfo) {
+                  final visibleBounds = visibilityInfo.visibleBounds;
+
+                  final normalizedFraction = visibilityInfo.normalizedFraction(context);
+
+                  if (!visibleBounds.isEmpty) {
+                    visibilityNotifier.value = visibleBounds.top > 0 ? 1 : normalizedFraction;
+                  }
+                },
+                child: ValueListenableBuilder(
+                    valueListenable: visibilityNotifier,
+                    builder: (context, animationValue, _) {
+                      const maxTranslateValue = 90;
+
+                      final translateProgress =
+                          maxTranslateValue - (maxTranslateValue * animationValue);
+
+                      return Opacity(
+                        opacity: animationValue,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Transform.translate(
+                                offset: Offset(-translateProgress, 0),
+                                child: vision,
+                              ),
+                            ),
+                            const SizedBox(width: 100),
+                            Expanded(
+                              child: Transform.translate(
+                                offset: Offset(translateProgress, 0),
+                                child: mission,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
               ),
             const SizedBox(height: 60),
           ],
@@ -363,8 +407,8 @@ class _SectionContent8 extends StatelessWidget {
     final horizontalPadding = Responsive.isDesktop(context)
         ? 155.0
         : Responsive.isTablet(context)
-            ? 80.0
-            : 36.0;
+        ? 80.0
+        : 36.0;
 
     final padding = EdgeInsets.only(
       left: horizontalPadding,
@@ -408,6 +452,7 @@ class _SectionContent8 extends StatelessWidget {
     );
   }
 }
+
 class _SectionContent9 extends StatelessWidget {
   const _SectionContent9({
     Key? key,
@@ -426,7 +471,6 @@ class _SectionContent9 extends StatelessWidget {
       right: horizontalPadding,
       top: 59,
     );
-
 
     return Container(
       padding: padding,
@@ -459,22 +503,22 @@ class _SectionContent7State extends State<_SectionContent7> {
   Widget build(BuildContext context) {
     final padding = Responsive.isDesktop(context)
         ? const EdgeInsets.only(
-            left: 163,
-            right: 163,
-            top: 30,
-            bottom: 58,
-          )
+      left: 163,
+      right: 163,
+      top: 30,
+      bottom: 58,
+    )
         : Responsive.isTablet(context)
-            ? const EdgeInsets.only(
-                left: 50,
-                right: 50,
-                top: 26,
-                bottom: 60,
-              )
-            : const EdgeInsets.only(
-                top: 26,
-                bottom: 33,
-              );
+        ? const EdgeInsets.only(
+      left: 50,
+      right: 50,
+      top: 26,
+      bottom: 60,
+    )
+        : const EdgeInsets.only(
+      top: 26,
+      bottom: 33,
+    );
 
     return VisibilityDetector(
       key: const Key('_SectionContent7'),
@@ -642,7 +686,7 @@ class _SectionContent5 extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment:
-            Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: const [
           Text('SYKZ'),
           Text('hourglass'),
@@ -833,127 +877,133 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
             ),
             child: Responsive.isMobile(context)
                 ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Kompetenzen',
-                        style: context.pageTitleStyle.copyWith(
-                          color: const Color(0XFFE6D1E5),
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      CustomCard(
-                        background: Assets.images.staggeredRowImage1.image(
-                          height: photoSize.height,
-                          width: photoSize.width,
-                          fit: BoxFit.cover,
-                        ),
-                        onTap: () => beamerState.selectedPage =
-                            const PageStateData(page: SitePage.unternehmensberatung),
-                        title: 'Unternehmensberatung',
-                        buttonText: 'Jetzt mehr erfahren',
-                      ),
-                      const SizedBox(height: 10),
-                      CustomCard(
-                        background: Assets.images.staggeredRowImage2.image(
-                          height: photoSize.height,
-                          width: photoSize.width,
-                          fit: BoxFit.cover,
-                        ),
-                        onTap: () => beamerState.selectedPage =
-                            const PageStateData(page: SitePage.ruckabwicklung),
-                        title: 'Rückabwicklung',
-                        buttonText: 'Jetzt mehr erfahren',
-                      ),
-                      const SizedBox(height: 10),
-                      CustomCard(
-                        background: Assets.images.staggeredRowImage3.image(
-                          height: photoSize.height,
-                          width: photoSize.width,
-                          fit: BoxFit.cover,
-                        ),
-                        onTap: () => beamerState.selectedPage =
-                            const PageStateData(page: SitePage.investment),
-                        title: 'Investment & Vermögensschutz',
-                        buttonText: 'Jetzt mehr erfahren',
-                      ),
-                    ],
-                  )
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Kompetenzen',
+                  style: context.pageTitleStyle.copyWith(
+                    color: const Color(0XFFE6D1E5),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                CustomCard(
+                  background: Assets.images.staggeredRowImage1.image(
+                    height: photoSize.height,
+                    width: photoSize.width,
+                    fit: BoxFit.cover,
+                  ),
+                  onTap: () =>
+                  beamerState.selectedPage =
+                  const PageStateData(page: SitePage.unternehmensberatung),
+                  title: 'Unternehmensberatung',
+                  buttonText: 'Jetzt mehr erfahren',
+                ),
+                const SizedBox(height: 10),
+                CustomCard(
+                  background: Assets.images.staggeredRowImage2.image(
+                    height: photoSize.height,
+                    width: photoSize.width,
+                    fit: BoxFit.cover,
+                  ),
+                  onTap: () =>
+                  beamerState.selectedPage =
+                  const PageStateData(page: SitePage.ruckabwicklung),
+                  title: 'Rückabwicklung',
+                  buttonText: 'Jetzt mehr erfahren',
+                ),
+                const SizedBox(height: 10),
+                CustomCard(
+                  background: Assets.images.staggeredRowImage3.image(
+                    height: photoSize.height,
+                    width: photoSize.width,
+                    fit: BoxFit.cover,
+                  ),
+                  onTap: () =>
+                  beamerState.selectedPage =
+                  const PageStateData(page: SitePage.investment),
+                  title: 'Investment & Vermögensschutz',
+                  buttonText: 'Jetzt mehr erfahren',
+                ),
+              ],
+            )
                 : ValueListenableBuilder<double>(
-                    valueListenable: visibilityNotifier,
-                    builder: (context, value, _) {
-                      final scaledValue = staggerFactor * value;
-                      final card1Padding = (2 * staggerFactor) - scaledValue;
-                      final card3Padding = scaledValue;
+                valueListenable: visibilityNotifier,
+                builder: (context, value, _) {
+                  final scaledValue = staggerFactor * value;
+                  final card1Padding = (2 * staggerFactor) - scaledValue;
+                  final card3Padding = scaledValue;
 
-                      return Stack(
-                        children: [
-                          Opacity(
-                            opacity: value,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FlexibleConstrainedBox(
-                                  maxWidth: photoSize.width,
-                                  child: CustomCard(
-                                    topPadding: card1Padding,
-                                    background: Assets.images.staggeredRowImage1.image(
-                                      height: photoSize.height,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    onTap: () => beamerState.selectedPage =
-                                        const PageStateData(page: SitePage.unternehmensberatung),
-                                    title: 'Unternehmensberatung',
-                                    buttonText: 'Jetzt mehr erfahren',
-                                  ),
+                  return Stack(
+                    children: [
+                      Opacity(
+                        opacity: value,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            FlexibleConstrainedBox(
+                              maxWidth: photoSize.width,
+                              child: CustomCard(
+                                topPadding: card1Padding,
+                                background: Assets.images.staggeredRowImage1.image(
+                                  height: photoSize.height,
+                                  fit: BoxFit.cover,
                                 ),
-                                SizedBox(width: photoDividerWidth),
-                                FlexibleConstrainedBox(
-                                  maxWidth: photoSize.width,
-                                  child: CustomCard(
-                                    topPadding: staggerFactor,
-                                    background: Assets.images.staggeredRowImage2.image(
-                                      height: photoSize.height,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    onTap: () => beamerState.selectedPage =
-                                        const PageStateData(page: SitePage.ruckabwicklung),
-                                    title: 'Rückabwicklung',
-                                    buttonText: 'Jetzt mehr erfahren',
-                                  ),
-                                ),
-                                SizedBox(width: photoDividerWidth),
-                                FlexibleConstrainedBox(
-                                  maxWidth: photoSize.width,
-                                  child: CustomCard(
-                                    topPadding: card3Padding,
-                                    background: Assets.images.staggeredRowImage3.image(
-                                      height: photoSize.height,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    onTap: () => beamerState.selectedPage =
-                                        const PageStateData(page: SitePage.investment),
-                                    title: 'Investment & Vermögensschutz',
-                                    buttonText: 'Jetzt mehr erfahren',
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            child: Text(
-                              'Kompetenzen',
-                              style: context.pageTitleStyle.copyWith(
-                                color: const Color(0XFFE6D1E5),
+                                onTap: () =>
+                                beamerState.selectedPage =
+                                const PageStateData(page: SitePage.unternehmensberatung),
+                                title: 'Unternehmensberatung',
+                                buttonText: 'Jetzt mehr erfahren',
                               ),
                             ),
-                          )
-                        ],
-                      );
-                    }),
+                            SizedBox(width: photoDividerWidth),
+                            FlexibleConstrainedBox(
+                              maxWidth: photoSize.width,
+                              child: CustomCard(
+                                topPadding: staggerFactor,
+                                background: Assets.images.staggeredRowImage2.image(
+                                  height: photoSize.height,
+                                  fit: BoxFit.cover,
+                                ),
+                                onTap: () =>
+                                beamerState.selectedPage =
+                                const PageStateData(page: SitePage.ruckabwicklung),
+                                title: 'Rückabwicklung',
+                                buttonText: 'Jetzt mehr erfahren',
+                              ),
+                            ),
+                            SizedBox(width: photoDividerWidth),
+                            FlexibleConstrainedBox(
+                              maxWidth: photoSize.width,
+                              child: CustomCard(
+                                topPadding: card3Padding,
+                                background: Assets.images.staggeredRowImage3.image(
+                                  height: photoSize.height,
+                                  fit: BoxFit.cover,
+                                ),
+                                onTap: () =>
+                                beamerState.selectedPage =
+                                const PageStateData(page: SitePage.investment),
+                                title: 'Investment & Vermögensschutz',
+                                buttonText: 'Jetzt mehr erfahren',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: Text(
+                          'Kompetenzen',
+                          style: context.pageTitleStyle.copyWith(
+                            color: const Color(0XFFE6D1E5),
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                }),
           ),
         ),
       ),
@@ -982,23 +1032,39 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
   }
 }
 
-class _SectionContent3 extends StatelessWidget {
+class _SectionContent3 extends StatefulWidget {
   const _SectionContent3({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<_SectionContent3> createState() => _SectionContent3State();
+}
+
+class _SectionContent3State extends State<_SectionContent3> {
+  late final ValueNotifier<double> visibilityNotifier = ValueNotifier(1)
+    ..addListener(() {
+      log('vf ${visibilityNotifier.value}');
+      if (visibilityNotifier.value == 1) {
+        startFirstTextAnimation.value = true;
+        log('start');
+      }
+    });
+  final ValueNotifier<bool> startSecondTextAnimation = ValueNotifier(false);
+  final ValueNotifier<bool> startFirstTextAnimation = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
     final sectionHeight = Responsive.isDesktop(context)
         ? 582.0
         : Responsive.isTablet(context)
-            ? 337.0
-            : 403.0;
+        ? 337.0
+        : 403.0;
     final horizontalPadding = Responsive.isDesktop(context)
         ? 100.0
         : Responsive.isTablet(context)
-            ? 50.0
-            : 23.0;
+        ? 50.0
+        : 23.0;
 
     final textAlign = Responsive.isMobile(context) ? TextAlign.end : TextAlign.center;
     final subtitleFontSize = Responsive.isDesktop(context) ? 32.0 : 20.0;
@@ -1009,69 +1075,121 @@ class _SectionContent3 extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: Assets.images.homeImage2.image().image,
+          image: Assets.images.homeImage2
+              .image()
+              .image,
           fit: BoxFit.cover,
           scale: 1.3,
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (Responsive.isMobile(context)) const Expanded(child: SizedBox.shrink()),
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 847),
-                    child: Text(
-                      'Das Leben von morgen schon heute gestalten.',
-                      style: context.mainStyle1.copyWith(fontWeight: FontWeight.w300),
-                      textAlign: textAlign,
-                    ),
-                  ),
-                  const SizedBox(height: 29),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 65),
-                    child: Text(
-                      '- mit SYKZ',
-                      style: TextStyle(
-                        fontWeight: R.fontWidths.regular,
-                        fontSize: subtitleFontSize,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+      child: VisibilityDetector(
+        key: const Key('_SectionContent3'),
+        onVisibilityChanged: (visibilityInfo) {
+          final visibleBounds = visibilityInfo.visibleBounds;
+          final normalizedFraction = visibilityInfo.normalizedFraction(context);
+          if (!visibleBounds.isEmpty) {
+            visibilityNotifier.value = normalizedFraction;
+          }
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (Responsive.isMobile(context)) const Expanded(child: SizedBox.shrink()),
+            Expanded(
+              child: Center(
+                child: AnimatedBuilder(
+                    animation: Listenable.merge([
+                      startFirstTextAnimation,
+                      startSecondTextAnimation,
+                    ]),
+                    builder: (context, _) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          if (startFirstTextAnimation.value)
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 847),
+                              child: AnimatedTextKit(
+                                isRepeatingAnimation: false,
+                                onFinished: () => startSecondTextAnimation.value = true,
+                                pause:Duration.zero,
+                                animatedTexts: [
+                                  TypewriterAnimatedText(
+                                    'Das Leben von morgen schon heute gestalten.',
+                                    textStyle:
+                                    context.mainStyle1.copyWith(fontWeight: FontWeight.w300),
+                                    textAlign: textAlign,
+                                    speed: const Duration(milliseconds: 60),
+                                    cursor: '',
+                                  )
+                                ],
+                              ),
+                            ),
+                          if (startSecondTextAnimation.value)
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                const SizedBox(height: 29),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 65),
+                                  child: AnimatedTextKit(
+                                    isRepeatingAnimation: false,
+                                    onFinished: () => startSecondTextAnimation.value = true,
+                                    animatedTexts: [
+                                      TypewriterAnimatedText(
+                                        '- mit SYKZ',
+                                        textStyle: TextStyle(
+                                          fontWeight: R.fontWidths.regular,
+                                          fontSize: subtitleFontSize,
+                                          color: Colors.white,
+                                        ),
+                                        speed: const Duration(milliseconds: 60),
+                                        cursor: '',
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                        ],
+                      );
+                    }),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-class _SectionContent2 extends StatelessWidget {
+class _SectionContent2 extends StatefulWidget {
   const _SectionContent2({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<_SectionContent2> createState() => _SectionContent2State();
+}
+
+class _SectionContent2State extends State<_SectionContent2> {
+  final visibilityNotifier = ValueNotifier<double>(1);
 
   @override
   Widget build(BuildContext context) {
     final verticalPadding = Responsive.isDesktop(context)
         ? 100.0
         : Responsive.isTablet(context)
-            ? 80.0
-            : 50.0;
+        ? 80.0
+        : 50.0;
 
     final photoSize = Responsive.isDesktop(context)
         ? const Size(240, 260)
         : Responsive.isTablet(context)
-            ? const Size(204, 228)
-            : const Size(210, 228);
+        ? const Size(204, 228)
+        : const Size(210, 228);
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -1083,116 +1201,144 @@ class _SectionContent2 extends StatelessWidget {
           Colors.white,
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
-            child: Text(
-              'Wie viel Zeit ist genug Zeit?',
-              textAlign: TextAlign.center,
-              style: context.pageTitleStyle.copyWith(color: R.colors.backgroundColor),
-            ),
-          ),
-          const SizedBox(height: 30),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 922),
-              child: Text(
-                '''
+      child: VisibilityDetector(
+        key: const Key('_SectionContent2'),
+        onVisibilityChanged: (visibilityInfo) {
+          final visibleBounds = visibilityInfo.visibleBounds;
+
+          final normalizedFraction = visibilityInfo.normalizedFraction(context);
+
+          if (!visibleBounds.isEmpty) {
+            visibilityNotifier.value = visibleBounds.top > 0 ? 1 : normalizedFraction;
+          }
+        },
+        child: ValueListenableBuilder(
+            valueListenable: visibilityNotifier,
+            builder: (context, animationValue, _) {
+              final maxTranslateValue = Responsive.isMobile(context) ? 80 : 150;
+
+              final translateProgress = maxTranslateValue - (maxTranslateValue * animationValue);
+              return Opacity(
+                opacity: animationValue,
+                child: Transform.translate(
+                  offset: Offset.fromDirection(1.5, translateProgress),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
+                        child: Text(
+                          'Wie viel Zeit ist genug Zeit?',
+                          textAlign: TextAlign.center,
+                          style: context.pageTitleStyle.copyWith(color: R.colors.backgroundColor),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 922),
+                          child: Text(
+                            '''
 Mit dieser Frage beschäftigen wir uns nun schon lange - und sie hat uns bisher nicht losgelassen.
 Der Wunsch, unseren Mandanten mehr persönliche, berufliche und finanzielle Freiheit zu ermöglichen, ist das was uns antreibt. Mit unserer individuellen Betreuung entwickeln wir ganzheitliche Strategien, die zu unseren Mandanten passen. Dabei legen wir vor allem Wert auf den kontinuierlichen, persönlichen Austausch. 
 Indem wir eng mit unseren Mandanten zusammenarbeiten, finden wir heraus, was sie wirklich bewegt. Dabei haben wir eine zentrale Sache herausgefunden: 
 Wir haben einen angestellten Maschinenbauingenieur, einen Apotheker und einen Konzerninhaber gefragt, was Ihnen in der Zusammenarbeit mit uns wichtig ist und welche Strategie wir gemeinsam verfolgen wollen. Alle gaben uns intuitiv dieselbe Antwort.
 „Zeit - wir wollen mehr Zeit haben.“
 Danach haben wir mit unserem Expertenteam die einzigartige hourglass investment strategy entwickelt, die uns und unseren Mandanten noch besser und effektiver dabei hilft, ihre Motive und Bedürfnisse zu verstehen.                        
-                ''',
-                textAlign: TextAlign.center,
-                style: context.normalStyle,
-              ),
-            ),
-          ),
-          const SizedBox(height: 30),
-          if (Responsive.isMobile(context))
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(width: 5),
-                  Assets.images.rowImage1.image(
-                    height: photoSize.height,
-                    width: photoSize.width,
-                    fit: BoxFit.cover,
+                          ''',
+                            textAlign: TextAlign.center,
+                            style: context.normalStyle,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      if (Responsive.isMobile(context))
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(width: 5),
+                              Assets.images.rowImage1.image(
+                                height: photoSize.height,
+                                width: photoSize.width,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(width: 5),
+                              Assets.images.rowImage2.image(
+                                height: photoSize.height,
+                                width: photoSize.width,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(width: 5),
+                              Assets.images.rowImage3.image(
+                                height: photoSize.height,
+                                width: photoSize.width,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(width: 5),
+                            ],
+                          ),
+                        )
+                      else
+                        Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: 955,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: Assets.images.rowImage1.image(
+                                    height: photoSize.height,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: Assets.images.rowImage2.image(
+                                    height: photoSize.height,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: Assets.images.rowImage3.image(
+                                    height: photoSize.height,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                  const SizedBox(width: 5),
-                  Assets.images.rowImage2.image(
-                    height: photoSize.height,
-                    width: photoSize.width,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(width: 5),
-                  Assets.images.rowImage3.image(
-                    height: photoSize.height,
-                    width: photoSize.width,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(width: 5),
-                ],
-              ),
-            )
-          else
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 955,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    FlexibleConstrainedBox(
-                      maxWidth: photoSize.width,
-                      child: Assets.images.rowImage1.image(
-                        height: photoSize.height,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    FlexibleConstrainedBox(
-                      maxWidth: photoSize.width,
-                      child: Assets.images.rowImage2.image(
-                        height: photoSize.height,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    FlexibleConstrainedBox(
-                      maxWidth: photoSize.width,
-                      child: Assets.images.rowImage3.image(
-                        height: photoSize.height,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-        ],
+              );
+            }),
       ),
     );
   }
 }
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({
-    super.key,
-    required this.background,
-    required this.title,
-    required this.buttonText,
-    this.topPadding = 0,
-    required this.onTap,
+  const CustomCard
+
+  ({
+  super.key,
+  required this.background,
+  required this.title,
+  required this.buttonText,
+  this.topPadding = 0,
+  required this.onTap,
   });
 
   final Widget background;
@@ -1224,7 +1370,7 @@ class CustomCard extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     width: constraint.maxWidth,
                     child: TrapezeContainer(
-                      fillColor: Color.alphaBlend(Colors.black45, Color(0xFFD8ECDF)),
+                      fillColor: Color.alphaBlend(Colors.black45, const Color(0xFFD8ECDF)),
                       child: Text(
                         title,
                         style: context.homeCardTitleStyle,
@@ -1259,13 +1405,15 @@ class CustomCard extends StatelessWidget {
 }
 
 class TeamMemberCard extends StatelessWidget {
-  const TeamMemberCard({
-    super.key,
-    required this.memberPhoto,
-    required this.name,
-    required this.roll,
-    required this.phone,
-    required this.email,
+  const TeamMemberCard
+
+  ({
+  super.key,
+  required this.memberPhoto,
+  required this.name,
+  required this.roll,
+  required this.phone,
+  required this.email,
   });
 
   final Widget memberPhoto;
@@ -1370,7 +1518,7 @@ class _SectionContent1State extends State<_SectionContent1> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => animationStateNotifier.value = MainContentAnimationState.done,
+          (_) => animationStateNotifier.value = MainContentAnimationState.done,
     );
   }
 
@@ -1386,7 +1534,7 @@ class _SectionContent1State extends State<_SectionContent1> {
   @override
   Widget build(BuildContext context) {
     final appIconSize =
-        Responsive.isDesktop(context) ? const Size(210, 68.74) : const Size(155, 51);
+    Responsive.isDesktop(context) ? const Size(210, 68.74) : const Size(155, 51);
 
     final axisDirection = Responsive.isMobile(context) ? Axis.vertical : Axis.horizontal;
 
@@ -1401,29 +1549,31 @@ class _SectionContent1State extends State<_SectionContent1> {
         height: Responsive.isDesktop(context)
             ? 139
             : Responsive.isTablet(context)
-                ? 85
-                : null,
+            ? 85
+            : null,
         width: Responsive.isMobile(context) ? 156 : null,
         child: AnimationConfiguration.synchronized(
           child: ConditionalParentWidget(
             condition: isAnimationPending,
-            conditionalBuilder: (child) => FadeInAnimation(
-              duration: animationDuration,
-              curve: Curves.decelerate,
-              child: child,
-            ),
+            conditionalBuilder: (child) =>
+                FadeInAnimation(
+                  duration: animationDuration,
+                  curve: Curves.decelerate,
+                  child: child,
+                ),
             child: Flex(
               direction: axisDirection,
               mainAxisSize: MainAxisSize.min,
               children: [
                 ConditionalParentWidget(
                   condition: isAnimationPending,
-                  conditionalBuilder: (child) => SlideAnimation(
-                    duration: animationDuration,
-                    curve: Curves.decelerate,
-                    horizontalOffset: -_translationValue,
-                    child: child,
-                  ),
+                  conditionalBuilder: (child) =>
+                      SlideAnimation(
+                        duration: animationDuration,
+                        curve: Curves.decelerate,
+                        horizontalOffset: -_translationValue,
+                        child: child,
+                      ),
                   child: Assets.icons.sykzIcon.svg(
                     height: appIconSize.height,
                     width: appIconSize.width,
@@ -1445,12 +1595,13 @@ class _SectionContent1State extends State<_SectionContent1> {
                 ),
                 ConditionalParentWidget(
                   condition: isAnimationPending,
-                  conditionalBuilder: (child) => SlideAnimation(
-                    duration: animationDuration,
-                    curve: Curves.decelerate,
-                    horizontalOffset: _translationValue,
-                    child: child,
-                  ),
+                  conditionalBuilder: (child) =>
+                      SlideAnimation(
+                        duration: animationDuration,
+                        curve: Curves.decelerate,
+                        horizontalOffset: _translationValue,
+                        child: child,
+                      ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -1460,8 +1611,8 @@ class _SectionContent1State extends State<_SectionContent1> {
                         onTap: () async {
                           widget.itemScrollController.jumpTo(
                             index: widget.itemPositionsListener.itemPositions.value.first.index,
-                            alignment:
-                            widget.itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
+                            alignment: widget
+                                .itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
                           );
                           await widget.itemScrollController.scrollTo(
                             index: 11,

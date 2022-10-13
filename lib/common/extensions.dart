@@ -68,7 +68,7 @@ extension VisibilityInfoX on VisibilityInfo {
 
     if (maxWidgetHeight == 0) return 0;
 
-    var maxFraction = screenHeight / maxWidgetHeight;
+    var maxFraction = (screenHeight / maxWidgetHeight)*0.7;
     if (maxFraction > 1) {
       maxFraction = 1;
     }

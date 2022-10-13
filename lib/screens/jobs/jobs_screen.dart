@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -178,27 +180,38 @@ class _JobDescriptionWidget extends StatelessWidget {
 
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.only(
-        top: 47,
-        bottom: 183,
+      padding: EdgeInsets.only(
+        top: Responsive.isDesktop(context) ? 47 : 30,
+        bottom: 100,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 180),
+            padding: EdgeInsets.only(
+              left: Responsive.isDesktop(context)
+                  ? 180
+                  : Responsive.isTablet(context)
+                      ? 87
+                      : 30,
+            ),
             child: Text(
               'Jobs: 6 | Standorte: 2 | Kategorien: 1',
-              style: R.styles.lSNormalStyle.copyWith(
-                fontSize: 16,
+              style: context.normalStyle.copyWith(
                 color: Colors.black,
               ),
             ),
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 205),
+            padding: EdgeInsets.symmetric(
+              horizontal: Responsive.isDesktop(context)
+                  ? 205
+                  : Responsive.isTablet(context)
+                      ? 80
+                      : 30,
+            ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxWidth: 1114,
@@ -209,21 +222,32 @@ class _JobDescriptionWidget extends StatelessWidget {
                 children: [
                   RoundedHeader.backButton(
                     text: 'Stellen durchsuchen',
-                    style: R.styles.lSNormalStyle.copyWith(fontSize: 16, height: 1),
-                    onTap: () => stepNotifier.value = _SectionSteps.jobsList,
+                    style: context.normalStyle.copyWith(
+                      height: 1,
+                    ),
+                    onTap: () {
+                      stepNotifier.value = _SectionSteps.jobsList;
+                      context.read<VoidCallback>()();
+                    },
                   ),
                   const SizedBox(height: 30),
                   Padding(
-                    padding: const EdgeInsets.only(left: 70),
+                    padding: const EdgeInsets.only(left: 30),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Baubegleiter / Projektsupport FTTX (m/w/d)',
-                          style: style1.copyWith(fontSize: 18),
+                          style: style1.copyWith(
+                            fontSize: Responsive.isDesktop(context)
+                                ? 18
+                                : Responsive.isTablet(context)
+                                    ? 14
+                                    : 12,
+                          ),
                         ),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 8),
                         Text(
                           'Festanstellung, Vollzeit · Bremen',
                           style: style2,
@@ -340,34 +364,85 @@ class _ApplyNowWidget extends StatelessWidget {
     final stepNotifier = Provider.of<ValueNotifier<_SectionSteps>>(context, listen: false);
 
     final style1 = TextStyle(
-      fontSize: 16,
+      fontSize: 14,
+      fontWeight: R.fontWidths.bold,
+      color: Colors.black,
+    );
+
+    final style2 = TextStyle(
+      fontSize: 11,
+      fontWeight: R.fontWidths.medium,
+      color: Colors.black,
+      height: 2.4,
+    );
+
+    final style3 = TextStyle(
+      fontSize: Responsive.isDesktop(context) ? 16 : 11,
       fontWeight: R.fontWidths.regular,
       color: Colors.black,
     );
 
+    final style4 = TextStyle(
+      fontSize: Responsive.isDesktop(context) ? 24 : 14,
+      fontWeight: R.fontWidths.bold,
+      color: const Color(0xFF150A01),
+    );
+
+    const separator = SizedBox(height: 20);
+    const box1 = _CustomCard(
+      title: 'LEBENSLAUF *',
+      content: 'Per Klick mehrere Dateien auswählen '
+          'oder Drag-and-drop verwenden',
+    );
+    const box2 = _CustomCard(
+      title: 'ANSCHREIBEN',
+      content: 'Per Klick mehrere Dateien auswählen '
+          'oder Drag-and-drop verwenden',
+    );
+    const box3 = _CustomCard(
+      title: 'ARBEITSZEUGNIS',
+      content: 'Per Klick mehrere Dateien auswählen '
+          'oder Drag-and-drop verwenden',
+    );
+    const box4 = _CustomCard(
+      title: 'ANDERE',
+      content: 'Per Klick mehrere Dateien auswählen '
+          'oder Drag-and-drop verwenden',
+    );
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.only(
-        top: 47,
-        bottom: 98,
+      padding: EdgeInsets.only(
+        top: Responsive.isDesktop(context) ? 47 : 30,
+        bottom: 100,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 180),
+            padding: EdgeInsets.only(
+              left: Responsive.isDesktop(context)
+                  ? 180
+                  : Responsive.isTablet(context)
+                      ? 87
+                      : 30,
+            ),
             child: Text(
               'Jobs: 6 | Standorte: 2 | Kategorien: 1',
-              style: R.styles.lSNormalStyle.copyWith(
-                fontSize: 16,
+              style: context.normalStyle.copyWith(
                 color: Colors.black,
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          separator,
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 205),
+            padding: EdgeInsets.symmetric(
+              horizontal: Responsive.isDesktop(context)
+                  ? 205
+                  : Responsive.isTablet(context)
+                      ? 80
+                      : 30,
+            ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxWidth: 1114,
@@ -378,42 +453,40 @@ class _ApplyNowWidget extends StatelessWidget {
                 children: [
                   RoundedHeader.backButton(
                     text: 'Stellen durchsuchen',
-                    style: R.styles.lSNormalStyle.copyWith(fontSize: 16, height: 1),
-                    onTap: () => stepNotifier.value = _SectionSteps.description,
+                    style: context.normalStyle.copyWith(
+                      height: 1,
+                    ),
+                    onTap: () {
+                      stepNotifier.value = _SectionSteps.description;
+                      context.read<VoidCallback>()();
+                    },
                   ),
                   const SizedBox(height: 30),
                   Padding(
-                    padding: const EdgeInsets.only(left: 70),
+                    padding: const EdgeInsets.only(left: 30),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Baubegleiter / Projektsupport FTTX (m/w/d)',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: R.fontWidths.bold,
-                            color: Colors.black,
+                          style: style1.copyWith(
+                            fontSize: Responsive.isDesktop(context)
+                                ? 18
+                                : Responsive.isTablet(context)
+                                    ? 14
+                                    : 12,
                           ),
                         ),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 8),
                         Text(
                           'Festanstellung, Vollzeit · Bremen',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: R.fontWidths.medium,
-                            color: Colors.black,
-                            height: 2.4,
-                          ),
+                          style: style2,
                         ),
                         const SizedBox(height: 45),
                         Text(
                           'DEINE BEWERBUNG',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: R.fontWidths.bold,
-                            color: const Color(0xFF150A01),
-                          ),
+                          style: style4,
                         ),
                         const SizedBox(height: 16),
                         Text(
@@ -422,7 +495,7 @@ class _ApplyNowWidget extends StatelessWidget {
                           'kurze Formular aus. Solltest Du Schwierigkeiten '
                           'mit dem Upload Deiner Daten haben, wende dich gerne '
                           'per Email an .',
-                          style: style1,
+                          style: style3,
                         ),
                         const SizedBox(height: 40),
                         Align(
@@ -436,18 +509,14 @@ class _ApplyNowWidget extends StatelessWidget {
                         const SizedBox(height: 60),
                         Text(
                           'DOKUMENTE',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: R.fontWidths.bold,
-                            color: const Color(0xFF150A01),
-                          ),
+                          style: style4,
                         ),
                         const SizedBox(height: 16),
                         Text(
                           'Bitte lade hier die für die Stelle benötigten'
                           ' Bewerbungsunterlagen hoch (z.B. Lebenslauf, '
                           'Anschreiben, Zeugnisse, Gehaltsvorstellung etc.).',
-                          style: style1,
+                          style: style3,
                         ),
                         const SizedBox(height: 40),
                         Align(
@@ -459,56 +528,55 @@ class _ApplyNowWidget extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: const [
-                                    Expanded(
-                                      child: _CustomCard(
-                                        title: 'LEBENSLAUF *',
-                                        content: 'Per Klick mehrere Dateien auswählen '
-                                            'oder Drag-and-drop verwenden',
+                                if (!Responsive.isMobile(context)) ...[
+                                  Row(
+                                    children: const [
+                                      Expanded(
+                                        child: box1,
                                       ),
-                                    ),
-                                    SizedBox(width: 30),
-                                    Expanded(
-                                      child: _CustomCard(
-                                        title: 'ANSCHREIBEN',
-                                        content: 'Per Klick mehrere Dateien auswählen '
-                                            'oder Drag-and-drop verwenden',
+                                      SizedBox(width: 30),
+                                      Expanded(
+                                        child: box2,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 20),
-                                Row(
-                                  children: const [
-                                    Expanded(
-                                      child: _CustomCard(
-                                        title: 'ARBEITSZEUGNIS',
-                                        content: 'Per Klick mehrere Dateien auswählen '
-                                            'oder Drag-and-drop verwenden',
+                                    ],
+                                  ),
+                                  separator,
+                                  Row(
+                                    children: const [
+                                      Expanded(
+                                        child: box3,
                                       ),
-                                    ),
-                                    SizedBox(width: 30),
-                                    Expanded(
-                                      child: _CustomCard(
-                                        title: 'ANDERE',
-                                        content: 'Per Klick mehrere Dateien auswählen '
-                                            'oder Drag-and-drop verwenden',
+                                      SizedBox(width: 30),
+                                      Expanded(
+                                        child: box4,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 20),
+                                    ],
+                                  ),
+                                ] else ...[
+                                  box1,
+                                  separator,
+                                  box2,
+                                  separator,
+                                  box3,
+                                  separator,
+                                  box4,
+                                  separator,
+                                ],
                                 CustomCheckButton(
                                   text:
                                       'Hiermit bestätige ich, dass ich die Datenschutzerklärung zur',
-                                  textStyle: style1.copyWith(fontSize: 11),
+                                  textStyle: style3.copyWith(fontSize: 11),
                                   iconColor: R.colors.roundedHeaderColor,
                                 ),
                                 const SizedBox(height: 33),
-                                Row(
+                                Flex(
+                                  direction: Responsive.isMobile(context)
+                                      ? Axis.vertical
+                                      : Axis.horizontal,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     DestinationButtonWidget(
+                                      expanded: Responsive.isMobile(context),
                                       text: 'BEWERBUNG ABSCHICKEN',
                                       backgroundColor: const Color(0xFFCAE4F8).withOpacity(0.5),
                                       textColor: Colors.black,
@@ -521,7 +589,9 @@ class _ApplyNowWidget extends StatelessWidget {
                                       onTap: () {},
                                     ),
                                     const SizedBox(width: 33),
+                                    const SizedBox(height: 22),
                                     DestinationButtonWidget(
+                                      expanded: Responsive.isMobile(context),
                                       text: 'ABBRUCH',
                                       onTap: () {},
                                       fontWeight: R.fontWidths.medium,
@@ -608,26 +678,31 @@ class _JobsListWidget extends StatelessWidget {
     final stepNotifier = Provider.of<ValueNotifier<_SectionSteps>>(context, listen: false);
 
     final style1 = TextStyle(
-      fontSize: 20,
+      fontSize: Responsive.isMobile(context) ? 18 : 20,
       fontWeight: R.fontWidths.bold,
       color: const Color(0xFF6996BA),
     );
 
     final style2 = TextStyle(
-      fontSize: 20,
+      fontSize: Responsive.isMobile(context)
+          ? 12
+          : Responsive.isTablet(context)
+              ? 16
+              : 20,
       fontWeight: R.fontWidths.semiBold,
       color: Colors.black,
     );
 
     final style3 = TextStyle(
-      fontSize: 12,
+      fontSize: Responsive.isDesktop(context) ? 12 : 11,
       fontWeight: R.fontWidths.medium,
       color: Colors.black,
     );
+
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.only(
-        top: 47,
+      padding: EdgeInsets.only(
+        top: Responsive.isDesktop(context) ? 47 : 30,
         bottom: 100,
       ),
       child: Column(
@@ -635,18 +710,29 @@ class _JobsListWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 180),
+            padding: EdgeInsets.only(
+              left: Responsive.isDesktop(context)
+                  ? 180
+                  : Responsive.isTablet(context)
+                      ? 87
+                      : 30,
+            ),
             child: Text(
               'Jobs: 6 | Standorte: 2 | Kategorien: 1',
-              style: R.styles.lSNormalStyle.copyWith(
-                fontSize: 16,
+              style: context.normalStyle.copyWith(
                 color: Colors.black,
               ),
             ),
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 205),
+            padding: EdgeInsets.symmetric(
+              horizontal: Responsive.isDesktop(context)
+                  ? 205
+                  : Responsive.isTablet(context)
+                      ? 80
+                      : 30,
+            ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxWidth: 1114,
@@ -656,14 +742,13 @@ class _JobsListWidget extends StatelessWidget {
                 children: [
                   RoundedHeader.search(
                     text: 'Stellen durchsuchen',
-                    style: R.styles.lSNormalStyle.copyWith(
-                      fontSize: 16,
+                    style: context.normalStyle.copyWith(
                       height: 1,
                     ),
                   ),
                   const SizedBox(height: 40),
                   Padding(
-                    padding: const EdgeInsets.only(left: 70),
+                    padding: const EdgeInsets.only(left: 30),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -827,9 +912,8 @@ class _SectionContent3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.only(
-        left: 155,
-        right: 155,
+      padding: EdgeInsets.symmetric(
+        horizontal: Responsive.isDesktop(context) ? 155 : 60,
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(

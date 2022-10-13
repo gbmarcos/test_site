@@ -240,6 +240,7 @@ class DestinationButtonWidget extends StatelessWidget {
     this.fontSize,
     this.opacity = 0.8,
     this.elevation = 3,
+    this.expanded = false,
   }) : super(key: key);
 
   final String text;
@@ -253,6 +254,7 @@ class DestinationButtonWidget extends StatelessWidget {
   final double? fontSize;
   final double opacity;
   final double elevation;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context) {
@@ -267,6 +269,7 @@ class DestinationButtonWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(2)),
           padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 18),
           elevation: elevation,
+          minimumSize: expanded ? const Size(double.infinity, 0): null,
         ),
         onPressed: onTap,
         child: Text(

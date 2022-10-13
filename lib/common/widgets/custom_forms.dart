@@ -5,7 +5,9 @@ import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 
 class AppForm1 extends StatelessWidget {
-  const AppForm1({super.key});
+  const AppForm1
+
+  ({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -184,21 +186,21 @@ class AppForm2 extends StatelessWidget {
 
     final padding = Responsive.isDesktop(context)
         ? const EdgeInsets.only(
-            top: 56,
-            left: 100,
-            right: 100,
-          )
+      top: 56,
+      left: 100,
+      right: 100,
+    )
         : Responsive.isTablet(context)
-            ? const EdgeInsets.only(
-                top: 28,
-                left: 60,
-                right: 60,
-              )
-            : const EdgeInsets.only(
-                top: 28,
-                left: 40,
-                right: 40,
-              );
+        ? const EdgeInsets.only(
+      top: 28,
+      left: 60,
+      right: 60,
+    )
+        : const EdgeInsets.only(
+      top: 28,
+      left: 40,
+      right: 40,
+    );
 
     final form = Container(
       color: Colors.black,
@@ -251,36 +253,36 @@ class AppForm2 extends StatelessWidget {
 
     return Responsive.isMobile(context)
         ? Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Assets.images.form2Image.image(
-                width: double.infinity,
-                height: 320,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(
-                height: formHeight,
-                child: form,
-              ),
-            ],
-          )
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Assets.images.form2Image.image(
+          width: double.infinity,
+          height: 320,
+          fit: BoxFit.cover,
+        ),
+        SizedBox(
+          height: formHeight,
+          child: form,
+        ),
+      ],
+    )
         : SizedBox(
-            height: formHeight,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Assets.images.form2Image.image(
-                    height: double.infinity,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Expanded(
-                  child: form,
-                ),
-              ],
+      height: formHeight,
+      child: Row(
+        children: [
+          Expanded(
+            child: Assets.images.form2Image.image(
+              height: double.infinity,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-          );
+          ),
+          Expanded(
+            child: form,
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -300,108 +302,138 @@ class AppForm3 extends StatelessWidget {
       color: Colors.black,
     );
 
-    const fieldVerticalSeparator = SizedBox(
-      height: 16,
+    final fieldVerticalSeparator = SizedBox(
+      height: Responsive.isDesktop(context)
+          ? 16
+          : 8,
     );
 
     const fieldHorizontalSeparator = SizedBox(
       width: 30,
     );
 
+    final vornameField = CustomTextField(
+      hintText: 'Vorname',
+      textStyle: style1,
+    );
+    final nachnameField = CustomTextField(
+      hintText: 'Nachname',
+      textStyle: style1,
+    );
+    final emailField = CustomTextField(
+      hintText: 'E-Mail',
+      textStyle: style1,
+    );
+    final ortField = CustomTextField(
+      hintText: 'ORT',
+      textStyle: style1,
+    );
+    final telefonField = CustomTextField(
+      hintText: 'Telefon',
+      textStyle: style1,
+    );
+    final dateField = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'GEBURTSDATUM *',
+          style: style2,
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        CustomTextField(
+          hintText: 'DD.MM.YY',
+          textStyle: style1,
+        ),
+      ],
+    );
+    final bitteAuswahlenField = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'GESCHLECHT',
+          style: style2,
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        CustomTextField(
+          hintText: 'Bitte auswählen...',
+          textStyle: style1,
+        ),
+      ],
+    );
+    final verfugbarField = CustomTextField(
+      hintText: 'VERFÜGBAR AB',
+      textStyle: style1,
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: CustomTextField(
-                hintText: 'Vorname',
-                textStyle: style1,
+        if (!Responsive.isMobile(context))
+          Row(
+            children: [
+              Expanded(
+                child: vornameField,
               ),
-            ),
-            fieldHorizontalSeparator,
-            Expanded(
-              child: CustomTextField(
-                hintText: 'Nachname',
-                textStyle: style1,
+              fieldHorizontalSeparator,
+              Expanded(
+                child: nachnameField,
               ),
-            ),
+            ],
+          )
+        else
+          ...[
+            vornameField,
+            fieldVerticalSeparator,
+            nachnameField,
           ],
-        ),
         fieldVerticalSeparator,
-        CustomTextField(
-          hintText: 'E-Mail',
-          textStyle: style1,
-        ),
+        emailField,
         fieldVerticalSeparator,
-        Row(
-          children: [
-            Expanded(
-              child: CustomTextField(
-                hintText: 'ORT',
-                textStyle: style1,
+        if (!Responsive.isMobile(context))
+          Row(
+            children: [
+              Expanded(
+                child: ortField,
               ),
-            ),
-            fieldHorizontalSeparator,
-            Expanded(
-              child: CustomTextField(
-                hintText: 'Telefon',
-                textStyle: style1,
+              fieldHorizontalSeparator,
+              Expanded(
+                child: telefonField,
               ),
-            ),
+            ],
+          )
+        else
+          ...[
+            ortField,
+            fieldVerticalSeparator,
+            telefonField,
           ],
-        ),
         const SizedBox(
           height: 28,
         ),
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'GEBURTSDATUM *',
-                    style: style2,
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  CustomTextField(
-                    hintText: 'DD.MM.YY',
-                    textStyle: style1,
-                  ),
-                ],
+        if (!Responsive.isMobile(context))
+          Row(
+            children: [
+              Expanded(
+                child: dateField,
               ),
-            ),
-            fieldHorizontalSeparator,
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'GESCHLECHT',
-                    style: style2,
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  CustomTextField(
-                    hintText: 'Bitte auswählen...',
-                    textStyle: style1,
-                  ),
-                ],
+              fieldHorizontalSeparator,
+              Expanded(
+                child: bitteAuswahlenField,
               ),
-            ),
+            ],
+          ) else
+          ...[
+            dateField,
+            fieldVerticalSeparator,
+            bitteAuswahlenField,
           ],
-        ),
         fieldVerticalSeparator,
-        CustomTextField(
-          hintText: 'VERFÜGBAR AB',
-          textStyle: style1,
-        ),
+        verfugbarField,
       ],
     );
   }

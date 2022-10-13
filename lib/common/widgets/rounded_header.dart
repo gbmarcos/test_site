@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/r.dart';
 
 enum _RoundedHeaderMode { search, backButton }
@@ -29,7 +30,9 @@ class RoundedHeader extends StatelessWidget {
     const iconColor = Colors.black;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      height: Responsive.isDesktop(context) ? 62 : 48,
+      alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         color: R.colors.roundedHeaderColor.withOpacity(0.3),
         borderRadius: BorderRadius.circular(30),

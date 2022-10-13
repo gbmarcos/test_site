@@ -14,9 +14,11 @@ final routerDelegate = BeamerDelegate(
 enum SitePage{
 
   home(path:'/',pageName: 'Home'),
-unternehmensberatung(path:'/unternehmensberatung',pageName: 'Unternehmensberatung'),
-ruckabwicklung(path:'/ruckabwicklung',pageName: 'Rückabwicklung'),
-investment(path:'/investment',pageName: 'Vermögensschutz & Investment.');
+  unternehmensberatung(path:'/unternehmensberatung',pageName: 'Unternehmensberatung'),
+  ruckabwicklung(path:'/prozessoptimierung',pageName: 'Rückabwicklung'),
+  investment(path:'/leanmanagement',pageName: 'Vermögensschutz & Investment.'),
+  jobs(path:'/jobs',pageName: 'Offene Stellenangebote.');
+
 
 
  static SitePage fromPath(String? path){
@@ -82,7 +84,6 @@ class CustomPageLocation extends BeamLocation<CustomPageState> {
   @override
   List<BeamPage> buildPages(BuildContext context, CustomPageState state) {
 
-
     late Widget page;
 
     switch (state.selectedPage.page) {
@@ -98,7 +99,9 @@ class CustomPageLocation extends BeamLocation<CustomPageState> {
       case SitePage.investment:
         page = const VisionScreen();
         break;
-
+      case SitePage.jobs:
+        page = const JobsScreen();
+        break;
     }
 
     final name = state.selectedPage.page.pageName;

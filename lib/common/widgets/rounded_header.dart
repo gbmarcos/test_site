@@ -9,17 +9,20 @@ class RoundedHeader extends StatelessWidget {
     super.key,
     required this.text,
     this.style,
-  }) : _mode = _RoundedHeaderMode.search;
+  })  : _mode = _RoundedHeaderMode.search,
+        onTap = null;
 
   const RoundedHeader.backButton({
     super.key,
     required this.text,
     this.style,
+    this.onTap,
   }) : _mode = _RoundedHeaderMode.backButton;
 
   final String text;
   final TextStyle? style;
   final _RoundedHeaderMode _mode;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +31,18 @@ class RoundedHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       decoration: BoxDecoration(
-        color:  R.colors.roundedHeaderColor.withOpacity(0.3),
+        color: R.colors.roundedHeaderColor.withOpacity(0.3),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
         children: [
           if (_mode == _RoundedHeaderMode.backButton) ...[
-            const Icon(
-              Icons.arrow_back_ios_outlined,
-              color: iconColor,
+            InkWell(
+              onTap: onTap,
+              child: const Icon(
+                Icons.arrow_back_ios_outlined,
+                color: iconColor,
+              ),
             ),
             const SizedBox(width: 30),
           ],

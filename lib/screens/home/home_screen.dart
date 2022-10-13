@@ -15,9 +15,7 @@ import 'package:test_site/r.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen
-
-  ({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -35,9 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Color(0xFF7D7A7A).withOpacity(0.3),
                 BlendMode.srcOver,
               ),
-              image: Assets.images.homeImage1
-                  .image()
-                  .image,
+              image: Assets.images.homeImage1.image().image,
               fit: BoxFit.cover,
               scale: 1.3,
             ),
@@ -120,8 +116,8 @@ class _TeamSection extends StatelessWidget {
     final horizontalPadding = Responsive.isDesktop(context)
         ? 155.0
         : Responsive.isTablet(context)
-        ? 80.0
-        : 36.0;
+            ? 80.0
+            : 36.0;
 
     final padding = EdgeInsets.only(
       left: horizontalPadding,
@@ -132,8 +128,8 @@ class _TeamSection extends StatelessWidget {
     final photoSize = Responsive.isDesktop(context)
         ? const Size(358, 500)
         : Responsive.isTablet(context)
-        ? const Size(269, 374)
-        : const Size(374, 523);
+            ? const Size(269, 374)
+            : const Size(374, 523);
 
     return ColoredBox(
       color: Colors.white,
@@ -270,7 +266,7 @@ class _VisionSectionState extends State<_VisionSection> {
     final vision = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment:
-      Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+          Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
       children: [
         Text(
           'Vision',
@@ -316,8 +312,8 @@ Wie wir das tun? Weil wir hinter die Fassade schauen. Indem wir die richtigen Fr
     final horizontalPadding = Responsive.isDesktop(context)
         ? 155.0
         : Responsive.isTablet(context)
-        ? 80.0
-        : 36.0;
+            ? 80.0
+            : 36.0;
 
     final padding = EdgeInsets.only(
       left: horizontalPadding,
@@ -407,8 +403,8 @@ class _SectionContent8 extends StatelessWidget {
     final horizontalPadding = Responsive.isDesktop(context)
         ? 155.0
         : Responsive.isTablet(context)
-        ? 80.0
-        : 36.0;
+            ? 80.0
+            : 36.0;
 
     final padding = EdgeInsets.only(
       left: horizontalPadding,
@@ -463,8 +459,8 @@ class _SectionContent9 extends StatelessWidget {
     final horizontalPadding = Responsive.isDesktop(context)
         ? 155.0
         : Responsive.isTablet(context)
-        ? 80.0
-        : 36.0;
+            ? 80.0
+            : 36.0;
 
     final padding = EdgeInsets.only(
       left: horizontalPadding,
@@ -503,22 +499,22 @@ class _SectionContent7State extends State<_SectionContent7> {
   Widget build(BuildContext context) {
     final padding = Responsive.isDesktop(context)
         ? const EdgeInsets.only(
-      left: 163,
-      right: 163,
-      top: 30,
-      bottom: 58,
-    )
+            left: 163,
+            right: 163,
+            top: 30,
+            bottom: 58,
+          )
         : Responsive.isTablet(context)
-        ? const EdgeInsets.only(
-      left: 50,
-      right: 50,
-      top: 26,
-      bottom: 60,
-    )
-        : const EdgeInsets.only(
-      top: 26,
-      bottom: 33,
-    );
+            ? const EdgeInsets.only(
+                left: 50,
+                right: 50,
+                top: 26,
+                bottom: 60,
+              )
+            : const EdgeInsets.only(
+                top: 26,
+                bottom: 33,
+              );
 
     return VisibilityDetector(
       key: const Key('_SectionContent7'),
@@ -686,7 +682,7 @@ class _SectionContent5 extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment:
-        Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+            Responsive.isMobile(context) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: const [
           Text('SYKZ'),
           Text('hourglass'),
@@ -877,133 +873,127 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
             ),
             child: Responsive.isMobile(context)
                 ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Kompetenzen',
-                  style: context.pageTitleStyle.copyWith(
-                    color: const Color(0XFFE6D1E5),
-                  ),
-                ),
-                const SizedBox(height: 40),
-                CustomCard(
-                  background: Assets.images.staggeredRowImage1.image(
-                    height: photoSize.height,
-                    width: photoSize.width,
-                    fit: BoxFit.cover,
-                  ),
-                  onTap: () =>
-                  beamerState.selectedPage =
-                  const PageStateData(page: SitePage.unternehmensberatung),
-                  title: 'Unternehmensberatung',
-                  buttonText: 'Jetzt mehr erfahren',
-                ),
-                const SizedBox(height: 10),
-                CustomCard(
-                  background: Assets.images.staggeredRowImage2.image(
-                    height: photoSize.height,
-                    width: photoSize.width,
-                    fit: BoxFit.cover,
-                  ),
-                  onTap: () =>
-                  beamerState.selectedPage =
-                  const PageStateData(page: SitePage.ruckabwicklung),
-                  title: 'Rückabwicklung',
-                  buttonText: 'Jetzt mehr erfahren',
-                ),
-                const SizedBox(height: 10),
-                CustomCard(
-                  background: Assets.images.staggeredRowImage3.image(
-                    height: photoSize.height,
-                    width: photoSize.width,
-                    fit: BoxFit.cover,
-                  ),
-                  onTap: () =>
-                  beamerState.selectedPage =
-                  const PageStateData(page: SitePage.investment),
-                  title: 'Investment & Vermögensschutz',
-                  buttonText: 'Jetzt mehr erfahren',
-                ),
-              ],
-            )
-                : ValueListenableBuilder<double>(
-                valueListenable: visibilityNotifier,
-                builder: (context, value, _) {
-                  final scaledValue = staggerFactor * value;
-                  final card1Padding = (2 * staggerFactor) - scaledValue;
-                  final card3Padding = scaledValue;
-
-                  return Stack(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Opacity(
-                        opacity: value,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FlexibleConstrainedBox(
-                              maxWidth: photoSize.width,
-                              child: CustomCard(
-                                topPadding: card1Padding,
-                                background: Assets.images.staggeredRowImage1.image(
-                                  height: photoSize.height,
-                                  fit: BoxFit.cover,
-                                ),
-                                onTap: () =>
-                                beamerState.selectedPage =
-                                const PageStateData(page: SitePage.unternehmensberatung),
-                                title: 'Unternehmensberatung',
-                                buttonText: 'Jetzt mehr erfahren',
-                              ),
-                            ),
-                            SizedBox(width: photoDividerWidth),
-                            FlexibleConstrainedBox(
-                              maxWidth: photoSize.width,
-                              child: CustomCard(
-                                topPadding: staggerFactor,
-                                background: Assets.images.staggeredRowImage2.image(
-                                  height: photoSize.height,
-                                  fit: BoxFit.cover,
-                                ),
-                                onTap: () =>
-                                beamerState.selectedPage =
-                                const PageStateData(page: SitePage.ruckabwicklung),
-                                title: 'Rückabwicklung',
-                                buttonText: 'Jetzt mehr erfahren',
-                              ),
-                            ),
-                            SizedBox(width: photoDividerWidth),
-                            FlexibleConstrainedBox(
-                              maxWidth: photoSize.width,
-                              child: CustomCard(
-                                topPadding: card3Padding,
-                                background: Assets.images.staggeredRowImage3.image(
-                                  height: photoSize.height,
-                                  fit: BoxFit.cover,
-                                ),
-                                onTap: () =>
-                                beamerState.selectedPage =
-                                const PageStateData(page: SitePage.investment),
-                                title: 'Investment & Vermögensschutz',
-                                buttonText: 'Jetzt mehr erfahren',
-                              ),
-                            ),
-                          ],
+                      Text(
+                        'Kompetenzen',
+                        style: context.pageTitleStyle.copyWith(
+                          color: const Color(0XFFE6D1E5),
                         ),
                       ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: Text(
-                          'Kompetenzen',
-                          style: context.pageTitleStyle.copyWith(
-                            color: const Color(0XFFE6D1E5),
-                          ),
+                      const SizedBox(height: 40),
+                      CustomCard(
+                        background: Assets.images.staggeredRowImage1.image(
+                          height: photoSize.height,
+                          width: photoSize.width,
+                          fit: BoxFit.cover,
                         ),
-                      )
+                        onTap: () => beamerState.selectedPage =
+                            const PageStateData(page: SitePage.unternehmensberatung),
+                        title: 'Unternehmensberatung',
+                        buttonText: 'Jetzt mehr erfahren',
+                      ),
+                      const SizedBox(height: 10),
+                      CustomCard(
+                        background: Assets.images.staggeredRowImage2.image(
+                          height: photoSize.height,
+                          width: photoSize.width,
+                          fit: BoxFit.cover,
+                        ),
+                        onTap: () => beamerState.selectedPage =
+                            const PageStateData(page: SitePage.ruckabwicklung),
+                        title: 'Rückabwicklung',
+                        buttonText: 'Jetzt mehr erfahren',
+                      ),
+                      const SizedBox(height: 10),
+                      CustomCard(
+                        background: Assets.images.staggeredRowImage3.image(
+                          height: photoSize.height,
+                          width: photoSize.width,
+                          fit: BoxFit.cover,
+                        ),
+                        onTap: () => beamerState.selectedPage =
+                            const PageStateData(page: SitePage.investment),
+                        title: 'Investment & Vermögensschutz',
+                        buttonText: 'Jetzt mehr erfahren',
+                      ),
                     ],
-                  );
-                }),
+                  )
+                : ValueListenableBuilder<double>(
+                    valueListenable: visibilityNotifier,
+                    builder: (context, value, _) {
+                      final scaledValue = staggerFactor * value;
+                      final card1Padding = (2 * staggerFactor) - scaledValue;
+                      final card3Padding = scaledValue;
+
+                      return Stack(
+                        children: [
+                          Opacity(
+                            opacity: value,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: CustomCard(
+                                    topPadding: card1Padding,
+                                    background: Assets.images.staggeredRowImage1.image(
+                                      height: photoSize.height,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    onTap: () => beamerState.selectedPage =
+                                        const PageStateData(page: SitePage.unternehmensberatung),
+                                    title: 'Unternehmensberatung',
+                                    buttonText: 'Jetzt mehr erfahren',
+                                  ),
+                                ),
+                                SizedBox(width: photoDividerWidth),
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: CustomCard(
+                                    topPadding: staggerFactor,
+                                    background: Assets.images.staggeredRowImage2.image(
+                                      height: photoSize.height,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    onTap: () => beamerState.selectedPage =
+                                        const PageStateData(page: SitePage.ruckabwicklung),
+                                    title: 'Rückabwicklung',
+                                    buttonText: 'Jetzt mehr erfahren',
+                                  ),
+                                ),
+                                SizedBox(width: photoDividerWidth),
+                                FlexibleConstrainedBox(
+                                  maxWidth: photoSize.width,
+                                  child: CustomCard(
+                                    topPadding: card3Padding,
+                                    background: Assets.images.staggeredRowImage3.image(
+                                      height: photoSize.height,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    onTap: () => beamerState.selectedPage =
+                                        const PageStateData(page: SitePage.investment),
+                                    title: 'Investment & Vermögensschutz',
+                                    buttonText: 'Jetzt mehr erfahren',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            child: Text(
+                              'Kompetenzen',
+                              style: context.pageTitleStyle.copyWith(
+                                color: const Color(0XFFE6D1E5),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    }),
           ),
         ),
       ),
@@ -1044,10 +1034,8 @@ class _SectionContent3 extends StatefulWidget {
 class _SectionContent3State extends State<_SectionContent3> {
   late final ValueNotifier<double> visibilityNotifier = ValueNotifier(1)
     ..addListener(() {
-      log('vf ${visibilityNotifier.value}');
       if (visibilityNotifier.value == 1) {
         startFirstTextAnimation.value = true;
-        log('start');
       }
     });
   final ValueNotifier<bool> startSecondTextAnimation = ValueNotifier(false);
@@ -1058,13 +1046,13 @@ class _SectionContent3State extends State<_SectionContent3> {
     final sectionHeight = Responsive.isDesktop(context)
         ? 582.0
         : Responsive.isTablet(context)
-        ? 337.0
-        : 403.0;
+            ? 337.0
+            : 403.0;
     final horizontalPadding = Responsive.isDesktop(context)
         ? 100.0
         : Responsive.isTablet(context)
-        ? 50.0
-        : 23.0;
+            ? 50.0
+            : 23.0;
 
     final textAlign = Responsive.isMobile(context) ? TextAlign.end : TextAlign.center;
     final subtitleFontSize = Responsive.isDesktop(context) ? 32.0 : 20.0;
@@ -1075,9 +1063,7 @@ class _SectionContent3State extends State<_SectionContent3> {
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: Assets.images.homeImage2
-              .image()
-              .image,
+          image: Assets.images.homeImage2.image().image,
           fit: BoxFit.cover,
           scale: 1.3,
         ),
@@ -1113,12 +1099,12 @@ class _SectionContent3State extends State<_SectionContent3> {
                               child: AnimatedTextKit(
                                 isRepeatingAnimation: false,
                                 onFinished: () => startSecondTextAnimation.value = true,
-                                pause:Duration.zero,
+                                pause: Duration.zero,
                                 animatedTexts: [
                                   TypewriterAnimatedText(
                                     'Das Leben von morgen schon heute gestalten.',
                                     textStyle:
-                                    context.mainStyle1.copyWith(fontWeight: FontWeight.w300),
+                                        context.mainStyle1.copyWith(fontWeight: FontWeight.w300),
                                     textAlign: textAlign,
                                     speed: const Duration(milliseconds: 60),
                                     cursor: '',
@@ -1182,14 +1168,14 @@ class _SectionContent2State extends State<_SectionContent2> {
     final verticalPadding = Responsive.isDesktop(context)
         ? 100.0
         : Responsive.isTablet(context)
-        ? 80.0
-        : 50.0;
+            ? 80.0
+            : 50.0;
 
     final photoSize = Responsive.isDesktop(context)
         ? const Size(240, 260)
         : Responsive.isTablet(context)
-        ? const Size(204, 228)
-        : const Size(210, 228);
+            ? const Size(204, 228)
+            : const Size(210, 228);
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -1284,7 +1270,7 @@ Danach haben wir mit unserem Expertenteam die einzigartige hourglass investment 
                       else
                         Padding(
                           padding:
-                          EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
+                              EdgeInsets.symmetric(horizontal: context.generalHorizontalPadding),
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(
                               maxWidth: 955,
@@ -1330,15 +1316,13 @@ Danach haben wir mit unserem Expertenteam die einzigartige hourglass investment 
 }
 
 class CustomCard extends StatelessWidget {
-  const CustomCard
-
-  ({
-  super.key,
-  required this.background,
-  required this.title,
-  required this.buttonText,
-  this.topPadding = 0,
-  required this.onTap,
+  const CustomCard({
+    super.key,
+    required this.background,
+    required this.title,
+    required this.buttonText,
+    this.topPadding = 0,
+    required this.onTap,
   });
 
   final Widget background;
@@ -1405,15 +1389,13 @@ class CustomCard extends StatelessWidget {
 }
 
 class TeamMemberCard extends StatelessWidget {
-  const TeamMemberCard
-
-  ({
-  super.key,
-  required this.memberPhoto,
-  required this.name,
-  required this.roll,
-  required this.phone,
-  required this.email,
+  const TeamMemberCard({
+    super.key,
+    required this.memberPhoto,
+    required this.name,
+    required this.roll,
+    required this.phone,
+    required this.email,
   });
 
   final Widget memberPhoto;
@@ -1518,7 +1500,7 @@ class _SectionContent1State extends State<_SectionContent1> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-          (_) => animationStateNotifier.value = MainContentAnimationState.done,
+      (_) => animationStateNotifier.value = MainContentAnimationState.done,
     );
   }
 
@@ -1534,7 +1516,7 @@ class _SectionContent1State extends State<_SectionContent1> {
   @override
   Widget build(BuildContext context) {
     final appIconSize =
-    Responsive.isDesktop(context) ? const Size(210, 68.74) : const Size(155, 51);
+        Responsive.isDesktop(context) ? const Size(210, 68.74) : const Size(155, 51);
 
     final axisDirection = Responsive.isMobile(context) ? Axis.vertical : Axis.horizontal;
 
@@ -1549,31 +1531,29 @@ class _SectionContent1State extends State<_SectionContent1> {
         height: Responsive.isDesktop(context)
             ? 139
             : Responsive.isTablet(context)
-            ? 85
-            : null,
+                ? 85
+                : null,
         width: Responsive.isMobile(context) ? 156 : null,
         child: AnimationConfiguration.synchronized(
           child: ConditionalParentWidget(
             condition: isAnimationPending,
-            conditionalBuilder: (child) =>
-                FadeInAnimation(
-                  duration: animationDuration,
-                  curve: Curves.decelerate,
-                  child: child,
-                ),
+            conditionalBuilder: (child) => FadeInAnimation(
+              duration: animationDuration,
+              curve: Curves.decelerate,
+              child: child,
+            ),
             child: Flex(
               direction: axisDirection,
               mainAxisSize: MainAxisSize.min,
               children: [
                 ConditionalParentWidget(
                   condition: isAnimationPending,
-                  conditionalBuilder: (child) =>
-                      SlideAnimation(
-                        duration: animationDuration,
-                        curve: Curves.decelerate,
-                        horizontalOffset: -_translationValue,
-                        child: child,
-                      ),
+                  conditionalBuilder: (child) => SlideAnimation(
+                    duration: animationDuration,
+                    curve: Curves.decelerate,
+                    horizontalOffset: -_translationValue,
+                    child: child,
+                  ),
                   child: Assets.icons.sykzIcon.svg(
                     height: appIconSize.height,
                     width: appIconSize.width,
@@ -1595,13 +1575,12 @@ class _SectionContent1State extends State<_SectionContent1> {
                 ),
                 ConditionalParentWidget(
                   condition: isAnimationPending,
-                  conditionalBuilder: (child) =>
-                      SlideAnimation(
-                        duration: animationDuration,
-                        curve: Curves.decelerate,
-                        horizontalOffset: _translationValue,
-                        child: child,
-                      ),
+                  conditionalBuilder: (child) => SlideAnimation(
+                    duration: animationDuration,
+                    curve: Curves.decelerate,
+                    horizontalOffset: _translationValue,
+                    child: child,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [

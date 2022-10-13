@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
+import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
@@ -33,6 +34,8 @@ class _NavigationWidgetState extends State<NavigationWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final beamerState = context.customPageState;
+
     //to close popup menu if it is open
     if (!Responsive.isMobile(context)) {
       Navigator.of(context).maybePop();
@@ -65,7 +68,8 @@ class _NavigationWidgetState extends State<NavigationWidget> {
                             child: isLastPage
                                 ? DestinationButtonWidget(
                                     text: NavigationOption.karriere.pageName,
-                                    onTap: () {},
+                                    onTap: () => beamerState.selectedPage =
+                                        const PageStateData(page: SitePage.jobs),
                                   )
                                 : _DestinationTextWidget(
                                     text: page.pageName,
@@ -134,7 +138,8 @@ class _NavigationWidgetState extends State<NavigationWidget> {
                     horizontalMargin: 0,
                     horizontalPadding: 14,
                     text: NavigationOption.karriere.pageName,
-                    onTap: () {},
+                    onTap: () =>
+                        beamerState.selectedPage = const PageStateData(page: SitePage.jobs),
                   ),
                 )
               ],

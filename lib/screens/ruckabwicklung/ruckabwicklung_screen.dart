@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
-import 'package:test_site/common/widgets/custom_forms.dart';
+import 'package:test_site/common/widgets/common_widgets.dart';
+import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
 import 'package:test_site/screens/screens.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-import '../../common/widgets/common_widgets.dart';
-import '../../common/widgets/navbar.dart';
 
 class KompetenzenScreen extends StatefulWidget {
   const KompetenzenScreen({Key? key}) : super(key: key);
@@ -19,69 +17,70 @@ class KompetenzenScreen extends StatefulWidget {
 }
 
 class _KompetenzenScreenState extends State<KompetenzenScreen> {
-  late final controller = ScrollController()
-    ..addListener(
-      () {
-        VisibilityDetectorController.instance.notifyNow();
-      },
-    );
 
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = context.mediaQuery;
-    return AnimationManager(
-      child: Scaffold(
-        body: ListView(
-          controller: controller,
-          children: [
-            SizedBox(
-              height: mediaQuery.size.height,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.5),
-                      BlendMode.srcOver,
-                    ),
-                    image: Assets.images.ruckabwicklungImage1.image().image,
-                    fit: BoxFit.cover,
-                    scale: 1.3,
+
+  late final sections = [
+    LayoutBuilder(
+        builder: (context,constraints) {
+          return  SizedBox(
+            height: context.mediaQuery.size.height,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.5),
+                    BlendMode.srcOver,
                   ),
-                ),
-                child: Column(
-                  children: [
-                    NavigationWidget(
-                      onSelected: (page) {
-                        onNavigationActionSelect(
-                          page: page,
-                          context: context,
-                        );
-                      },
-                    ),
-                    if (Responsive.isMobile(context))
-                      const Expanded(
-                        child: SizedBox.shrink(),
-                      ),
-                    const Expanded(
-                      child: _SectionContent1(),
-                    ),
-                  ],
+                  image: Assets.images.ruckabwicklungImage1.image().image,
+                  fit: BoxFit.cover,
+                  scale: 1.3,
                 ),
               ),
+              child: Column(
+                children: [
+                  NavigationWidget(
+                    onSelected: (page) {
+                      onNavigationActionSelect(
+                        page: page,
+                        context: context,
+                      );
+                    },
+                  ),
+                  if (Responsive.isMobile(context))
+                    const Expanded(
+                      child: SizedBox.shrink(),
+                    ),
+                  const Expanded(
+                    child: _SectionContent1(),
+                  ),
+                ],
+              ),
             ),
-            const _SectionContent2(),
-            const AppForm2(),
-            const SectionWithImageCollage(
-              title: 'Prozessoptimierung.',
-              subtitle: 'Anwendungsbeispiele',
-            ),
-            const _SectionContent4(),
-            const CustomFooter(),
-          ],
-        ),
-      ),
-    );
-  }
+          );
+        }
+    ),
+    const _SectionContent2(),
+    const AppForm2(),
+    const SectionWithImageCollage(
+      title: 'Prozessoptimierung.',
+      subtitle: 'Anwendungsbeispiele',
+    ),
+    const _SectionContent4(),
+    const CustomFooter(),
+  ];
+
+  late final ItemScrollController itemScrollController = ItemScrollController();
+  late final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create()
+    ..itemPositions.addListener(() {
+      VisibilityDetectorController.instance.notifyNow();
+    });
+
+  @override
+  Widget build(BuildContext context) => CustomScrollablePositionedList(
+    itemScrollController: itemScrollController,
+    itemPositionsListener: itemPositionsListener,
+    sections: sections,
+  );
 }
 
 class _SectionContent1 extends StatefulWidget {
@@ -181,59 +180,6 @@ Wie das funktioniert, erklären wir Ihnen gerne in einer persönlichen Beratung 
   }
 }
 
-class _SectionContent3 extends StatelessWidget {
-  const _SectionContent3({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.white,
-      child: Container(
-        padding: const EdgeInsets.only(
-          left: 163,
-          right: 163,
-          top: 219,
-          bottom: 58,
-        ),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Anwendungsbeispiele',
-                style: R.styles.lSPageSubtitleStyle.copyWith(
-                  color: const Color(0xFF414141),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Prozessoptimierung.',
-                style: R.styles.lSPageTitleStyle.copyWith(
-                  color: const Color(0xFF414141),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 1114,
-              ),
-              child: const PhotoCollageWidget(),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class _SectionContent4 extends StatelessWidget {
   const _SectionContent4({Key? key}) : super(key: key);

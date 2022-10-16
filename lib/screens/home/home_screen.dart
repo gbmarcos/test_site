@@ -1,15 +1,11 @@
-import 'dart:developer';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/common/widgets/custom_animated_text.dart';
+import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/common/widgets/trapeze_container.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
@@ -91,22 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
   @override
-  Widget build(BuildContext context) {
-    final beamerState = context.customPageState;
-
-    return AnimationManager(
-      child: Scaffold(
-        body: ScrollablePositionedList.builder(
-          initialScrollIndex: beamerState.selectedPage.section,
-          padding: EdgeInsets.zero,
-          itemCount: sections.length,
-          itemScrollController: itemScrollController,
-          itemPositionsListener: itemPositionsListener,
-          itemBuilder: (context, index) => sections[index],
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => CustomScrollablePositionedList(
+        itemScrollController: itemScrollController,
+        itemPositionsListener: itemPositionsListener,
+        sections: sections,
+      );
 }
 
 class _TeamSection extends StatelessWidget {
@@ -276,16 +261,26 @@ class _VisionSectionState extends State<_VisionSection> {
           ),
         ),
         const SizedBox(height: 10),
-        Text(
-          '''
-Perspektive. Unser Anspruch an uns selbst und an unsere Dienstleistungen sollte schon immer in der Ganzheitlichkeit liegen.
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'Perspektive. ',
+                style: context.normalStyle.copyWith(fontWeight: R.fontWidths.bold),
+              ),
+              TextSpan(
+                text: '''
+Unser Anspruch an uns selbst und an unsere Dienstleistungen sollte schon immer in der Ganzheitlichkeit liegen.
 Um die Bedürfnisse der Mandanten zu ermitteln, gehört für uns daher ein umfangreiches Kennenlernen dazu. Wir möchten nicht nur der Partner für Ihre Finanzen und Ihre Unternehmensberatung sein - wir möchten jeden Mandanten auf persönlicher Ebene verstehen lernen, um so seine Individualität zu würdigen. Dies schätzen unsere Mandanten sehr.
 Unser Fokus liegt auf Exklusivität. 
 Bei  SYKZ arbeiten wir mit Menschen zusammen, nicht mit Zahlen. Daher schauen auch wir bei jedem Erstgespräch, ob Sie zu uns passen.
                       ''',
-          style: context.normalStyle,
+                style: context.normalStyle,
+              ),
+            ],
+          ),
           textAlign: Responsive.isMobile(context) ? TextAlign.left : TextAlign.right,
-        ),
+        )
       ],
     );
     final mission = Column(
@@ -299,12 +294,22 @@ Bei  SYKZ arbeiten wir mit Menschen zusammen, nicht mit Zahlen. Daher schauen au
           ),
         ),
         const SizedBox(height: 10),
-        Text(
-          '''
-Innovation.Hochkomplexe Themen in Nischenmärkten jedem zugänglich zu machen, der es wertschätzen kann - das ist unsere Passion. Wir machen keine klassische Finanz- und Unternehmensberatung. Wir schaffen wirkliche Werte. 
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'Innovation.',
+                style: context.normalStyle.copyWith(fontWeight: R.fontWidths.bold),
+              ),
+              TextSpan(
+                text: '''
+Hochkomplexe Themen in Nischenmärkten jedem zugänglich zu machen, der es wertschätzen kann - das ist unsere Passion. Wir machen keine klassische Finanz- und Unternehmensberatung. Wir schaffen wirkliche Werte. 
 Wie wir das tun? Weil wir hinter die Fassade schauen. Indem wir die richtigen Fragen stellen, finden wir für Sie die richtigen Antworten.
                         ''',
-          style: context.normalStyle,
+                style: context.normalStyle,
+              ),
+            ],
+          ),
           textAlign: TextAlign.left,
         ),
       ],
@@ -891,7 +896,7 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
                         ),
                         onTap: () => beamerState.selectedPage =
                             const PageStateData(page: SitePage.unternehmensberatung),
-                        title: 'Unternehmensberatung',
+                        title: 'Unternehmens-beratung',
                         buttonText: 'Jetzt mehr erfahren',
                       ),
                       const SizedBox(height: 10),
@@ -945,7 +950,7 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
                                     ),
                                     onTap: () => beamerState.selectedPage =
                                         const PageStateData(page: SitePage.unternehmensberatung),
-                                    title: 'Unternehmensberatung',
+                                    title: 'Unternehmens-beratung',
                                     buttonText: 'Jetzt mehr erfahren',
                                   ),
                                 ),
@@ -1090,7 +1095,6 @@ class _SectionContent3State extends State<_SectionContent3> {
                       startSecondTextAnimation,
                     ]),
                     builder: (context, _) {
-
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -1112,7 +1116,8 @@ class _SectionContent3State extends State<_SectionContent3> {
                             children: [
                               const SizedBox(height: 29),
                               Padding(
-                                padding:  EdgeInsets.only(right: Responsive.isMobile(context)?5: 65),
+                                padding:
+                                    EdgeInsets.only(right: Responsive.isMobile(context) ? 5 : 65),
                                 child: CustomSlideAndFadeAnimatedText(
                                   '- mit SYKZ',
                                   style: TextStyle(

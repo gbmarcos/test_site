@@ -1,16 +1,12 @@
-import 'dart:js';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
-import 'package:test_site/common/widgets/navbar.dart';
+import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
-import 'package:test_site/screens/screens.dart';
 
 class JobsScreen extends StatefulWidget {
   const JobsScreen({Key? key}) : super(key: key);
@@ -77,19 +73,11 @@ class _JobsScreenState extends State<JobsScreen> {
   late final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create();
 
   @override
-  Widget build(BuildContext context) {
-    return AnimationManager(
-      child: Scaffold(
-        body: ScrollablePositionedList.builder(
-          padding: EdgeInsets.zero,
-          itemCount: sections.length,
-          itemScrollController: itemScrollController,
-          itemPositionsListener: itemPositionsListener,
-          itemBuilder: (context, index) => sections[index],
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => CustomScrollablePositionedList(
+    itemScrollController: itemScrollController,
+    itemPositionsListener: itemPositionsListener,
+    sections: sections,
+  );
 }
 
 class _SectionContent1 extends StatelessWidget {

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
+import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/screens/screens.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -15,69 +16,70 @@ class UberUnsScreen extends StatefulWidget {
 }
 
 class _UberUnsScreenState extends State<UberUnsScreen> {
-  late final controller = ScrollController()
-    ..addListener(
-      () {
-        VisibilityDetectorController.instance.notifyNow();
-      },
-    );
 
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = context.mediaQuery;
-    return AnimationManager(
-      child: Scaffold(
-        body: ListView(
-          controller: controller,
-          children: [
-            SizedBox(
-              height: mediaQuery.size.height,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.5),
-                      BlendMode.srcOver,
-                    ),
-                    image: Assets.images.unternehmensberatungImage1.image().image,
-                    fit: BoxFit.cover,
-                    scale: 1.3,
+  late final sections = [
+    LayoutBuilder(
+        builder: (context,constraints) {
+          return  SizedBox(
+            height: context.mediaQuery.size.height,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.5),
+                    BlendMode.srcOver,
                   ),
-                ),
-                child: Column(
-                  children: [
-                    NavigationWidget(
-                      onSelected: (page) {
-                        onNavigationActionSelect(
-                          page: page,
-                          context: context,
-                        );
-                      },
-                    ),
-                    if (Responsive.isMobile(context))
-                      const Expanded(
-                        child: SizedBox.shrink(),
-                      ),
-                    const Expanded(
-                      child: _SectionContent1(),
-                    ),
-                  ],
+                  image: Assets.images.unternehmensberatungImage1.image().image,
+                  fit: BoxFit.cover,
+                  scale: 1.3,
                 ),
               ),
+              child: Column(
+                children: [
+                  NavigationWidget(
+                    onSelected: (page) {
+                      onNavigationActionSelect(
+                        page: page,
+                        context: context,
+                      );
+                    },
+                  ),
+                  if (Responsive.isMobile(context))
+                    const Expanded(
+                      child: SizedBox.shrink(),
+                    ),
+                  const Expanded(
+                    child: _SectionContent1(),
+                  ),
+                ],
+              ),
             ),
-            const _SectionContent2(),
-            const AppForm2(),
-            const SectionWithImageCollage(
-              title: 'Unternehmensberatung.',
-              subtitle: 'Anwendungsbeispiele',
-            ),
-            const _SectionContent4(),
-            const CustomFooter(),
-          ],
-        ),
-      ),
-    );
-  }
+          );
+        }
+    ),
+    const _SectionContent2(),
+    const AppForm2(),
+    const SectionWithImageCollage(
+      title: 'Unternehmensberatung.',
+      subtitle: 'Anwendungsbeispiele',
+    ),
+    const _SectionContent4(),
+    const CustomFooter(),
+  ];
+
+  late final ItemScrollController itemScrollController = ItemScrollController();
+  late final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create()
+    ..itemPositions.addListener(() {
+      VisibilityDetectorController.instance.notifyNow();
+    });
+
+  @override
+  Widget build(BuildContext context) => CustomScrollablePositionedList(
+    itemScrollController: itemScrollController,
+    itemPositionsListener: itemPositionsListener,
+    sections: sections,
+  );
+
 }
 
 class _SectionContent2 extends StatelessWidget {

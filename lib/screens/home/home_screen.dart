@@ -9,6 +9,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
+import 'package:test_site/common/widgets/custom_animated_text.dart';
 import 'package:test_site/common/widgets/trapeze_container.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
@@ -1089,56 +1090,41 @@ class _SectionContent3State extends State<_SectionContent3> {
                       startSecondTextAnimation,
                     ]),
                     builder: (context, _) {
+
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          if (startFirstTextAnimation.value)
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 847),
-                              child: AnimatedTextKit(
-                                isRepeatingAnimation: false,
-                                onFinished: () => startSecondTextAnimation.value = true,
-                                pause: Duration.zero,
-                                animatedTexts: [
-                                  TypewriterAnimatedText(
-                                    'Das Leben von morgen schon heute gestalten.',
-                                    textStyle:
-                                        context.mainStyle1.copyWith(fontWeight: FontWeight.w300),
-                                    textAlign: textAlign,
-                                    speed: const Duration(milliseconds: 60),
-                                    cursor: '',
-                                  )
-                                ],
-                              ),
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 847),
+                            child: CustomSlideAndFadeAnimatedText(
+                              'Das Leben von morgen schon heute gestalten.',
+                              style: context.mainStyle1.copyWith(fontWeight: FontWeight.w300),
+                              textAlign: textAlign,
+                              maxLine: 3,
+                              startAnimation: startFirstTextAnimation.value,
+                              onEnd: () => startSecondTextAnimation.value = true,
                             ),
-                          if (startSecondTextAnimation.value)
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const SizedBox(height: 29),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 65),
-                                  child: AnimatedTextKit(
-                                    isRepeatingAnimation: false,
-                                    onFinished: () => startSecondTextAnimation.value = true,
-                                    animatedTexts: [
-                                      TypewriterAnimatedText(
-                                        '- mit SYKZ',
-                                        textStyle: TextStyle(
-                                          fontWeight: R.fontWidths.regular,
-                                          fontSize: subtitleFontSize,
-                                          color: Colors.white,
-                                        ),
-                                        speed: const Duration(milliseconds: 60),
-                                        cursor: '',
-                                      )
-                                    ],
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const SizedBox(height: 29),
+                              Padding(
+                                padding:  EdgeInsets.only(right: Responsive.isMobile(context)?5: 65),
+                                child: CustomSlideAndFadeAnimatedText(
+                                  '- mit SYKZ',
+                                  style: TextStyle(
+                                    fontWeight: R.fontWidths.regular,
+                                    fontSize: subtitleFontSize,
+                                    color: Colors.white,
                                   ),
+                                  startAnimation: startSecondTextAnimation.value,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
+                          ),
                         ],
                       );
                     }),

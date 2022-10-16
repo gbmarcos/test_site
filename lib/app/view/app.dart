@@ -49,6 +49,7 @@ class _AppState extends State<App> {
     return MaterialApp.router(
       theme: ThemeData(
         fontFamily: FontFamily.montserrat,
+        primaryColor: Colors.black
       ),
       localizationsDelegates: const [
         AppLocalizations.delegate,

@@ -38,7 +38,6 @@ enum NavigationOption{
   uberUns(pageName: 'Über uns',scrollIndex: 3),
   kompetenzen(pageName: 'Kompetenzen',scrollIndex: 4),
   vision(pageName: 'Vision',scrollIndex: 8),
-  news(pageName: 'News',scrollIndex: 0),
   team(pageName: 'Team',scrollIndex: 9),
   karriere(pageName: 'Karriere',scrollIndex: 0);
 

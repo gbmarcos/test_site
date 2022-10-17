@@ -65,19 +65,18 @@ class AppForm1 extends StatelessWidget {
                 children: [
                   vornameTextField,
                   fieldSeparator,
-                  emailInputElementTextField,
+                  nachNameTextField,
                   fieldSeparator,
                   hitTestResultTextField,
                   fieldSeparator,
-                  nachNameTextField,
-                  fieldSeparator,
-                  vornameTextField,
+                  emailInputElementTextField,
                   fieldSeparator,
                   dropDTextField,
                 ],
               )
             else
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Column(
@@ -99,8 +98,6 @@ class AppForm1 extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         nachNameTextField,
-                        fieldSeparator,
-                        vornameTextField,
                         fieldSeparator,
                         dropDTextField,
                       ],

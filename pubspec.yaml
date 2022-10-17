@@ -1,5 +1,5 @@
 name: test_site
-description: A Very Good Project created by Very Good CLI.
+description: Herzlich wilkommen bei SYKZ.
 version: 1.0.0+1
 publish_to: none
 
@@ -23,6 +23,8 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   visibility_detector: ^0.3.3
   animated_text_kit: ^4.2.2
+  url_launcher: ^6.1.6
+  file_picker_cross: ^4.6.0
 
 dev_dependencies:
   bloc_test: ^9.1.0

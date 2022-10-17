@@ -1,4 +1,4 @@
-
+import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
@@ -6,6 +6,7 @@ import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/gen/assets.gen.dart';
+
 import 'package:test_site/r.dart';
 
 class JobsScreen extends StatefulWidget {
@@ -74,10 +75,10 @@ class _JobsScreenState extends State<JobsScreen> {
 
   @override
   Widget build(BuildContext context) => CustomScrollablePositionedList(
-    itemScrollController: itemScrollController,
-    itemPositionsListener: itemPositionsListener,
-    sections: sections,
-  );
+        itemScrollController: itemScrollController,
+        itemPositionsListener: itemPositionsListener,
+        sections: sections,
+      );
 }
 
 class _SectionContent1 extends StatelessWidget {
@@ -634,24 +635,31 @@ class _CustomCard extends StatelessWidget {
       color: Colors.black,
     );
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: style1,
-        ),
-        const SizedBox(height: 5),
-        Container(
-          padding: const EdgeInsets.all(20),
-          color: const Color(0xFFCAE4F8).withOpacity(0.5),
-          child: Text(
-            content,
-            style: style2,
+    return InkWell(
+      onTap: () async {
+        FilePickerCross myFile = await FilePickerCross.importFromStorage(
+            type: FileTypeCross.any,       // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
+        );
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: style1,
           ),
-        )
-      ],
+          const SizedBox(height: 5),
+          Container(
+            padding: const EdgeInsets.all(20),
+            color: const Color(0xFFCAE4F8).withOpacity(0.5),
+            child: Text(
+              content,
+              style: style2,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

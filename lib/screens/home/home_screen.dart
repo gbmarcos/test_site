@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
@@ -9,6 +10,7 @@ import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart'
 import 'package:test_site/common/widgets/trapeze_container.dart';
 import 'package:test_site/gen/assets.gen.dart';
 import 'package:test_site/r.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -298,7 +300,7 @@ Bei  SYKZ arbeiten wir mit Menschen zusammen, nicht mit Zahlen. Daher schauen au
           TextSpan(
             children: [
               TextSpan(
-                text: 'Innovation.',
+                text: 'Innovation. ',
                 style: context.normalStyle.copyWith(fontWeight: R.fontWidths.bold),
               ),
               TextSpan(
@@ -1437,35 +1439,81 @@ class TeamMemberCard extends StatelessWidget {
                   overflow: TextOverflow.fade,
                   softWrap: false,
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  'Telefon $phone',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: R.fontWidths.regular,
-                    color: Colors.white,
+                const SizedBox(height: 12),
+                InkWell(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(text: phone)).then(
+                      (_) => showCopiedMessage(context),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      'Telefon $phone',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: R.fontWidths.regular,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
+                    ),
                   ),
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  'E-Mail $email',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: R.fontWidths.regular,
-                    color: Colors.white,
+                InkWell(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(text: email)).then(
+                      (_) => showCopiedMessage(context),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      'E-Mail $email',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: R.fontWidths.regular,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
+                    ),
                   ),
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
                 ),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+
+  void showCopiedMessage(BuildContext context) {
+    ScaffoldMessenger.of(context)..clearSnackBars()..showSnackBar(
+      SnackBar(
+        elevation: 0,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Material(
+              elevation: 10,
+              borderRadius: BorderRadius.circular(100),
+              color: Colors.black87,
+              child: const Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  'Copied',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+      ),
     );
   }
 }

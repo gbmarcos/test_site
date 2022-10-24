@@ -103,7 +103,7 @@ class _NavigationWidgetState extends State<NavigationWidget> {
                       color: Colors.white,
                     ),
                     itemBuilder: (context) {
-                      return List.generate(6, (index) {
+                      return List.generate(5, (index) {
                         final page = NavigationOption.values[index];
                         return PopupMenuItem<NavigationOption>(
                           onTap: () {

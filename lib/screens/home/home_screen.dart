@@ -57,11 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Expanded(
                   child: SizedBox.shrink(),
                 ),
-              Expanded(
-                child: _SectionContent1(
-                  itemScrollController: itemScrollController,
-                  itemPositionsListener: itemPositionsListener,
-                ),
+              const Expanded(
+                child: _SectionContent1(),
               ),
             ],
           ),
@@ -146,7 +143,7 @@ class _TeamSection extends StatelessWidget {
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   FlexibleConstrainedBox(
                     maxWidth: photoSize.width,
@@ -155,10 +152,10 @@ class _TeamSection extends StatelessWidget {
                         height: photoSize.height,
                         fit: BoxFit.cover,
                       ),
-                      name: 'Yannick Kleiber',
+                      name: 'Yannick Klaiber',
                       roll: 'Geschäftsführer',
                       phone: '+49 151 23294239',
-                      email: 'y.kleiber@sykz.de',
+                      email: 'y.klaiber@sykz.de',
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -175,20 +172,6 @@ class _TeamSection extends StatelessWidget {
                       email: 's.zare@sykz.de',
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  FlexibleConstrainedBox(
-                    maxWidth: photoSize.width,
-                    child: TeamMemberCard(
-                      memberPhoto: Assets.images.member3.image(
-                        height: photoSize.height,
-                        fit: BoxFit.cover,
-                      ),
-                      name: 'Yannick Kleiber',
-                      roll: 'Geschäftsführer',
-                      phone: '0160 291282',
-                      email: 'kleiber@sykz.de',
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -203,10 +186,10 @@ class _TeamSection extends StatelessWidget {
                   width: photoSize.width,
                   fit: BoxFit.cover,
                 ),
-                name: 'Yannick Kleiber',
+                name: 'Yannick Klaiber',
                 roll: 'Geschäftsführer',
                 phone: '+49 151 23294239',
-                email: 'y.kleiber@sykz.de',
+                email: 'y.klaiber@sykz.de',
               ),
               const SizedBox(height: 10),
               TeamMemberCard(
@@ -219,18 +202,6 @@ class _TeamSection extends StatelessWidget {
                 roll: 'Geschäftsführer',
                 phone: '+49 152 11448643',
                 email: 's.zare@sykz.de',
-              ),
-              const SizedBox(height: 10),
-              TeamMemberCard(
-                memberPhoto: Assets.images.member3.image(
-                  height: photoSize.height,
-                  width: photoSize.width,
-                  fit: BoxFit.cover,
-                ),
-                name: 'Yannick Kleiber',
-                roll: 'Geschäftsführer',
-                phone: '0160 291282',
-                email: 'kleiber@sykz.de',
               ),
             ],
           ),
@@ -446,7 +417,14 @@ class _SectionContent8 extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 32),
-                Assets.icons.sykzIcon2.svg(height: appIconSize.height, width: appIconSize.width),
+                Container(
+                  color: Colors.white,
+                  width: double.infinity,
+                  child: Assets.icons.sykzIcon2.svg(
+                    height: appIconSize.height,
+                    width: appIconSize.width,
+                  ),
+                ),
                 const SizedBox(height: 60),
               ],
             ),
@@ -619,46 +597,85 @@ Unser Team, das sich durch jahrelange Erfahrung auszeichnet, sorgt durch strateg
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 73,
-                    color: boxColor,
+                    child: Assets.icons.liqida1.image(),
                   ),
-                  const SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 20),
+                  SizedBox(
                     height: 73,
-                    color: boxColor,
+                    child: Assets.icons.futurePromition.svg(),
                   ),
-                  const SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 20),
+                  SizedBox(
                     height: 73,
-                    color: boxColor,
+                    child: Assets.icons.jcLogo.svg(),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 120,
+                    child: Assets.images.forwardV.svg(),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 73,
+                    child: Assets.images.mosaikIcon.svg(),
                   ),
                 ],
               )
             else
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   FlexibleConstrainedBox(
-                      maxWidth: boxSize.width,
-                      child: Container(
+                    maxWidth: boxSize.width,
+                    child: Center(
+                      child: SizedBox(
                         height: boxSize.height,
-                        color: boxColor,
-                      )),
-                  const SizedBox(width: 20),
-                  FlexibleConstrainedBox(
-                      maxWidth: boxSize.width,
-                      child: Container(
-                        height: boxSize.height,
-                        color: boxColor,
-                      )),
+                        child: Assets.icons.liqida1.image(
+                          height: double.infinity,
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(width: 20),
                   FlexibleConstrainedBox(
                     maxWidth: boxSize.width,
-                    child: Container(
-                      height: boxSize.height,
-                      color: boxColor,
+                    child: Center(
+                      child: SizedBox(
+                        height: boxSize.height,
+                        child: Assets.icons.futurePromition.svg(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: boxSize.width,
+                    child: Center(
+                      child: SizedBox(
+                        height: boxSize.height,
+                        child: Assets.icons.jcLogo.svg(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: boxSize.width,
+                    child: Center(
+                      child: SizedBox(
+                        height: boxSize.height,
+                        child: Assets.images.forwardV.svg(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: boxSize.width,
+                    child: Center(
+                      child: SizedBox(
+                        height: boxSize.height,
+                        child: Assets.images.mosaikIcon.svg(),
+                      ),
                     ),
                   ),
                 ],
@@ -789,6 +806,11 @@ class _UberUnsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final itemScrollController = context.read<ItemScrollController>();
+    final itemPositionsListener = context.read<ItemPositionsListener>();
+
+    final buttonHorizontalPadding = Responsive.isDesktop(context) ? 12.0 : 20.0;
+
     return Container(
       padding: const EdgeInsets.only(top: 63, bottom: 30),
       color: Colors.white,
@@ -816,12 +838,29 @@ Außerdem beraten wir unsere Mandanten fortlaufend in strategischen Zielsetzunge
 
 Wir legen viel Wert auf die Auswahl unserer Kooperationspartner. Dabei achten wir insbesondere auf Integrität, kurze Kommunikationsstrecken, professionelle und effiziente Arbeitsprozesse und ein vertrauensvolles Verhältnis.
 Auch das Thema Data Safety wird bei uns groß geschrieben: Wir gehen beim Umgang mit sensiblen Daten mit höchstem Verantwortungsbewusstsein vor.
-Jetzt Strategie Termin vereinbaren.
                 ''',
                 textAlign: TextAlign.center,
                 style: context.normalStyle,
               ),
             ),
+          ),
+          const SizedBox(height: 20),
+          DestinationButtonWidget(
+            horizontalMargin: 0,
+            horizontalPadding: buttonHorizontalPadding,
+            onTap: () async {
+              itemScrollController.jumpTo(
+                index: itemPositionsListener.itemPositions.value.first.index,
+                alignment: itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
+              );
+              await itemScrollController.scrollTo(
+                index: 11,
+                alignment: -0.0001,
+                duration: const Duration(milliseconds: 1500),
+                curve: Curves.easeInOutCubic,
+              );
+            },
+            text: 'Jetzt Strategie Termin vereinbaren',
           ),
         ],
       ),
@@ -898,7 +937,7 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
                         ),
                         onTap: () => beamerState.selectedPage =
                             const PageStateData(page: SitePage.unternehmensberatung),
-                        title: 'Unternehmens-beratung',
+                        title: 'Unternehmens${Responsive.isDesktop(context) ? '' : '-'}beratung',
                         buttonText: 'Jetzt mehr erfahren',
                       ),
                       const SizedBox(height: 10),
@@ -952,7 +991,8 @@ class _KompetenzenSectionState extends State<_KompetenzenSection> {
                                     ),
                                     onTap: () => beamerState.selectedPage =
                                         const PageStateData(page: SitePage.unternehmensberatung),
-                                    title: 'Unternehmens-beratung',
+                                    title:
+                                        'Unternehmens${Responsive.isDesktop(context) ? '' : '-'}beratung',
                                     buttonText: 'Jetzt mehr erfahren',
                                   ),
                                 ),
@@ -1491,30 +1531,32 @@ class TeamMemberCard extends StatelessWidget {
   }
 
   void showCopiedMessage(BuildContext context) {
-    ScaffoldMessenger.of(context)..clearSnackBars()..showSnackBar(
-      SnackBar(
-        elevation: 0,
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Material(
-              elevation: 10,
-              borderRadius: BorderRadius.circular(100),
-              color: Colors.black87,
-              child: const Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  'Copied',
-                  style: TextStyle(color: Colors.white),
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          elevation: 0,
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Material(
+                elevation: 10,
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.black87,
+                child: const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    'Copied',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
         ),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-      ),
-    );
+      );
   }
 }
 
@@ -1522,13 +1564,8 @@ enum MainContentAnimationState { pending, done }
 
 class _SectionContent1 extends StatefulWidget {
   const _SectionContent1({
-    Key? key,
-    required this.itemScrollController,
-    required this.itemPositionsListener,
-  }) : super(key: key);
-
-  final ItemScrollController itemScrollController;
-  final ItemPositionsListener itemPositionsListener;
+    super.key,
+  });
 
   @override
   State<_SectionContent1> createState() => _SectionContent1State();
@@ -1564,6 +1601,9 @@ class _SectionContent1State extends State<_SectionContent1> {
     final buttonHorizontalPadding = Responsive.isDesktop(context) ? 12.0 : 20.0;
 
     final isAnimationPending = animationStateNotifier.value == MainContentAnimationState.pending;
+
+    final itemScrollController = context.read<ItemScrollController>();
+    final itemPositionsListener = context.read<ItemPositionsListener>();
 
     return Center(
       child: SizedBox(
@@ -1627,12 +1667,12 @@ class _SectionContent1State extends State<_SectionContent1> {
                         horizontalMargin: 0,
                         horizontalPadding: buttonHorizontalPadding,
                         onTap: () async {
-                          widget.itemScrollController.jumpTo(
-                            index: widget.itemPositionsListener.itemPositions.value.first.index,
-                            alignment: widget
-                                .itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
+                          itemScrollController.jumpTo(
+                            index: itemPositionsListener.itemPositions.value.first.index,
+                            alignment:
+                                itemPositionsListener.itemPositions.value.first.itemLeadingEdge,
                           );
-                          await widget.itemScrollController.scrollTo(
+                          await itemScrollController.scrollTo(
                             index: 11,
                             alignment: -0.0001,
                             duration: const Duration(milliseconds: 1500),

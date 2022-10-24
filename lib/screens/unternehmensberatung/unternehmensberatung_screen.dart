@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
+import 'package:test_site/common/utils/text_util.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/gen/assets.gen.dart';
+import 'package:test_site/r.dart';
 import 'package:test_site/screens/screens.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -16,51 +19,48 @@ class UberUnsScreen extends StatefulWidget {
 }
 
 class _UberUnsScreenState extends State<UberUnsScreen> {
-
   late final sections = [
-    LayoutBuilder(
-        builder: (context,constraints) {
-          return  SizedBox(
-            height: context.mediaQuery.size.height,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.5),
-                    BlendMode.srcOver,
-                  ),
-                  image: Assets.images.unternehmensberatungImage1.image().image,
-                  fit: BoxFit.cover,
-                  scale: 1.3,
-                ),
+    LayoutBuilder(builder: (context, constraints) {
+      return SizedBox(
+        height: context.mediaQuery.size.height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.5),
+                BlendMode.srcOver,
               ),
-              child: Column(
-                children: [
-                  NavigationWidget(
-                    onSelected: (page) {
-                      onNavigationActionSelect(
-                        page: page,
-                        context: context,
-                      );
-                    },
-                  ),
-                  if (Responsive.isMobile(context))
-                    const Expanded(
-                      child: SizedBox.shrink(),
-                    ),
-                  const Expanded(
-                    child: _SectionContent1(),
-                  ),
-                ],
-              ),
+              image: Assets.images.unternehmensberatungImage1.image().image,
+              fit: BoxFit.cover,
+              scale: 1.3,
             ),
-          );
-        }
-    ),
+          ),
+          child: Column(
+            children: [
+              NavigationWidget(
+                onSelected: (page) {
+                  onNavigationActionSelect(
+                    page: page,
+                    context: context,
+                  );
+                },
+              ),
+              if (Responsive.isMobile(context))
+                const Expanded(
+                  child: SizedBox.shrink(),
+                ),
+              const Expanded(
+                child: _SectionContent1(),
+              ),
+            ],
+          ),
+        ),
+      );
+    }),
     const _SectionContent2(),
     const AppForm2(),
-    const SectionWithImageCollage(
-      title: 'Unternehmensberatung.',
+    SectionWithImageCollage(
+      title: 'Unternehmens${Responsive.isDesktop(context) ? '' : '-'}beratung.',
       subtitle: 'Anwendungsbeispiele',
     ),
     const _SectionContent4(),
@@ -75,11 +75,10 @@ class _UberUnsScreenState extends State<UberUnsScreen> {
 
   @override
   Widget build(BuildContext context) => CustomScrollablePositionedList(
-    itemScrollController: itemScrollController,
-    itemPositionsListener: itemPositionsListener,
-    sections: sections,
-  );
-
+        itemScrollController: itemScrollController,
+        itemPositionsListener: itemPositionsListener,
+        sections: sections,
+      );
 }
 
 class _SectionContent2 extends StatelessWidget {
@@ -106,6 +105,8 @@ class _SectionContent2 extends StatelessWidget {
                 bottom: 84,
               );
 
+    final boldWeight = Responsive.isDesktop(context) ? R.fontWidths.bold : R.fontWidths.semiBold;
+
     return Container(
       padding: padding,
       color: Colors.white,
@@ -116,32 +117,74 @@ class _SectionContent2 extends StatelessWidget {
         child: MixedCollage(
           image1: Assets.images.mixedCollage1.image().image,
           image2: Assets.images.mixedCollage2.image().image,
-          text1: 'Wir bei SYKZ Consulting haben es uns zur '
-              'Aufgabe gemacht, den überholten Finanzmarkt in '
-              'Deutschland auf den Kopf zu stellen und Ihnen '
-              'von der Berufsunfähigkeitsversicherung über '
-              'maßgeschneiderte Nischenprodukte bis hin zu '
-              'institutionellen Investmentstrategien alles '
-              'zur Verfügung zu stellen. Dabei lösen wir '
-              'komplexe Themen und Zusammenhänge aller '
-              'Mandanten mit höchster Professionalität und '
-              'Weitsicht und verschaffen Ihnen auf simple '
-              'Art und Weise Zugang zu alternativen Strategien '
-              'der Zukunft.',
-          text2: '''
-Zu unseren Dienstleistungen im Bereich Vermögensschutz und Investment gehören:
- - Sach-, Gewerbe-, und Personenversicherungen
- - Honorarberatung nach §34h für Finanzanlagen
- - Edelmetallsparpläne und Einmalinvestitionen (physisch)
- - Rohstoffe und Industriemetalle
- - Rekreatives medizinisches Cannabis (physisch)
- - Venture Capital ab nur 1.000 € Investition
- - Off Market Investment & Private Sales
- - Devisenhandel
- - Photovoltaik für Privatpersonen und Unternehmen unter Berücksichtigung des IAB (Eigennutzung & Steueroptimierung)
- - Internationale Off-Market Immobilien
- - Finanzierungen (Immobilien, Privatkredite, Kapitalbeschaffung)
-          ''',
+          text1Builder: (style, textAlign) => Text(
+            'Wir optimieren nicht nur Ihre internen und externen '
+            'Arbeitsprozesse und analysieren Ihre Unternehmensstruktur '
+            'und -kultur, sondern betrachten die Analyse Ihres Unternehmens ganzheitlich.'
+            'Im Versicherungsbereich sind wir zudem eines der ersten Unternehmen '
+            'deutschlandweit, das nach der Gewerbe DIN Norm 77235 arbeitet, '
+            'die am 01.07. dieses Jahres erschienen ist. '
+            'Neben den finanziellen und internen Optimierungsmöglichkeiten '
+            'unterstützen wir unsere Mandanten zusätzlich auch in steuerlichen '
+            'Fragen. Dort arbeiten wir mit einer renommierten und innovativen '
+            'Wirtschaftsprüfergesellschaft zusammen, um stets die optimale Lösung '
+            'für Ihren individuellen Fall zu finden.',
+            style: style,
+            textAlign: textAlign,
+          ),
+          text2Builder: (style, textAlign) => DefaultTextStyle(
+            style: style,
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  const TextSpan(text: 'Lösungen:\n'),
+                  TextSpan(
+                    text: 'Kernbereich 1: Organisationsentwicklung & '
+                        'Aufbau/Entwicklung integrierter Managementsysteme\n',
+                    style: style.copyWith(fontWeight: boldWeight),
+                  ),
+                  TextSpan(
+                    children: [
+                      bulledText('interne Prozess-/Managementsystemauditierung',style: style),
+                      bulledText('Optimierung von Aufbau- und Ablauforganisation'),
+                      bulledText('Schulung und Beratung in den Bereichen QM, AS, DS'),
+                      bulledText('Mitarbeiterentwicklungs-/ und -bindungskonzepte'),
+                      bulledText('Grundlagen Datenschutz'),
+                    ],
+                  ),
+                  TextSpan(
+                    text: 'Kernbereich 2: Steuergestaltung & Optimierung (KMU)\n',
+                    style: style.copyWith(
+                      fontWeight: boldWeight,
+                    ),
+                  ),
+                  TextSpan(
+                    children: [
+                      bulledText('Prüfung & Optimierung der Gesellschaftsform(en)'),
+                      bulledText('Gründung von neuen Rechtsformen ( besondere Expertise '
+                          'bei Genossenschaften und Stiftungen)'),
+                      bulledText('Erbschaftsplanung uvm.'),
+                    ],
+                  ),
+                  TextSpan(
+                    text: 'Kernbereich 3: Finanzplanung\n',
+                    style: style.copyWith(fontWeight: boldWeight),
+                  ),
+                  TextSpan(
+                    children: [
+                      bulledText('Nettolohnkostenoptimierung'),
+                      bulledText('betriebliche Altersvorsorge (bAV)'),
+                      bulledText('Finanzmathematische Risikoanalyse (DIN 77235)'),
+                      bulledText(
+                          'Start-Up Entwicklung, Förderung und Beschaffung von Venture Capital'),
+                    ],
+                  ),
+                ],
+              ),
+              style: style,
+              textAlign: textAlign,
+            ),
+          ),
         ),
       ),
     );
@@ -179,7 +222,7 @@ class _SectionContent1State extends State<_SectionContent1> {
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: MainTextAnimation(
           isAnimationPending: isAnimationPending,
-          text: 'Unternehmensberatung.',
+          text: 'Unternehmens${Responsive.isDesktop(context) ? '' : '-'}beratung.',
         ),
       ),
     );

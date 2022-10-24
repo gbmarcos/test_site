@@ -14,13 +14,23 @@ import 'package:flutter/services.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/future_promition.svg
+  SvgGenImage get futurePromition =>
+      const SvgGenImage('assets/icons/future_promition.svg');
+
   /// File path: assets/icons/instagram_icon.svg
   SvgGenImage get instagramIcon =>
       const SvgGenImage('assets/icons/instagram_icon.svg');
 
+  /// File path: assets/icons/jc_logo.svg
+  SvgGenImage get jcLogo => const SvgGenImage('assets/icons/jc_logo.svg');
+
   /// File path: assets/icons/linked_in_icon.svg
   SvgGenImage get linkedInIcon =>
       const SvgGenImage('assets/icons/linked_in_icon.svg');
+
+  /// File path: assets/icons/liqida 1.png
+  AssetGenImage get liqida1 => const AssetGenImage('assets/icons/liqida 1.png');
 
   /// File path: assets/icons/menu_button.svg
   SvgGenImage get menuButton =>
@@ -39,6 +49,9 @@ class $AssetsIconsGen {
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/FORWARD_V.svg
+  SvgGenImage get forwardV => const SvgGenImage('assets/images/FORWARD_V.svg');
 
   /// File path: assets/images/collage_1.png
   AssetGenImage get collage1 =>
@@ -63,6 +76,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/form_2_image.png
   AssetGenImage get form2Image =>
       const AssetGenImage('assets/images/form_2_image.png');
+
+  /// File path: assets/images/forward_icon.png
+  AssetGenImage get forwardIcon =>
+      const AssetGenImage('assets/images/forward_icon.png');
 
   /// File path: assets/images/home_image_1.png
   AssetGenImage get homeImage1 =>
@@ -107,6 +124,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/mixed_collage_5.png
   AssetGenImage get mixedCollage5 =>
       const AssetGenImage('assets/images/mixed_collage_5.png');
+
+  /// File path: assets/images/mosaik_icon.svg
+  SvgGenImage get mosaikIcon =>
+      const SvgGenImage('assets/images/mosaik_icon.svg');
 
   /// File path: assets/images/news_team_karriere_image_1.png
   AssetGenImage get newsTeamKarriereImage1 =>

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
+import 'package:test_site/common/utils/text_util.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/gen/assets.gen.dart';
+import 'package:test_site/r.dart';
 import 'package:test_site/screens/home/home_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -112,32 +114,49 @@ class _SectionContent2 extends StatelessWidget {
         child: MixedCollage(
           image1: Assets.images.mixedCollage5.image().image,
           image2: Assets.images.mixedCollage2.image().image,
-          text1: 'Wir bei SYKZ Consulting haben es uns zur '
-              'Aufgabe gemacht, den überholten Finanzmarkt in '
-              'Deutschland auf den Kopf zu stellen und Ihnen '
-              'von der Berufsunfähigkeitsversicherung über '
-              'maßgeschneiderte Nischenprodukte bis hin zu '
-              'institutionellen Investmentstrategien alles '
-              'zur Verfügung zu stellen. Dabei lösen wir '
-              'komplexe Themen und Zusammenhänge aller '
-              'Mandanten mit höchster Professionalität und '
-              'Weitsicht und verschaffen Ihnen auf simple '
-              'Art und Weise Zugang zu alternativen Strategien '
-              'der Zukunft.',
-          text2: '''
-Zu unseren Dienstleistungen im Bereich Vermögensschutz und Investment gehören:
- - Sach-, Gewerbe-, und Personenversicherungen
- - Honorarberatung nach §34h für Finanzanlagen
- - Edelmetallsparpläne und Einmalinvestitionen (physisch)
- - Rohstoffe und Industriemetalle
- - Rekreatives medizinisches Cannabis (physisch)
- - Venture Capital ab nur 1.000 € Investition
- - Off Market Investment & Private Sales
- - Devisenhandel
- - Photovoltaik für Privatpersonen und Unternehmen unter Berücksichtigung des IAB (Eigennutzung & Steueroptimierung)
- - Internationale Off-Market Immobilien
- - Finanzierungen (Immobilien, Privatkredite, Kapitalbeschaffung)
-          ''',
+          text1Builder: (style, textAlign) => Text(
+            'Wir bei SYKZ Consulting haben es uns zur '
+            'Aufgabe gemacht, den überholten Finanzmarkt in '
+            'Deutschland auf den Kopf zu stellen und Ihnen '
+            'von der Berufsunfähigkeitsversicherung über '
+            'maßgeschneiderte Nischenprodukte bis hin zu '
+            'institutionellen Investmentstrategien alles '
+            'zur Verfügung zu stellen. Dabei lösen wir '
+            'komplexe Themen und Zusammenhänge aller '
+            'Mandanten mit höchster Professionalität und '
+            'Weitsicht und verschaffen Ihnen auf simple '
+            'Art und Weise Zugang zu alternativen Strategien '
+            'der Zukunft.',
+            style: style,
+            textAlign: textAlign,
+          ),
+          text2Builder: (style, textAlign) => DefaultTextStyle(
+            style: style,
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text:
+                        'Zu unseren Dienstleistungen im Bereich Vermögensschutz und Investment gehören:\n',
+                  ),
+                  bulledText('Sach-, Gewerbe-, und Personenversicherungen'),
+                  bulledText('Honorarberatung nach §34h für Finanzanlagen'),
+                  bulledText('Edelmetallsparpläne und Einmalinvestitionen (physisch)'),
+                  bulledText('Rohstoffe und Industriemetalle'),
+                  bulledText('Rekreatives medizinisches Cannabis (physisch)'),
+                  bulledText('Venture Capital ab nur 1.000 € Investition'),
+                  bulledText('Off Market Investment & Private Sales'),
+                  bulledText('Devisenhandel'),
+                  bulledText('Photovoltaik für Privatpersonen und Unternehmen unter '
+                      'Berücksichtigung des IAB (Eigennutzung & Steueroptimierung)'),
+                  bulledText('Internationale Off-Market Immobilien'),
+                  bulledText('Finanzierungen (Immobilien, Privatkredite, Kapitalbeschaffung)'),
+                ],
+              ),
+              style: style,
+              textAlign: textAlign,
+            ),
+          ),
         ),
       ),
     );

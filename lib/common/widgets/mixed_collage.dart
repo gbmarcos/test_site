@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:test_site/common/extensions.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
+import 'package:test_site/gen/fonts.gen.dart';
 
 class MixedCollage extends StatelessWidget {
   const MixedCollage({
     Key? key,
-    required this.text1,
-    required this.text2,
+    required this.text1Builder,
+    required this.text2Builder,
     required this.image1,
     required this.image2,
   }) : super(key: key);
 
-  final String text1;
-  final String text2;
+  final Widget Function(TextStyle style, TextAlign textAlign) text1Builder;
+  final Widget Function(TextStyle style, TextAlign textAlign) text2Builder;
   final ImageProvider image1;
   final ImageProvider image2;
 
@@ -40,10 +41,9 @@ class MixedCollage extends StatelessWidget {
         left: externalPaddingValue,
         right: Responsive.isMobile(context) ? externalPaddingValue : 0,
       ),
-      child: Text(
-        text1,
-        style: context.normalStyle,
-        textAlign: TextAlign.start,
+      child: text1Builder(
+        context.normalStyle.copyWith(fontFamily: FontFamily.montserrat),
+        TextAlign.start,
       ),
     );
     final imageWidget1 = SizedBox(
@@ -70,10 +70,9 @@ class MixedCollage extends StatelessWidget {
         right: externalPaddingValue,
         left: Responsive.isMobile(context) ? externalPaddingValue : 0,
       ),
-      child: Text(
-        text2,
-        style: context.normalStyle,
-        textAlign: TextAlign.start,
+      child: text2Builder(
+        context.normalStyle.copyWith(fontFamily: FontFamily.montserrat),
+        TextAlign.start,
       ),
     );
 

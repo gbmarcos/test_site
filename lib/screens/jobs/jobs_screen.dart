@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
+import 'package:test_site/common/utils/text_util.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/gen/assets.gen.dart';
+import 'package:test_site/gen/fonts.gen.dart';
 
 import 'package:test_site/r.dart';
 
@@ -247,17 +249,34 @@ class _JobDescriptionWidget extends StatelessWidget {
                           style: style1,
                         ),
                         const SizedBox(height: 14),
-                        Text(
-                          '''
- - Krisensicher in die Zukunft: Glasfasernetze gelten als Infrastruktur der Zukunft. Profitiere von dem Einstieg in eine der perspektivreichsten Branchen in einem mittelständischen Arbeitsumfeld
- - Wir investieren in Dich: Du kannst auf ein vielfältiges Weiterbildungsangebot zugreifen
- - Gewinne Sicherheit im Job: Du erhältst einen unbefristeten Arbeitsvertrag in einem systemrelevanten Unternehmen
- - Dein Start bei uns: Freu Dich auf eine sorgfältige und umfangreiche Einarbeitung in unserer Zentrale in Bochum
- - Wir geben Dir Freiraum: Flexible Arbeitszeitregelungen und mobiles Arbeiten ermöglichen es Dir, Privates und Berufliches miteinander zu verbinden 
- - Sei Teil unserer Gemeinschaft: Dich erwartet ein vertrauensvolles Miteinander in einer dynamischen und innovativen Atmosphäre sowie tolle Firmenevents
- - Plane mit uns Deine Zukunft: Du erhältst eine leistungsgerechte Vergütung sowie eine betriebliche Altersvorsorge für Deine Zukunftsplanung
-                          ''',
-                          style: style2,
+                        DefaultTextStyle(
+                          style: style2.copyWith(fontFamily: FontFamily.montserrat),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                bulledText('Krisensicher in die Zukunft: Glasfasernetze gelten als '
+                                    'Infrastruktur der Zukunft. Profitiere von dem Einstieg '
+                                    'in eine der perspektivreichsten Branchen in einem '
+                                    'mittelständischen Arbeitsumfeld'),
+                                bulledText(
+                                    'Wir investieren in Dich: Du kannst auf ein vielfältiges '
+                                    'Weiterbildungsangebot zugreifen'),
+                                bulledText(
+                                    'Gewinne Sicherheit im Job: Du erhältst einen unbefristeten '
+                                    'Arbeitsvertrag in einem systemrelevanten Unternehmen'),
+                                bulledText('Dein Start bei uns: Freu Dich auf eine sorgfältige und '
+                                    'umfangreiche Einarbeitung in unserer Zentrale in Bochum'),
+                                bulledText(
+                                    'Wir geben Dir Freiraum: Flexible Arbeitszeitregelungen und '
+                                    'mobiles Arbeiten ermöglichen es Dir, Privates und Berufliches miteinander zu verbinden'),
+                                bulledText(
+                                    'Sei Teil unserer Gemeinschaft: Dich erwartet ein vertrauensvolles Miteinander in einer dynamischen und innovativen Atmosphäre sowie tolle Firmenevents'),
+                                bulledText('Plane mit uns Deine Zukunft: Du erhältst eine '
+                                    'leistungsgerechte Vergütung sowie eine betriebliche '
+                                    'Altersvorsorge für Deine Zukunftsplanung'),
+                              ],
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 30),
                         Text(
@@ -265,34 +284,46 @@ class _JobDescriptionWidget extends StatelessWidget {
                           style: style1,
                         ),
                         const SizedBox(height: 14),
-                        Text(
-                          '''
- - Du überwachst die Baumaßnahmen zum Ausbau von Glasfasernetzen
- - Du kommunizierst mit den Baubeteiligten, Kunden und Fachbereichen
- - Du erfasst, dokumentierst und pflegst die Bauleistungen in unserer Software
- - Du erstellst Feldaufmaße und Bilddokumetationen von Tiefbaumaßnahmen
- - Du bist für die Vermessung und Dokumentation der Baumaßnahme in CAD/GIS Systemen zuständig
- - Du führst Qualitätskontrollen durch und dokumentierst diese
- - Du organisierst die kaufmännische Sachbearbeitung selbstständig
-                          ''',
-                          style: style2,
+                        DefaultTextStyle(
+                          style: style2.copyWith(fontFamily: FontFamily.montserrat),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                bulledText('Du überwachst die Baumaßnahmen zum Ausbau von Glasfasernetzen'),
+                                bulledText('Du kommunizierst mit den Baubeteiligten, Kunden und Fachbereichen'),
+                                bulledText('Du erfasst, dokumentierst und pflegst die Bauleistungen in unserer Software'),
+                                bulledText('Du erstellst Feldaufmaße und Bilddokumetationen von Tiefbaumaßnahmen'),
+                                bulledText('Du bist für die Vermessung und Dokumentation der Baumaßnahme in CAD/GIS Systemen zuständig'),
+                                bulledText('Du führst Qualitätskontrollen durch und dokumentierst diese'),
+                                bulledText('Du organisierst die kaufmännische Sachbearbeitung selbstständig'),
+                              ],
+                            ),
+                          ),
                         ),
+
                         const SizedBox(height: 30),
                         Text(
                           'DEINE KOMPETENZEN',
                           style: style1,
                         ),
                         const SizedBox(height: 14),
-                        Text(
-                          '''
- - Du verfügst über eine erfolgreich abgeschlossene Ausbildung als technischer Zeichner, Vermesser (m/w/d) oder vergleichbare Qualifikation
- - Du besitzt Erfahrung im Baugewerbe und Kenntnisse mit CAD und/oder GIS-Systemen
- - Du bist sicher in der Anwendung von MS Office
- - Du arbeitest selbstständig und kundenorientiert
- - Du bist teamfähig, besitzt eine hohe Lernbereitschaft sowie engagierte Arbeitsweise und bist belastbar
- - Du besitzt einen Führerschein Klasse B
-                          ''',
-                          style: style2,
+                        DefaultTextStyle(
+                          style: style2.copyWith(fontFamily: FontFamily.montserrat),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                bulledText('Du verfügst über eine erfolgreich abgeschlossene '
+                                    'Ausbildung als technischer Zeichner, Vermesser (m/w/d) oder vergleichbare Qualifikation'),
+                                bulledText('Du besitzt Erfahrung im Baugewerbe und Kenntnisse '
+                                    'mit CAD und/oder GIS-Systemen'),
+                                bulledText('Du bist sicher in der Anwendung von MS Office'),
+                                bulledText('Du arbeitest selbstständig und kundenorientiert'),
+                                bulledText('Du bist teamfähig, besitzt eine hohe Lernbereitschaft '
+                                    'sowie engagierte Arbeitsweise und bist belastbar'),
+                                bulledText('Du besitzt einen Führerschein Klasse B'),
+                              ],
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 30),
                         Text(
@@ -638,7 +669,8 @@ class _CustomCard extends StatelessWidget {
     return InkWell(
       onTap: () async {
         FilePickerCross myFile = await FilePickerCross.importFromStorage(
-            type: FileTypeCross.any,       // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
+          type: FileTypeCross
+              .any, // Available: `any`, `audio`, `image`, `video`, `custom`. Note: not available using FDE
         );
       },
       child: Column(

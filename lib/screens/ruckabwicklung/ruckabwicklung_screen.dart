@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_site/app/navigation/beamer_router.dart';
 import 'package:test_site/common/extensions.dart';
+import 'package:test_site/common/utils/text_util.dart';
 import 'package:test_site/common/widgets/common_widgets.dart';
 import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/gen/assets.gen.dart';
@@ -17,48 +18,44 @@ class KompetenzenScreen extends StatefulWidget {
 }
 
 class _KompetenzenScreenState extends State<KompetenzenScreen> {
-
-
   late final sections = [
-    LayoutBuilder(
-        builder: (context,constraints) {
-          return  SizedBox(
-            height: context.mediaQuery.size.height,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.5),
-                    BlendMode.srcOver,
-                  ),
-                  image: Assets.images.ruckabwicklungImage1.image().image,
-                  fit: BoxFit.cover,
-                  scale: 1.3,
-                ),
+    LayoutBuilder(builder: (context, constraints) {
+      return SizedBox(
+        height: context.mediaQuery.size.height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.5),
+                BlendMode.srcOver,
               ),
-              child: Column(
-                children: [
-                  NavigationWidget(
-                    onSelected: (page) {
-                      onNavigationActionSelect(
-                        page: page,
-                        context: context,
-                      );
-                    },
-                  ),
-                  if (Responsive.isMobile(context))
-                    const Expanded(
-                      child: SizedBox.shrink(),
-                    ),
-                  const Expanded(
-                    child: _SectionContent1(),
-                  ),
-                ],
-              ),
+              image: Assets.images.ruckabwicklungImage1.image().image,
+              fit: BoxFit.cover,
+              scale: 1.3,
             ),
-          );
-        }
-    ),
+          ),
+          child: Column(
+            children: [
+              NavigationWidget(
+                onSelected: (page) {
+                  onNavigationActionSelect(
+                    page: page,
+                    context: context,
+                  );
+                },
+              ),
+              if (Responsive.isMobile(context))
+                const Expanded(
+                  child: SizedBox.shrink(),
+                ),
+              const Expanded(
+                child: _SectionContent1(),
+              ),
+            ],
+          ),
+        ),
+      );
+    }),
     const _SectionContent2(),
     const AppForm2(),
     const SectionWithImageCollage(
@@ -77,10 +74,10 @@ class _KompetenzenScreenState extends State<KompetenzenScreen> {
 
   @override
   Widget build(BuildContext context) => CustomScrollablePositionedList(
-    itemScrollController: itemScrollController,
-    itemPositionsListener: itemPositionsListener,
-    sections: sections,
-  );
+        itemScrollController: itemScrollController,
+        itemPositionsListener: itemPositionsListener,
+        sections: sections,
+      );
 }
 
 class _SectionContent1 extends StatefulWidget {
@@ -155,18 +152,32 @@ class _SectionContent2 extends StatelessWidget {
         child: MixedCollage(
           image1: Assets.images.mixedCollage3.image().image,
           image2: Assets.images.mixedCollage4.image().image,
-          text1: '''
+          text1Builder: (style, textAlign) => DefaultTextStyle(
+            style: style,
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  const TextSpan(
+                      text: '''
 Unseren zweiten Kernbereich stellt das Thema Rückabwicklung dar.
 Sie haben einen alten, noch laufenden Vertrag aus den folgenden Kategorien und fragen sich, ob dieser überhaupt noch zeitgemäß, geschweige denn verbraucherschutzkonform ist?
- - Lebens- und Rentenversicherungen
- - Bausparverträge
- - Riester-Verträge
- - Unfallversicherungen mit Beitragsrückgewähr
- - staatlich geförderte Zukunftsvorsorgen
- - betriebliche Altersvorsorgen
- - Über das zur Unternehmensgruppe gehörende Unternehmen LIQIDA helfen wir Ihnen, Ihre Verträge zu prüfen.
-          ''',
-          text2: '''
+'''),
+                  bulledText('Lebens- und Rentenversicherungen'),
+                  bulledText('Bausparverträge'),
+                  bulledText('Riester-Verträge'),
+                  bulledText('Unfallversicherungen mit Beitragsrückgewähr'),
+                  bulledText('staatlich geförderte Zukunftsvorsorgen'),
+                  bulledText('betriebliche Altersvorsorgen'),
+                  bulledText(
+                      'Über das zur Unternehmensgruppe gehörende Unternehmen LIQIDA helfen wir Ihnen, Ihre Verträge zu prüfen.'),
+                ],
+              ),
+              style: style,
+              textAlign: textAlign,
+            ),
+          ),
+          text2Builder: (style, textAlign) => Text(
+            '''
 Welche Vorteile hat diese Dienstleistung konkret für Sie?
 Statt einer Kündigung lösen wir den Vertrag für Sie auf, wenn die Prüfung ergibt, dass der geschlossene Vertrag fehlerhaft oder sogar rechtswidrig ist. Dadurch vermeiden Sie Strafgebühren und eine unnötig hohe Steuerlast, die bei einer klassischen Kündigung entstehen würde.
 Bei vollständigem Einreichen der benötigten Unterlagen bekommen Sie bereits binnen 18 Tagen das eingelegte Geld aus Ihrem Vertrag ausgezahlt (Option 1).
@@ -174,12 +185,14 @@ Wir empfehlen hier jedoch, mit einer unserer Anlagestrategien den Rückkaufswert
 Nach der Rückabwicklung wird über einen Zeitraum von sechs bis 24 Monaten der Vertrag und dessen AGB erneut durch Rechtsanwälte geprüft. 50% unserer Kunden werden nach dieser Prüfung im Durchschnitt noch einmal zusätzlich zwischen 10 und 20 % Ihres Rückkaufswertes ausgeschüttet.
 Wie das funktioniert, erklären wir Ihnen gerne in einer persönlichen Beratung mit uns.
           ''',
+            style: style,
+            textAlign: textAlign,
+          ),
         ),
       ),
     );
   }
 }
-
 
 class _SectionContent4 extends StatelessWidget {
   const _SectionContent4({Key? key}) : super(key: key);

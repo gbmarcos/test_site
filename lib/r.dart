@@ -8,6 +8,8 @@ class R {
   static _AppStyles get styles => const _AppStyles._();
 
   static _AppFontWidth get fontWidths => const _AppFontWidth._();
+
+  static _SpecialCharacters get xChars => const _SpecialCharacters._();
 }
 
 class _AppColors {
@@ -200,4 +202,10 @@ class _AppFontWidth {
   FontWeight get semiBold => FontWeight.w500;
 
   FontWeight get bold => FontWeight.w600;
+}
+
+class _SpecialCharacters {
+  const _SpecialCharacters._();
+
+  String get mDot => Runes('\u00B7').string;
 }

@@ -9,6 +9,7 @@ import 'package:test_site/common/widgets/custom_animated_text.dart';
 import 'package:test_site/common/widgets/custom_scrollable_positioned_list.dart';
 import 'package:test_site/common/widgets/trapeze_container.dart';
 import 'package:test_site/gen/assets.gen.dart';
+import 'package:test_site/gen/fonts.gen.dart';
 import 'package:test_site/r.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -414,6 +415,7 @@ class _SectionContent8 extends StatelessWidget {
                   style: context.pageTitleStyle.copyWith(
                     color: Colors.black,
                     fontWeight: R.fontWidths.regular,
+                    fontFamily: FontFamily.futura
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -703,6 +705,7 @@ class _SectionContent5 extends StatelessWidget {
     final text1 = DefaultTextStyle(
       style: context.pageTitleStyle.copyWith(
         color: const Color(0XFFFCDFCF),
+        fontFamily: FontFamily.futura
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

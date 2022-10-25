@@ -42,7 +42,7 @@ class MixedCollage extends StatelessWidget {
         right: Responsive.isMobile(context) ? externalPaddingValue : 0,
       ),
       child: text1Builder(
-        context.normalStyle.copyWith(fontFamily: FontFamily.montserrat),
+        context.normalStyle.copyWith(fontFamily: FontFamily.futura),
         TextAlign.start,
       ),
     );
@@ -71,7 +71,7 @@ class MixedCollage extends StatelessWidget {
         left: Responsive.isMobile(context) ? externalPaddingValue : 0,
       ),
       child: text2Builder(
-        context.normalStyle.copyWith(fontFamily: FontFamily.montserrat),
+        context.normalStyle.copyWith(fontFamily: FontFamily.futura),
         TextAlign.start,
       ),
     );

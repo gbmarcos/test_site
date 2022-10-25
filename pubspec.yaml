@@ -85,6 +85,21 @@ flutter:
         - asset: assets/fonts/montserrat/Montserrat-SemiBoldItalic.ttf
         - asset: assets/fonts/montserrat/Montserrat-Thin.ttf
         - asset: assets/fonts/montserrat/Montserrat-ThinItalic.ttf
+    - family: Futura
+      fonts:
+        - asset: assets/fonts/futura/futur.ttf
+        - asset: assets/fonts/futura/Futura Bold font.ttf
+        - asset: assets/fonts/futura/Futura Bold Italic font.ttf
+        - asset: assets/fonts/futura/Futura Light Italic font.ttf
+        - asset: assets/fonts/futura/futura medium bt.ttf
+        - asset: assets/fonts/futura/Futura Medium Italic font.ttf
+        - asset: assets/fonts/futura/Futura XBlk BT.ttf
+        - asset: assets/fonts/futura/Futura-CondensedLight.otf
+        - asset: assets/fonts/futura/tt0205m_.ttf
+        - asset: assets/fonts/futura/unicode.futurabb.ttf
+
   assets:
     - assets/images/
     - assets/icons/
+
+

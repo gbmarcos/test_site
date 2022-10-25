@@ -48,7 +48,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
-        fontFamily: FontFamily.futura,
+        fontFamily: FontFamily.celesta,
         primaryColor: Colors.black
       ),
       localizationsDelegates: const [

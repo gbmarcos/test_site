@@ -415,7 +415,7 @@ class _SectionContent8 extends StatelessWidget {
                   style: context.pageTitleStyle.copyWith(
                     color: Colors.black,
                     fontWeight: R.fontWidths.regular,
-                    fontFamily: FontFamily.futura
+                    fontFamily: FontFamily.celesta
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -705,7 +705,7 @@ class _SectionContent5 extends StatelessWidget {
     final text1 = DefaultTextStyle(
       style: context.pageTitleStyle.copyWith(
         color: const Color(0XFFFCDFCF),
-        fontFamily: FontFamily.futura
+        fontFamily: FontFamily.celesta
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

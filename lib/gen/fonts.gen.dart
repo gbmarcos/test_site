@@ -10,6 +10,9 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: Celesta
+  static const String celesta = 'Celesta';
+
   /// Font family: Futura
   static const String futura = 'Futura';
 

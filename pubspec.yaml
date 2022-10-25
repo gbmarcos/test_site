@@ -97,6 +97,18 @@ flutter:
         - asset: assets/fonts/futura/Futura-CondensedLight.otf
         - asset: assets/fonts/futura/tt0205m_.ttf
         - asset: assets/fonts/futura/unicode.futurabb.ttf
+    - family: Celesta
+      fonts:
+        - asset: assets/fonts/celesta/Celesta-Bold.otf
+        - asset: assets/fonts/celesta/Celesta-BoldOblique.otf
+        - asset: assets/fonts/celesta/Celesta-ExtraBold.otf
+        - asset: assets/fonts/celesta/Celesta-ExtraBoldOblique.otf
+        - asset: assets/fonts/celesta/Celesta-Medium.otf
+        - asset: assets/fonts/celesta/Celesta-MediumOblique.otf
+        - asset: assets/fonts/celesta/Celesta-Regular.otf
+        - asset: assets/fonts/celesta/Celesta-RegularOblique.otf
+        - asset: assets/fonts/celesta/Celesta-SemiBold.otf
+        - asset: assets/fonts/celesta/Celesta-SemiBoldOblique.otf
 
   assets:
     - assets/images/

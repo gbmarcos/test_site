@@ -250,7 +250,7 @@ class _JobDescriptionWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 14),
                         DefaultTextStyle(
-                          style: style2.copyWith(fontFamily: FontFamily.futura),
+                          style: style2.copyWith(fontFamily: FontFamily.celesta),
                           child: RichText(
                             text: TextSpan(
                               children: [
@@ -285,7 +285,7 @@ class _JobDescriptionWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 14),
                         DefaultTextStyle(
-                          style: style2.copyWith(fontFamily: FontFamily.futura),
+                          style: style2.copyWith(fontFamily: FontFamily.celesta),
                           child: RichText(
                             text: TextSpan(
                               children: [
@@ -308,7 +308,7 @@ class _JobDescriptionWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 14),
                         DefaultTextStyle(
-                          style: style2.copyWith(fontFamily: FontFamily.futura),
+                          style: style2.copyWith(fontFamily: FontFamily.celesta),
                           child: RichText(
                             text: TextSpan(
                               children: [

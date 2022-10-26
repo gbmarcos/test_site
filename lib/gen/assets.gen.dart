@@ -45,6 +45,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/sykz_icon_2.svg
   SvgGenImage get sykzIcon2 =>
       const SvgGenImage('assets/icons/sykz_icon_2.svg');
+
+  /// File path: assets/icons/taavas_logo.svg
+  SvgGenImage get taavasLogo =>
+      const SvgGenImage('assets/icons/taavas_logo.svg');
 }
 
 class $AssetsImagesGen {

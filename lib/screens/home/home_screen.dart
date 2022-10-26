@@ -600,7 +600,7 @@ Unser Team, das sich durch jahrelange Erfahrung auszeichnet, sorgt durch strateg
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: 73,
+                    height: 85,
                     child: Assets.icons.liqida1.image(),
                   ),
                   const SizedBox(height: 20),
@@ -622,6 +622,11 @@ Unser Team, das sich durch jahrelange Erfahrung auszeichnet, sorgt durch strateg
                   SizedBox(
                     height: 73,
                     child: Assets.images.mosaikIcon.svg(),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 90,
+                    child: Assets.icons.taavasLogo.svg(),
                   ),
                 ],
               )
@@ -677,6 +682,16 @@ Unser Team, das sich durch jahrelange Erfahrung auszeichnet, sorgt durch strateg
                       child: SizedBox(
                         height: boxSize.height,
                         child: Assets.images.mosaikIcon.svg(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  FlexibleConstrainedBox(
+                    maxWidth: boxSize.width,
+                    child: Center(
+                      child: SizedBox(
+                        height: boxSize.height,
+                        child: Assets.icons.taavasLogo.svg(),
                       ),
                     ),
                   ),
